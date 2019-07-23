@@ -1,78 +1,70 @@
 import React from 'react'
+import { Accordion, AccordionTitle } from 'semantic-ui-react'
 
 
 export default function MainApp() {
 
-    const nomenclature =
-    [
-        {
-            type: "Douleur aigüe",
-            sousTypes:
-            [
-                {
-                    type: "Post opératoire",
-                    sousTypes:
-                    [
-                        {
-                            type: "Cardio",
-                            sousTypes : ["Coronnaire", "Valvulaire", "Périphérique"] 
-                        },
-                        {
-                            type: "Gynéco"
-                        },
-                        {
-                            type: "Ortho"
-                        },
-                        {
-                            type: "Viscéral"
-                        }
-                    ]
-                },
-                {
-                    type: "Traumatique"
-                }
-            ]
-        },
-        {
+    const nomenclature = [{
+        type: "Douleur aigüe",
+        sousTypes: [{
+            type: "Post opératoire",
+            sousTypes: [{
+                type: "Cardio",
+                sousTypes : ["Coronnaire", "Valvulaire", "Périphérique"] 
+            },{
+                type: "Gynéco"
+            },{
+                type: "Ortho"
+            },{
+                type: "Viscéral"
+            }
+            ]},{
+            type: "Traumatique"
+        }]},{
             type: "Douleur chronique"
-        },
-        {
+        },{
             type: "Douleur neuropathique"
-        }
-    ]
+    }]
 
-    function listerNomenclature(tableau, niveau = 0, parent = null) {
-        var prefix = "\t".repeat(niveau)
-        var retour = []
-        tableau.forEach((element) => {
-            var entree = element
-            if (element.type) {
-                entree = element.type
-            }
-            retour.push({entree, niveau, parent})
-            console.log(prefix.concat(entree))
-            if (element.sousTypes) {
-                retour = retour.concat(listerNomenclature(element.sousTypes, niveau+1, entree))
-            }
-        })
-        return retour;
+    function Entree({titre, lien}) {
+        const contenu = lien ? <a href={lien}>{titre}</a> : <div>{titre}</div>        
+        return (
+            <Accordion><AccordionTitle>{contenu}</AccordionTitle></Accordion>
+        )
     }
 
-    function parcourir() {
-        var retour = listerNomenclature(nomenclature).map(({entree, niveau, parent}, index) => {
-            var style = {marginLeft: niveau*10 + 'px'}
-            return (
-                <div key={index} style={style} parent={parent}>{entree}</div>
-            )
-        })
-        return retour;
+    function Branche({titre, entrees}) {
+        const retour = [{
+            title: titre,
+            content: {}
+        }]
+        if (Array.isArray(entrees)) {
+            var entreesAffichables = entrees.map(entree => {
+                var sTitre = entree
+                if (entree.type) {
+                    sTitre = entree.type
+                }
+                if (entree.sousTypes) {
+                    return <Branche titre={sTitre} entrees={entree.sousTypes}/>
+                } else {
+                    return <Entree titre={sTitre}/>
+                }   
+            });
+            var content = <div>{entreesAffichables}</div>
+            retour[0].content = {content};
+        } 
+        return <Accordion styled panels={retour} />
     }
 
-
+    function Arborescence() {
+        return nomenclature.map(douleur => {
+            return <Branche titre={douleur.type} entrees={douleur.sousTypes} />  
+        })
+    }
 
     return (
         <div>
-            {parcourir()}
+            <Arborescence/>
         </div>
     )
 }
