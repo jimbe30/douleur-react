@@ -56,7 +56,7 @@ export default function MainApp() {
         return <Accordion styled panels={retour} />
     }
 
-    function Arborescence() {
+    function Arborescence({nomenclature}) {
         return nomenclature.map(douleur => {
             return <Branche titre={douleur.type} entrees={douleur.sousTypes} />  
         })
@@ -64,7 +64,7 @@ export default function MainApp() {
 
     return (
         <div>
-            <Arborescence/>
+            <Arborescence nomenclature={nomenclature} />
         </div>
     )
 }
