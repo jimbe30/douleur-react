@@ -1,0 +1,11 @@
+.ui.styled.accordion.noborder, .noborder {
+    border-style: none;
+    box-shadow: unset;
+}
+
+.ui.header.center, *.center {
+    width: 600px;
+    max-width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+}
