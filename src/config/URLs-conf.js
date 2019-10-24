@@ -1,6 +1,6 @@
 
 const apiURLs = {
-    douleurs: 'douleurs/',   
+    douleurs: '/douleurs/',   
 }
 
 export default apiURLs

@@ -34,7 +34,8 @@ export default function App() {
                         </Header>
 
                         <Route exact path='/' render={props => <Accueil {...props} message={msgBienvenue} />} />
-                        <Route path='/douleurs' component={Arborescence} />
+                        <Route exact path='/douleurs' component={Arborescence} />
+                        <Route exact path='/douleurs/:id' component={Arborescence} />
 
                         <Test />
 

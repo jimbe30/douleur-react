@@ -14,6 +14,7 @@ export async function getPreconisations(idDouleur) {
 
 export async function getArborescence() {
     const result = await getResultFromUrl(urls.douleurs)
+    // const result = await getResultFromUrl('/douleurs')
     dispatchAction(ordonnanceActions.GET_ARBORESCENCE, result);
 }
 
