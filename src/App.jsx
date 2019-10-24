@@ -36,7 +36,7 @@ export default function App() {
                         <Route exact path='/' render={props => <Accueil {...props} message={msgBienvenue} />} />
                         <Route path='/douleurs' component={Arborescence} />
 
-                        {/* <Test /> */}
+                        <Test />
 
                 </Router>
 

@@ -1,7 +1,6 @@
 
 const apiURLs = {
-    arborescence: 'douleurs/',   
-    preconisations: 'preconisations/'
+    douleurs: 'douleurs/',   
 }
 
 export default apiURLs

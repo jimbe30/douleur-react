@@ -7,27 +7,26 @@ export const ordonnanceActions = {
     GET_ARBORESCENCE: 'GET_ARBORESCENCE',
 }
 
-export function getPreconisations(idDouleur) {
+export async function getPreconisations(idDouleur) {
+  const result = await getResultFromUrl(urls.douleurs + idDouleur)
+  dispatchAction(ordonnanceActions.GET_PRECONISATIONS, result);  
+}
+
+export async function getArborescence() {
+    const result = await getResultFromUrl(urls.douleurs)
+    dispatchAction(ordonnanceActions.GET_ARBORESCENCE, result);
+}
+
+const getResultFromUrl = async url => {
   try {
-    const result = axios.get(urls.preconisations + idDouleur);
-    dispatchAction(ordonnanceActions.GET_PRECONISATIONS, result.data);
-    return null;
+    let result
+    await axios.get(url).then(response => result = response.data)
+    return result
   } catch (error) {
     return error;
   }
 }
 
-export async function getArborescence() {
-  try {
-    let result 
-    await axios.get(urls.arborescence)
-      .then(response => result = response.data)
-    dispatchAction(ordonnanceActions.GET_ARBORESCENCE, result);
-    return null;
-  } catch (error) {
-    return error;
-  }
-}
 
 /**
  * Reducer pour le thème ordonnance
