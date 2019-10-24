@@ -1,34 +1,26 @@
 import React from 'react'
-import { Container, Accordion } from 'semantic-ui-react'
+import { Accordion } from 'semantic-ui-react'
+import  "./Arborescence.css";
 
 export default function Arborescence({ nomenclatures }) {
 
-    const styleInfosGene = {
-        overflow: 'auto', margin: '5px', width: '98%', height: '200px', backgroundColor: '#F7F9FA',
-        border: '0px', padding: '5px', fontSize: '95%'
-    }
-
-    const Entree = function ({ libelle, infosGenerales }) {
-        
+    const Entree = function ({ libelle, infosGenerales }) {        
         const buildContent = function (data) {
             if (data) {
                 return (
                     <div style={{ paddingLeft: '5px' }}>
                         <b>Infos douleur</b> <br />
-                        <textarea style={styleInfosGene} value={data} readOnly />
+                        <textarea className='infosGeneDouleur' value={data} readOnly />
                     </div>
                 )
             }
             return "";
         }
-
         const content = buildContent(infosGenerales)
-
         const retour = [{
             title: libelle,
             content: { content }
         }];
-
         return (<Accordion styled panels={retour} />)
     }
 
@@ -62,7 +54,7 @@ export default function Arborescence({ nomenclatures }) {
     const Arbre = function ({ nomenclatures }) {
         return (
             <div>{
-                nomenclatures.map(
+                nomenclatures && nomenclatures.map(
                     nomenclature => {
                         return <Branche libelle={nomenclature.libelle} nomenclaturesEnfants={nomenclature.nomenclaturesEnfants} />;
                     }

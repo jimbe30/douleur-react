@@ -6,9 +6,9 @@ import "./App.css";
 import "./bootstrap.css";
 import Menu from "./components/MenuBar";
 import Accueil from "./components/Accueil";
-import { NomenclatureRestClient } from './services/NomenclatureRestClient'
 import Test from './Test';
 import { Header } from 'semantic-ui-react';
+import Arborescence from './ordonnance/ArborescenceService';
 
 
 export default function App() {
@@ -34,7 +34,7 @@ export default function App() {
                         </Header>
 
                         <Route exact path='/' render={props => <Accueil {...props} message={msgBienvenue} />} />
-                        <Route path='/douleurs' component={NomenclatureRestClient} />
+                        <Route path='/douleurs' component={Arborescence} />
 
                         {/* <Test /> */}
 

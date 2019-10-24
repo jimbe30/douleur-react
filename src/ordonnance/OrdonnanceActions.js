@@ -1,4 +1,4 @@
-import {dispatchAction} from "../redux/store";
+import dispatchAction from "../redux/store";
 import axios from "axios";
 import urls from "../config/URLs-conf";
 
@@ -17,10 +17,12 @@ export function getPreconisations(idDouleur) {
   }
 }
 
-export function getArborescence() {
+export async function getArborescence() {
   try {
-    const result = axios.get(urls.arborescence);
-    dispatchAction(ordonnanceActions.GET_ARBORESCENCE, result.data);
+    let result 
+    await axios.get(urls.arborescence)
+      .then(response => result = response.data)
+    dispatchAction(ordonnanceActions.GET_ARBORESCENCE, result);
     return null;
   } catch (error) {
     return error;
@@ -29,20 +31,20 @@ export function getArborescence() {
 
 /**
  * Reducer pour le thème ordonnance
- * @param {*} state 
+ * @param {*} ordonnance 
  * @param {*} action 
  */
-export default function ordonnanceReducer(state = {}, action) {
+export default function ordonnanceReducer(ordonnance = {}, action) {
 
     switch(action.type) {
         case ordonnanceActions.GET_PRECONISATIONS: {
-          return {...state, preconisations: action.content}
+          return {...ordonnance, preconisations: action.content}
         }
         case ordonnanceActions.GET_ARBORESCENCE: {
-           return {...state, arborescence: action.content}
+           return {...ordonnance, arborescence: action.content}
         }
         default:
-            return state         
+            return ordonnance         
     } 
 }
 
