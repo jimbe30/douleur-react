@@ -9,17 +9,23 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 class Arborescence extends Component {
+
     propTypes = {
         nomenclatures: PropTypes.arrayOf(PropTypes.object).isRequired,
     };
+
+
     componentDidMount() {
         getArborescence()
     }
+
+
     render() {
         return (
             <ArborescenceComponent {...this.props} />
         )
     }
+    
 }
 /**
  * La fonction mapStateToProps renvoie un objet résultant du state. 
