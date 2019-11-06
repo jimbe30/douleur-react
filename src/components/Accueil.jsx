@@ -24,10 +24,8 @@ class Accueil extends Component {
     render() {
 
         return (
-            <div className='noborder center' onClick={this.onClick} >
-                
-                {this.props.message}<br/>
-                
+            <div className='noborder' onClick={this.onClick} >                
+                {this.props.message}<br/>                
             </div>
         )
     }

@@ -1,14 +1,15 @@
 import React from 'react'
 
-function Test(props) {
+function TruncBox(props) {
 
-    const {className, children, width, height, ...rest} = props
+    const {className, children, width, height, moreText, lessText, ...rest} = props
 
     const style = 
         <style> {`
             .truncated {
                 max-height: ${height ? height + ';':'2rem;'}
                 max-width: ${width ? width + ';':'100%;'}
+                width: ${width ? width + ';':'100%;'}
                 overflow: hidden;
                 text-overflow: ellipsis;
             } 
@@ -17,13 +18,17 @@ function Test(props) {
                 margin-left: auto;
                 margin-right: auto;
             }
+            .expand::after, .trunc::after {
+                cursor: pointer;
+                color: blue;
+            }
             .expand::after {
-                content: '\\FE40'; 
-                font-size: 1.5rem;
+                content: '${moreText ? moreText : '\\FE40'}'; 
+                font-size: ${!moreText ? '1.5rem' : '.5rem'};
             }         
             .trunc::after {
-                content: '\\FE3F';
-                font-size: 1.5rem;
+                content: '${lessText ? lessText : '\\FE3F'}';
+                font-size: ${!lessText ? '1.5rem' : '.5rem'};
             }
         `}
         </style>
@@ -32,23 +37,22 @@ function Test(props) {
 
     const onClick = e => {
         if (truncated) {
-             e.target.className = 'trunc'
-            e.target.previousSibling.className = props.className
+            e.target.className = 'trunc'
+            e.target.previousSibling.className = className ? className: ''
             truncated = false
         } else {
             e.target.className = 'expand'
-            e.target.previousSibling.className = `${props.className} truncated`
+            e.target.previousSibling.className = `${className ? className + ' ' : ''}truncated`
             truncated = true
         }
     }
 
-    const render = function () {       
-
+    const render = function () {
         return (
             <React.Fragment>
                 {style}
-                <div className={`${className} truncated`} {...rest}>
-                    <div>{children}</div>                    
+                <div className={`${className ? className + ' ' : ''}truncated`} {...rest}>
+                    {children}                    
                 </div>
                 <div onClick={onClick} className='expand'></div>
             </React.Fragment>
@@ -58,4 +62,4 @@ function Test(props) {
     return render()
 }
 
-export default Test
+export default TruncBox

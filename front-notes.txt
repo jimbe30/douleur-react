@@ -1,0 +1,19 @@
+
+Préserver un texte
+	css -> white-space: pre-wrap;
+	html -> <pre>
+	
+Tronquer un texte avec des ... 
+	(mot clé : collapse pour étendre)
+	css -> overflow: hidden; text-overflow: ellipsis;
+	
+Dégradé de texte
+	css ->	background-clip: text; 
+			-webkit-background-clip: text;
+			color: transparent; 
+			background: linear-gradient(#30CFD0 0%, #330867 100%);
+			
+Couleur image svg 
+	lien pour convertir couleur hexa en filtre css -> https://codepen.io/sosuke/pen/Pjoqqp
+	css ->	content: url("./assets/pain-ico.svg");
+			filter: invert(24%) sepia(56%) saturate(6686%) hue-rotate(346deg) brightness(87%) contrast(123%);

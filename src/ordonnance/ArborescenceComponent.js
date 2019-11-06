@@ -1,17 +1,24 @@
 import React from 'react'
-import { Accordion } from 'semantic-ui-react'
-import  "./Arborescence.css";
+import { Accordion, Button } from 'semantic-ui-react'
+import "./Arborescence.css";
+import TruncBox from '../components/TruncBox';
 
-export default function Arborescence({ nomenclatures }) {
+export default function Arborescence({ nomenclatures, history }) {
 
-    const Entree = function ({ libelle, infosGenerales }) {        
+    const buttonStyle = { float: 'right', maxWidth: '100%', marginTop: '-40px', marginBottom: '5px', marginRight: '2%' }
+
+    const Entree = function ({ libelle, infosGenerales, idDouleur }) {
         const buildContent = function (data) {
             if (data) {
                 return (
-                    <div style={{ paddingLeft: '5px' }}>
-                        <b>Infos douleur</b> <br />
-                        <textarea className='infosGeneDouleur' value={data} readOnly />
-                    </div>
+                    <React.Fragment>
+                        <Button style={buttonStyle} onClick={() => history.push(`/douleurs/${idDouleur}`)}>
+                            Faire l'ordonnance
+                        </Button>
+                        <TruncBox height='6rem'>
+                            <pre className='infosBase'>{data}</pre>
+                        </TruncBox>
+                    </React.Fragment>
                 )
             }
             return "";
@@ -33,11 +40,12 @@ export default function Arborescence({ nomenclatures }) {
             let entreesAffichables = nomenclaturesEnfants.map(nomenclature => {
                 let titre = nomenclature.libelle
                 let infosGenerales = nomenclature.infosGenerales;
+                let idDouleur = nomenclature.id;
                 if (nomenclature.nomenclaturesEnfants && nomenclature.nomenclaturesEnfants.length > 0) {
                     return <Branche libelle={titre} nomenclaturesEnfants={nomenclature.nomenclaturesEnfants} />;
                 }
                 else {
-                    return <Entree libelle={titre} infosGenerales={infosGenerales} />;
+                    return <Entree libelle={titre} infosGenerales={infosGenerales} idDouleur={idDouleur} />;
                 }
             });
             let content = <div>{entreesAffichables}</div>;
@@ -65,9 +73,6 @@ export default function Arborescence({ nomenclatures }) {
     }
 
     return (
-        <div className="center">
-            <Arbre nomenclatures={nomenclatures} />
-        </div>
-
+        <Arbre nomenclatures={nomenclatures} />
     );
 }

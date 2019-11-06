@@ -3,9 +3,55 @@
     box-shadow: unset;
 }
 
-.ui.header.center, *.center {
+body {
+    background: rgb(35, 55, 60);
+}
+
+.ui.header.center, .ui.segment.center, *.center {
     width: 600px;
     max-width: 100%;
     margin-right: auto;
     margin-left: auto;
 }
+
+.infosBase, .infosBase::before, .infosBase::after, *.infosBase {
+    font-family: 'Trebuchet MS', 'Calibri', 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+    font-size: 1rem;
+    color: rgb(97, 96, 128);
+    width: 100%;
+    background: #F7F9FA;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+
+.accueil::before, .ordonnance::before, .histo::before, .lien::before {
+    margin-right: 10px;
+    font-size: 1rem;
+    font-family: 'Courier New', Courier, monospace;
+
+}
+.accueil::before {
+    content: '\2302';
+    color: rgb(255, 255, 255);
+}
+
+.ordonnance::before {
+    content: '\211E';
+    color: rgb(38, 192, 90);
+}
+
+.histo::before {
+    content: '\1F5D0';
+    color: rgb(215, 226, 88);
+}
+
+.lien::before {
+    content: '\1F517';
+    background : rgb(81, 166, 192);
+    background-clip: text; 
+	-webkit-background-clip: text;
+    color: transparent;
+}
+
+
+

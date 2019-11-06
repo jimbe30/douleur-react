@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import ordonnanceReducer from "../ordonnance/OrdonnanceActions";
+import { reducer as formReducer } from "redux-form";
 
 /**
  * C'est ici qu'il faut référencer les différents reducers de l'appli Redux.
@@ -8,5 +9,6 @@ import ordonnanceReducer from "../ordonnance/OrdonnanceActions";
  * des actions effectuées.
  */
 export default combineReducers({
-   ordonnance: ordonnanceReducer
+   ordonnance: ordonnanceReducer,
+   form: formReducer,
 })
