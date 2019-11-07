@@ -39,28 +39,23 @@ class FicheDouleur extends Component {
             choixOrdonnance: index,
             prescriptionChoisie: this.props.prescriptions[index]
         })
-        console.log('Choix de l\'ordonnance n° ' + (index+1))
+        console.log('Choix de l\'ordonnance n° ' + (index + 1))
     }
-
-
-    prescriptionsAffichables() {
-        if (this.state.prescriptionChoisie) {
-            return [this.state.prescriptionChoisie]
-        } else {
-            return this.props.prescriptions
-        }
-    } 
-
 
 
     render() {
         return (
             <Fragment>
-                <FicheDouleurComponent clickOrdonnance={this.onClickOrdonnance} prescriptions={this.prescriptionsAffichables()} />
-                <OrdonnanceForm
-                    onSubmit={() => console.log("Formulaire ordonance soumis")}
-                    {...this.props.formValues}
-                />
+                <FicheDouleurComponent clickOrdonnance={this.onClickOrdonnance}
+                    prescriptionChoisie={this.state.prescriptionChoisie} prescriptions={this.props.prescriptions} />
+                {
+                    this.state.prescriptionChoisie &&
+                    <OrdonnanceForm
+                        onSubmit={() => console.log("Formulaire ordonance soumis")}
+                        ordonnance={this.state.prescriptionChoisie}
+                        {...this.props.formValues}
+                    />
+                }
             </Fragment>
         )
     }

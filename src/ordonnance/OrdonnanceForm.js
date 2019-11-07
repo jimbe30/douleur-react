@@ -1,10 +1,14 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
-import { Form, Message, Header } from "semantic-ui-react";
+import { Form, Message, Header, Divider } from "semantic-ui-react";
 import * as formAdapter from "../redux/reduxFormAdapter"
+import Prescription from "./PrescriptionObj";
 
 const OrdonnanceForm = props => {
+
+
   const {
+    ordonnance,
     handleSubmit,
     reset,
     dosage,
@@ -15,55 +19,84 @@ const OrdonnanceForm = props => {
     recommandations
   } = props;
 
+  let prescriptionChoisie = new Prescription(ordonnance)
+
+
+  const formulaireMedicament = (numMedicament) => {
+
+    const medicament = prescriptionChoisie.getDesignationsProduits(numMedicament).join(' + ')
+
+    return (
+
+      <React.Fragment>
+
+        <div style={{ padding: '1rem 0' }}><h5>{medicament}</h5></div>
+
+        <Field
+            component='input'
+            name={'medicament' + numMedicament}
+            type='hidden'
+            index={numMedicament}
+            value={medicament}
+        />
+        <Form.Group>          
+          <Field
+            component={Form.Input}
+            label="Dosage"
+            name={'dosage' + numMedicament}
+            placeholder="Dosage en mg"
+            required
+          />
+          <Field
+            component={Form.Input}
+            label="Quantité par prise"
+            name="quantite"
+            placeholder="Nb comprimés"
+            required
+          />
+          <Field
+            component={formAdapter.renderSelect}
+            label="Forme"
+            name="forme"
+            placeholder="Comprimé, Gélule ..."
+            options={[
+              { key: "forme1", text: "Comprimé", value: "comprimé(s)" },
+              { key: "forme2", text: "Gélule", value: "gélule(s)" }
+            ]}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Field
+            component={Form.Input}
+            label="Fréquence"
+            name="frequence"
+            placeholder="Nb fois par jour"
+            required
+          />
+          <Field
+            component={Form.Input}
+            label="Durée"
+            name="duree"
+            placeholder="Nb de jours"
+            required
+          />
+        </Form.Group>
+      </React.Fragment>
+    )
+  }
+
+
   return (
 
     <Form size='small' onSubmit={handleSubmit}>
 
-      <div style={{ padding: '1rem 0' }}><h5>Ibuprofène</h5></div>
+      <Message info>Veuillez renseigner la posologie dans le formulaire ci-dessous</Message>
 
-      <Form.Group>
-        <Field
-          component={Form.Input}
-          label="Dosage"
-          name="dosage"
-          placeholder="Dosage en mg"
-          required
-        />
-        <Field
-          component={Form.Input}
-          label="Quantité par prise"
-          name="quantite"
-          placeholder="Nb comprimés"
-          required
-        />
-        <Field
-          component={formAdapter.renderSelect}
-          label="Forme"
-          name="forme"
-          value="gelule"
-          placeholder="Comprimé, Gélule ..."
-          options={[
-            { key: "forme1", text: "Comprimé", value: "comprimé(s)" },
-            { key: "forme2", text: "Gélule", value: "gélule(s)" }
-          ]}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Field
-          component={Form.Input}
-          label="Fréquence"
-          name="frequence"
-          placeholder="Nb fois par jour"
-          required
-        />
-        <Field
-          component={Form.Input}
-          label="Durée"
-          name="duree"
-          placeholder="Nb de jours"
-          required
-        />
-      </Form.Group>
+      {
+        prescriptionChoisie && prescriptionChoisie.medicamentsPreconises.map(
+          (medicament, numMedicament) => formulaireMedicament(numMedicament)
+        )
+      }
 
       <Field
         component={formAdapter.renderTextArea}
@@ -73,7 +106,8 @@ const OrdonnanceForm = props => {
       />
 
       <Message>
-        <Header dividing size='small'>Récapitulatif</Header>
+        <Divider horizontal fitted><Header as='h5'>Récapitulatif</Header></Divider>
+
         {dosage && `Ibuprofène ${dosage} mg, `}
         {quantite && forme && `${quantite} ${forme} `}
         {frequence && `${frequence} fois par jour `}
