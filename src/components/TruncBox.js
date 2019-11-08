@@ -20,15 +20,16 @@ function TruncBox(props) {
             }
             .expand::after, .trunc::after {
                 cursor: pointer;
-                color: blue;
+                color: #718293;
+                font-style: italic;
             }
             .expand::after {
-                content: '${moreText ? moreText : '\\FE40'}'; 
-                font-size: ${!moreText ? '1.5rem' : '.5rem'};
+                content: '${moreText ? moreText : '\\0025BC'}'; 
+                font-size: ${!moreText ? '1rem' : '.5rem'};
             }         
             .trunc::after {
-                content: '${lessText ? lessText : '\\FE3F'}';
-                font-size: ${!lessText ? '1.5rem' : '.5rem'};
+                content: '${lessText ? lessText : '\\0025B2'}';
+                font-size: ${!lessText ? '1rem' : '.5rem'};
             }
         `}
         </style>

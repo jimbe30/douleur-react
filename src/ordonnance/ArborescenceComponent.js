@@ -15,7 +15,7 @@ export default function Arborescence({ nomenclatures, history }) {
                         <Button style={buttonStyle} onClick={() => history.push(`/douleurs/${idDouleur}`)}>
                             Faire l'ordonnance
                         </Button>
-                        <TruncBox height='6rem'>
+                        <TruncBox height='6rem' moreText='▼ ( voir plus ... )' lessText='▲ ( réduire ... )'>
                             <pre className='infosBase'>{data}</pre>
                         </TruncBox>
                     </React.Fragment>

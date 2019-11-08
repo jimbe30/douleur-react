@@ -1,45 +1,62 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
-import { Form, Message, Header, Divider } from "semantic-ui-react";
+import { Form, Message, Header, Divider, Label } from "semantic-ui-react";
 import * as formAdapter from "../redux/reduxFormAdapter"
 import Prescription from "./PrescriptionObj";
 
-const OrdonnanceForm = props => {
+class OrdonnanceForm extends React.Component {
 
+  // On reçoit l'ordonnance en props. C'est un objet de la forme suivante :
+  // ordonnance
+  // 	.medicamentsPreconises[]
+  // 		.description
+  // 		.dureeMin
+  // 		.dureeMax
+  // 		.idDouleur
+  // 		.numOrdonnance
+  // 		.numMedicament
+  // 		.compatibilites[]
+  // 			.produit
+  // 				.code
+  // 				.designation
+  // 				.id
+  // 				.indesirable
+  // 				.indication
+  // 			.dosages
+  // 			.formes
 
-  const {
-    ordonnance,
-    handleSubmit,
-    reset,
-    dosage,
-    quantite,
-    forme,
-    frequence,
-    duree,
-    recommandations
-  } = props;
+  constructor(props) {
 
-  let prescriptionChoisie = new Prescription(ordonnance)
+    super(props)
+    this.prescriptionChoisie = new Prescription(props.ordonnance)
 
+    this.state = {
+      medicaments: this.getMedicaments()
+    }
+  }
 
-  const formulaireMedicament = (numMedicament) => {
+  getMedicaments() {
+    return this.prescriptionChoisie.medicamentsPreconises.map(
+      (medicament, numMedicament) => this.prescriptionChoisie.getDesignationsProduits(numMedicament).join(' + ')
+    )
+  }
 
-    const medicament = prescriptionChoisie.getDesignationsProduits(numMedicament).join(' + ')
+  formulaireMedicament(numMedicament) {
 
     return (
 
       <React.Fragment>
 
-        <div style={{ padding: '1rem 0' }}><h5>{medicament}</h5></div>
+        <div style={{ padding: '1rem 0' }}><Label>{this.state.medicaments[numMedicament]}</Label></div>
 
-        <Field
-            component='input'
-            name={'medicament' + numMedicament}
-            type='hidden'
-            index={numMedicament}
-            value={medicament}
+        <input
+          name={'medicament' + numMedicament}
+          type='hidden'
+          index={numMedicament}
+          value={this.state.medicaments[numMedicament]}
         />
-        <Form.Group>          
+
+        <Form.Group>
           <Field
             component={Form.Input}
             label="Dosage"
@@ -50,14 +67,14 @@ const OrdonnanceForm = props => {
           <Field
             component={Form.Input}
             label="Quantité par prise"
-            name="quantite"
+            name={'quantite' + numMedicament}
             placeholder="Nb comprimés"
             required
           />
           <Field
             component={formAdapter.renderSelect}
             label="Forme"
-            name="forme"
+            name={'forme' + numMedicament}
             placeholder="Comprimé, Gélule ..."
             options={[
               { key: "forme1", text: "Comprimé", value: "comprimé(s)" },
@@ -69,14 +86,14 @@ const OrdonnanceForm = props => {
           <Field
             component={Form.Input}
             label="Fréquence"
-            name="frequence"
+            name={'frequence' + numMedicament}
             placeholder="Nb fois par jour"
             required
           />
           <Field
             component={Form.Input}
             label="Durée"
-            name="duree"
+            name={'duree' + numMedicament}
             placeholder="Nb de jours"
             required
           />
@@ -85,52 +102,67 @@ const OrdonnanceForm = props => {
     )
   }
 
+  getRecapitulatif() {
 
-  return (
+    return (
+      this.state.medicaments.map(
+        (medicament, numMedicament) => (
+          <div> {
+            (this.props['dosage' + numMedicament] ? medicament + ' ' + this.props['dosage' + numMedicament] : '')
+            + (this.props['quantite' + numMedicament] && this.props['forme' + numMedicament] ?
+              ', ' + this.props['quantite' + numMedicament] + ' ' + this.props['forme' + numMedicament] : '')
+            + (this.props['frequence' + numMedicament] ? ', ' + this.props['frequence' + numMedicament] + ' fois par jour' : '')
+            + (this.props['duree' + numMedicament] ? ' pendant ' + this.props['duree' + numMedicament] + ' jours' : '')
+          } </div>
 
-    <Form size='small' onSubmit={handleSubmit}>
-
-      <Message info>Veuillez renseigner la posologie dans le formulaire ci-dessous</Message>
-
-      {
-        prescriptionChoisie && prescriptionChoisie.medicamentsPreconises.map(
-          (medicament, numMedicament) => formulaireMedicament(numMedicament)
         )
-      }
+      )
+    )
 
-      <Field
-        component={formAdapter.renderTextArea}
-        label="Recommandations"
-        name="recommandations"
-        placeholder="Effets indésirables à surveiller, cas d'arrêt du traitement, ..."
-      />
+  }
 
-      <Message>
-        <Divider horizontal fitted><Header as='h5'>Récapitulatif</Header></Divider>
+  render() {
 
-        {dosage && `Ibuprofène ${dosage} mg, `}
-        {quantite && forme && `${quantite} ${forme} `}
-        {frequence && `${frequence} fois par jour `}
-        {duree && `pendant ${duree} jour(s) `}
-        {recommandations && (
-          <div className="infosBase">{recommandations}</div>
-        )}
-      </Message>
+    return (
 
-      <Field
-        component={formAdapter.renderCheckbox}
-        label="Je souhaite délivrer cette ordonnance"
-        name="isAgreed"
-      />
+      <Form size='small' onSubmit={this.props.handleSubmit}>
 
-      <Form.Group inline>
-        <Form.Button primary>Valider</Form.Button>
-        <Form.Button onClick={reset}>Annuler</Form.Button>
-      </Form.Group>
-    </Form>
+        <Message info>Veuillez renseigner la posologie dans le formulaire ci-dessous</Message>
 
-  );
-};
+        {
+          this.prescriptionChoisie && this.prescriptionChoisie.medicamentsPreconises.map(
+            (medicament, numMedicament) => this.formulaireMedicament(numMedicament)
+          )
+        }
+
+        <Field
+          component={formAdapter.renderTextArea}
+          label="Recommandations"
+          name="recommandations"
+          placeholder="Effets indésirables à surveiller, cas d'arrêt du traitement, ..."
+        />
+
+        <Message>
+          <Divider horizontal fitted><Header as='h5'>Récapitulatif</Header></Divider>
+          {this.getRecapitulatif()}
+        </Message>
+
+        <Field
+          component={formAdapter.renderCheckbox}
+          label="Je souhaite délivrer cette ordonnance"
+          name="isAgreed"
+        />
+
+        <Form.Group inline>
+          <Form.Button primary>Valider</Form.Button>
+          <Form.Button onClick={this.props.reset}>Annuler</Form.Button>
+        </Form.Group>
+      </Form>
+
+    )
+  }
+
+}
 
 export default reduxForm({
   form: "ordonnance"
