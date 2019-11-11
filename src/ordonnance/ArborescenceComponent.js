@@ -62,7 +62,7 @@ export default function Arborescence({ nomenclatures, history }) {
     const Arbre = function ({ nomenclatures }) {
         return (
             <div>{
-                nomenclatures && nomenclatures.map(
+                Array.isArray(nomenclatures) && nomenclatures.map(
                     nomenclature => {
                         return <Branche libelle={nomenclature.libelle} nomenclaturesEnfants={nomenclature.nomenclaturesEnfants} />;
                     }
