@@ -3,6 +3,7 @@ import { Field, reduxForm } from "redux-form";
 import { Form, Message, Header, Divider, Label } from "semantic-ui-react";
 import * as formAdapter from "../redux/reduxFormAdapter"
 import Prescription from "./PrescriptionObj";
+import { Grid } from "@material-ui/core";
 
 class OrdonnanceForm extends React.Component {
 
@@ -56,48 +57,59 @@ class OrdonnanceForm extends React.Component {
           value={this.state.medicaments[numMedicament]}
         />
 
-        <Form.Group>
-          <Field
-            component={Form.Input}
-            label="Dosage"
-            name={'dosage' + numMedicament}
-            placeholder="Dosage en mg"
-            required
-          />
-          <Field
-            component={Form.Input}
-            label="Quantité par prise"
-            name={'quantite' + numMedicament}
-            placeholder="Nb comprimés"
-            required
-          />
-          <Field
-            component={formAdapter.renderSelect}
-            label="Forme"
-            name={'forme' + numMedicament}
-            placeholder="Comprimé, Gélule ..."
-            options={[
-              { key: "forme1", text: "Comprimé", value: "comprimé(s)" },
-              { key: "forme2", text: "Gélule", value: "gélule(s)" }
-            ]}
-          />
-        </Form.Group>
-        <Form.Group>
-          <Field
-            component={Form.Input}
-            label="Fréquence"
-            name={'frequence' + numMedicament}
-            placeholder="Nb fois par jour"
-            required
-          />
-          <Field
-            component={Form.Input}
-            label="Durée"
-            name={'duree' + numMedicament}
-            placeholder="Nb de jours"
-            required
-          />
-        </Form.Group>
+
+        <Grid container spacing={2}>
+          <Grid item xs={2}>
+            <Field
+              component={Form.Input}
+              label="Dosage"
+              name={'dosage' + numMedicament}
+              placeholder="Dosage en mg"
+              required
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <Field
+              component={Form.Input}
+              label="Quantité / prise"
+              name={'quantite' + numMedicament}
+              placeholder="Nb comprimés"
+              required
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <Field
+              component={formAdapter.renderSelect}
+              label="Forme"
+              name={'forme' + numMedicament}
+              placeholder="Comprimé ..."
+              options={[
+                { key: "forme1", text: "Comprimé", value: "comprimé(s)" },
+                { key: "forme2", text: "Gélule", value: "gélule(s)" }
+              ]}
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <Field
+              component={Form.Input}
+              label="Fréquence"
+              name={'frequence' + numMedicament}
+              placeholder="Nb fois par jour"
+              required
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <Field
+              component={Form.Input}
+              label="Durée"
+              name={'duree' + numMedicament}
+              placeholder="Nb de jours"
+              required
+            />
+          </Grid>
+
+        </Grid>
+
       </React.Fragment>
     )
   }

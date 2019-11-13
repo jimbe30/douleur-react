@@ -10,14 +10,16 @@ import Test from './Test';
 import { Header, Segment } from 'semantic-ui-react';
 import Arborescence from './ordonnance/ArborescenceService';
 import FicheDouleur from './ordonnance/FicheDouleurService';
+import { Divider } from '@material-ui/core';
 
 export default function App() {
 
   const msgBienvenue = (
     <div>
       <h5>
-        <p>Bienvenue dans l'application incontournable pour gérer la douleur de vos patients</p>
-        <p>Cliquez sur le menu en haut à gauche et sélectionnez votre choix</p>
+        <p>Bienvenue dans Pain Control Pro</p>
+        <p>L'application qu'il vous faut pour gérer la douleur de vos patients</p>
+        <p>Cliquez sur le menu en haut à gauche pour sélectionner votre choix</p>
       </h5>
     </div>
   )
@@ -41,12 +43,11 @@ export default function App() {
           <Route exact path='/douleurs' component={Arborescence} />
           <Route exact path='/douleurs/:idDouleur' component={FicheDouleur} />
 
-          {/* <Test className='infosBase'>
-            Voici une ligne de contenu texte<br/> 
-            Voici une ligne de contenu texte<br/> 
-            Voici une ligne de contenu texte<br/> 
-            Voici une ligne de contenu texte<br/> 
-          </Test> */}
+          <Divider></Divider>
+{/* 
+           <Test className='infosBase'>
+
+          </Test>  */}
 
         </Segment>
 

@@ -7,6 +7,7 @@ import { getArborescence } from "./OrdonnanceActions";
 import ArborescenceComponent from "./ArborescenceComponent";
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Header, Message } from 'semantic-ui-react';
 
 class Arborescence extends Component {
 
@@ -22,10 +23,13 @@ class Arborescence extends Component {
 
     render() {
         return (
-            <ArborescenceComponent {...this.props} />
+            <div>
+                <Message info>Choisissez le type de douleur concernée dans l'arborescence ci-dessous</Message>
+                <ArborescenceComponent {...this.props} />
+            </div>
         )
     }
-    
+
 }
 /**
  * La fonction mapStateToProps renvoie un objet résultant du state. 

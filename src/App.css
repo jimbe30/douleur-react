@@ -3,16 +3,23 @@
     box-shadow: unset;
 }
 
+.ui.selection.dropdown {
+    min-width: auto;
+}
+
 body {
     background: rgb(35, 55, 60);
 }
 
 .ui.header.center, .ui.segment.center, *.center {
-    width: 600px;
+    width: 800px;
+    /* width: 60%; */
     max-width: 100%;
     margin-right: auto;
     margin-left: auto;
 }
+
+
 
 .infosBase, .infosBase::before, .infosBase::after, *.infosBase {
     font-family: 'Trebuchet MS', 'Calibri', 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
