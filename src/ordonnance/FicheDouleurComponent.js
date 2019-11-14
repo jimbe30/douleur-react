@@ -34,7 +34,7 @@ export default function FicheDouleurComponent(props) {
   let messageInfo = () => {
     if (prescriptionChoisie) {
       return (
-        <Message info>Vous avez choisi l'ordonnance ci-dessous</Message>
+        <Message info>Vous avez choisi l'ordonnance suivante</Message>
       )
     }
     return (

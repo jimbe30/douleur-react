@@ -30,14 +30,8 @@ class OrdonnanceForm extends React.Component {
 
     super(props)
     this.prescriptionChoisie = new Prescription(props.ordonnance)
-
-    this.state = {
-      medicaments: this.getMedicaments()
-    }
-  }
-
-  getMedicaments() {
-    return this.prescriptionChoisie.medicamentsPreconises.map(
+    this.medicaments = this.prescriptionChoisie.medicamentsPreconises
+    this.libellesMedicaments = this.medicaments.map(
       (medicament, numMedicament) => this.prescriptionChoisie.getDesignationsProduits(numMedicament).join(' + ')
     )
   }
@@ -48,64 +42,40 @@ class OrdonnanceForm extends React.Component {
 
       <React.Fragment>
 
-        <div style={{ padding: '1rem 0' }}><Label>{this.state.medicaments[numMedicament]}</Label></div>
+        <div style={{ padding: '1rem 0' }}><Label>{this.libellesMedicaments[numMedicament]}</Label></div>
 
         <input
           name={'medicament' + numMedicament}
           type='hidden'
           index={numMedicament}
-          value={this.state.medicaments[numMedicament]}
+          value={this.libellesMedicaments[numMedicament]}
         />
 
 
-        <Grid container spacing={2}>
-          <Grid item xs={2}>
-            <Field
-              component={Form.Input}
-              label="Dosage"
-              name={'dosage' + numMedicament}
-              placeholder="Dosage en mg"
-              required
-            />
+        <Grid container spacing={1}>
+
+          {this.prescriptionChoisie.getProduits(numMedicament).map((produit, numProduit) =>
+            <Grid item xs={2}>
+              <Field component={Form.Input} label={numProduit === 0 ? 'dosage' : ''} name={'dosage' + numMedicament + numProduit} placeholder={produit.designation} required />
+            </Grid>
+          )}
+
+          <Grid item xs={4}>
+            <Field component={Form.Input} label="Quantité / prise" name={'quantite' + numMedicament} placeholder="Nb comprimés" required />
           </Grid>
-          <Grid item xs={2}>
-            <Field
-              component={Form.Input}
-              label="Quantité / prise"
-              name={'quantite' + numMedicament}
-              placeholder="Nb comprimés"
-              required
-            />
-          </Grid>
-          <Grid item xs={2}>
-            <Field
-              component={formAdapter.renderSelect}
-              label="Forme"
-              name={'forme' + numMedicament}
-              placeholder="Comprimé ..."
+          <Grid item xs={4}>
+            <Field component={formAdapter.renderSelect} label="Forme" name={'forme' + numMedicament} placeholder="Comprimé ..."
               options={[
                 { key: "forme1", text: "Comprimé", value: "comprimé(s)" },
                 { key: "forme2", text: "Gélule", value: "gélule(s)" }
               ]}
             />
           </Grid>
-          <Grid item xs={3}>
-            <Field
-              component={Form.Input}
-              label="Fréquence"
-              name={'frequence' + numMedicament}
-              placeholder="Nb fois par jour"
-              required
-            />
+          <Grid item xs={6}>
+            <Field component={Form.Input} label="Fréquence" name={'frequence' + numMedicament} placeholder="Nb fois par jour" required />
           </Grid>
-          <Grid item xs={2}>
-            <Field
-              component={Form.Input}
-              label="Durée"
-              name={'duree' + numMedicament}
-              placeholder="Nb de jours"
-              required
-            />
+          <Grid item xs={6}>
+            <Field component={Form.Input} label="Durée" name={'duree' + numMedicament} placeholder="Nb de jours" required />
           </Grid>
 
         </Grid>
@@ -114,34 +84,44 @@ class OrdonnanceForm extends React.Component {
     )
   }
 
-  getRecapitulatif() {
+  getRecapDosage(numMedicament) {
+    const produits = this.prescriptionChoisie.getProduits(numMedicament)
+    if (Array.isArray(produits)) {
+      const dosagesProduit = produits.map(
+        (produit, numProduit) => {
+          const designationProduit = produit.designation
+          const dosageProduit = this.props['dosage' + numMedicament + numProduit]
+           return (dosageProduit ? designationProduit + ' ' + dosageProduit : '')
+        }
+      )
+      return dosagesProduit.join(' + ')
+    }
+    return null
+  }
 
+
+  getRecapitulatif() {
     return (
-      this.state.medicaments.map(
+      this.libellesMedicaments.map(
         (medicament, numMedicament) => (
           <div> {
-            (this.props['dosage' + numMedicament] ? medicament + ' ' + this.props['dosage' + numMedicament] : '')
+            this.getRecapDosage(numMedicament)
             + (this.props['quantite' + numMedicament] && this.props['forme' + numMedicament] ?
               ', ' + this.props['quantite' + numMedicament] + ' ' + this.props['forme' + numMedicament] : '')
             + (this.props['frequence' + numMedicament] ? ', ' + this.props['frequence' + numMedicament] + ' fois par jour' : '')
             + (this.props['duree' + numMedicament] ? ' pendant ' + this.props['duree' + numMedicament] + ' jours' : '')
           } </div>
-
         )
       )
     )
-
   }
 
   render() {
 
     return (
-
       <Form size='small' onSubmit={this.props.handleSubmit}>
 
-        <Message info>Veuillez renseigner la posologie dans le formulaire ci-dessous</Message>
-
-        {
+        <Message info>Veuillez renseigner la posologie dans le formulaire ci-dessous</Message>  {
           this.prescriptionChoisie && this.prescriptionChoisie.medicamentsPreconises.map(
             (medicament, numMedicament) => this.formulaireMedicament(numMedicament)
           )
@@ -151,7 +131,7 @@ class OrdonnanceForm extends React.Component {
           component={formAdapter.renderTextArea}
           label="Recommandations"
           name="recommandations"
-          placeholder="Effets indésirables à surveiller, cas d'arrêt du traitement, ..."
+          placeholder="Conseils, effets indésirables à surveiller, cas d'arrêt du traitement..."
         />
 
         <Message>
@@ -162,18 +142,17 @@ class OrdonnanceForm extends React.Component {
         <Field
           component={formAdapter.renderCheckbox}
           label="Je souhaite délivrer cette ordonnance"
-          name="isAgreed"
+          name="estOK"
         />
 
         <Form.Group inline>
-          <Form.Button primary>Valider</Form.Button>
+          <Form.Button type='submit' primary>Valider</Form.Button>
           <Form.Button onClick={this.props.reset}>Annuler</Form.Button>
         </Form.Group>
-      </Form>
 
+      </Form>
     )
   }
-
 }
 
 export default reduxForm({

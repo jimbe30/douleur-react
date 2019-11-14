@@ -32,19 +32,22 @@ export default function App() {
       <Router>
 
         <Menu />
-        
-        <Header as="h2" color="grey" textAlign="center" inverted dividing>
+
+        <Header as="h2" color="grey" textAlign="center" inverted dividing style={{
+          margin: 0, paddingTop: '20px', paddingBottom: '10px', position: 'fixed', top: 0, left: 0, 
+          zIndex: 900, background: 'rgb(35, 55, 60)', minWidth: '100%'
+        }}>
           <span> Pain Control Pro </span>
         </Header>
 
-        <Segment className='center'>
+        <Segment className='center' style={{ top: '60px' }}>
 
           <Route exact path='/' render={props => <Accueil {...props} message={msgBienvenue} />} />
           <Route exact path='/douleurs' component={Arborescence} />
           <Route exact path='/douleurs/:idDouleur' component={FicheDouleur} />
 
           <Divider></Divider>
-{/* 
+          {/* 
            <Test className='infosBase'>
 
           </Test>  */}
