@@ -1,20 +1,20 @@
-import dispatchAction from "../redux/store";
+import dispatchAction from "./store";
 import axios from "axios";
 import { apiURLs as urls } from "../config/URLs-conf";
 
 export const ordonnanceActions = {
-    GET_PRESCRIPTIONS: 'GET_PRESCRIPTIONS', 
-    GET_ARBORESCENCE: 'GET_ARBORESCENCE',
+    SET_PRESCRIPTIONS: 'SET_PRESCRIPTIONS', 
+    SET_ARBORESCENCE: 'SET_ARBORESCENCE',
 }
 
-export async function getPrescriptions(idDouleur) {
-  const result = await getResultFromUrl(urls.douleurs + idDouleur)
-  dispatchAction(ordonnanceActions.GET_PRESCRIPTIONS, result);  
+export async function setPreconisations(idDouleur) {
+  const result = await getResultFromUrl(urls.ficheDouleur(idDouleur))
+  dispatchAction(ordonnanceActions.SET_PRESCRIPTIONS, result);  
 }
 
-export async function getArborescence() {
-    const result = await getResultFromUrl(urls.douleurs)
-    dispatchAction(ordonnanceActions.GET_ARBORESCENCE, result);
+export async function setArborescence() {
+    const result = await getResultFromUrl(urls.arborescenceDouleurs)
+    dispatchAction(ordonnanceActions.SET_ARBORESCENCE, result);
 }
 
 const getResultFromUrl = async url => {
@@ -36,10 +36,10 @@ const getResultFromUrl = async url => {
 export default function ordonnanceReducer(ordonnance = {}, action) {
 
     switch(action.type) {
-        case ordonnanceActions.GET_PRESCRIPTIONS: {
+        case ordonnanceActions.SET_PRESCRIPTIONS: {
           return {...ordonnance, prescriptions: action.content}
         }
-        case ordonnanceActions.GET_ARBORESCENCE: {
+        case ordonnanceActions.SET_ARBORESCENCE: {
            return {...ordonnance, arborescence: action.content}
         }
         default:

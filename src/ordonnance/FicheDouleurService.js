@@ -1,15 +1,9 @@
-/**
- * Ici on prends en compte l'état applicatif.
- * La méthode connect() relie le store au composant cible 
- */
 import { connect } from 'react-redux'
 import { reduxForm } from "redux-form";
-import { getPrescriptions } from "./OrdonnanceActions";
+import { setPreconisations } from "../redux/OrdonnanceActions";
 import FicheDouleurComponent from "./FicheDouleurComponent";
 import React, { Component, Fragment } from 'react'
 import OrdonnanceForm from "./OrdonnanceForm";
-
-
 
 class FicheDouleur extends Component {
 
@@ -19,9 +13,8 @@ class FicheDouleur extends Component {
             choixOrdonnance: null,
             prescriptionChoisie: null
         }
-        this.onClickOrdonnance.bind(this)
+        this.clickOrdonnance.bind(this)
     }
-
 
     getRouteParams() {
         if (this.props.match) {
@@ -32,10 +25,10 @@ class FicheDouleur extends Component {
 
     componentDidMount() {
         let { idDouleur } = this.getRouteParams()
-        getPrescriptions(idDouleur)
+        setPreconisations(idDouleur)
     }
 
-    onClickOrdonnance = (index) => {
+    clickOrdonnance = (index) => {
         this.setState({
             choixOrdonnance: index,
             prescriptionChoisie: this.props.prescriptions[index]
@@ -51,7 +44,7 @@ class FicheDouleur extends Component {
     render() {
         return (
             <Fragment>
-                <FicheDouleurComponent clickOrdonnance={this.onClickOrdonnance}
+                <FicheDouleurComponent clickOrdonnance={this.clickOrdonnance}
                     prescriptionChoisie={this.state.prescriptionChoisie} prescriptions={this.props.prescriptions} />
                 {
                     this.state.prescriptionChoisie &&

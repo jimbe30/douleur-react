@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import ordonnanceReducer from "../ordonnance/OrdonnanceActions";
+import ordonnanceReducer from "./OrdonnanceActions";
 import { reducer as formReducer } from "redux-form";
 
 /**

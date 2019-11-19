@@ -1,6 +1,7 @@
 
 export const apiURLs = {
-    douleurs: '/ordonnances/',   
+    arborescenceDouleurs: '/douleurs/arborescence',
+    ficheDouleur: idDouleur => '/douleurs/' + idDouleur,
 }
 
 export const frontPrefix = '/clientApp'

@@ -3,11 +3,11 @@
  * La méthode connect() relie le store au composant cible 
  */
 import { connect } from 'react-redux'
-import { getArborescence } from "./OrdonnanceActions";
+import { setArborescence } from "../redux/OrdonnanceActions";
 import ArborescenceComponent from "./ArborescenceComponent";
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Header, Message } from 'semantic-ui-react';
+import { Message } from 'semantic-ui-react';
 
 class Arborescence extends Component {
 
@@ -15,11 +15,9 @@ class Arborescence extends Component {
         nomenclatures: PropTypes.arrayOf(PropTypes.object).isRequired,
     };
 
-
     componentDidMount() {
-        getArborescence()
+        setArborescence()
     }
-
 
     render() {
         return (
