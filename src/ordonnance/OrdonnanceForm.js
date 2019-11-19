@@ -1,5 +1,5 @@
 import React from "react";
-import { Field, reduxForm } from "redux-form";
+import { Field } from "redux-form";
 import { Form, Message, Header, Divider, Label } from "semantic-ui-react";
 import * as formAdapter from "../redux/reduxFormAdapter"
 import Prescription from "./PrescriptionObj";
@@ -36,6 +36,38 @@ class OrdonnanceForm extends React.Component {
     )
   }
 
+  render() {
+
+    return (
+      <Form size='small' onSubmit={() => this.props.onSubmit(this.ordonnanceSaisie())}>
+
+        <Message info>Veuillez renseigner la posologie dans le formulaire ci-dessous</Message>  {
+          this.prescriptionChoisie && this.prescriptionChoisie.medicamentsPreconises.map(
+            (medicament, numMedicament) => this.formulaireMedicament(numMedicament)
+          )
+        }
+
+        <Field
+          component={formAdapter.renderTextArea}
+          label="Recommandations"
+          name="recommandations"
+          placeholder="Conseils, effets indésirables à surveiller, cas d'arrêt du traitement..."
+        />
+
+        <Message>
+          <Divider horizontal fitted><Header as='h5'>Récapitulatif</Header></Divider>
+          {this.getRecapitulatif()}
+        </Message>
+
+        <Form.Group inline>
+          <Form.Button type='submit' primary>Valider</Form.Button>
+          <Form.Button onClick={this.props.reset}>Annuler</Form.Button>
+        </Form.Group>
+
+      </Form>
+    )
+  }
+
   formulaireMedicament(numMedicament) {
 
     return (
@@ -50,7 +82,6 @@ class OrdonnanceForm extends React.Component {
           index={numMedicament}
           value={this.libellesMedicaments[numMedicament]}
         />
-
 
         <Grid container spacing={1}>
 
@@ -91,7 +122,7 @@ class OrdonnanceForm extends React.Component {
         (produit, numProduit) => {
           const designationProduit = produit.designation
           const dosageProduit = this.props['dosage' + numMedicament + numProduit]
-           return (dosageProduit ? designationProduit + ' ' + dosageProduit : '')
+          return (dosageProduit ? designationProduit + ' ' + dosageProduit : '')
         }
       )
       return dosagesProduit.join(' + ')
@@ -99,10 +130,23 @@ class OrdonnanceForm extends React.Component {
     return null
   }
 
+  getDosages(numMedicament) {
+    const produits = this.prescriptionChoisie.getProduits(numMedicament)
+    if (Array.isArray(produits)) {
+      const dosagesProduit = produits.map(
+        (produit, numProduit) => {
+          return this.props['dosage' + numMedicament + numProduit]
+        }
+      )
+      return dosagesProduit
+    }
+    return null
+  }
+
 
   getRecapitulatif() {
     return (
-      this.libellesMedicaments.map(
+      this.medicaments.map(
         (medicament, numMedicament) => (
           <div> {
             this.getRecapDosage(numMedicament)
@@ -116,45 +160,29 @@ class OrdonnanceForm extends React.Component {
     )
   }
 
-  render() {
 
-    return (
-      <Form size='small' onSubmit={this.props.handleSubmit}>
+  ordonnanceSaisie() {
 
-        <Message info>Veuillez renseigner la posologie dans le formulaire ci-dessous</Message>  {
-          this.prescriptionChoisie && this.prescriptionChoisie.medicamentsPreconises.map(
-            (medicament, numMedicament) => this.formulaireMedicament(numMedicament)
-          )
-        }
+    const autresChamps = ['quantite', 'forme', 'frequence', 'duree']
 
-        <Field
-          component={formAdapter.renderTextArea}
-          label="Recommandations"
-          name="recommandations"
-          placeholder="Conseils, effets indésirables à surveiller, cas d'arrêt du traitement..."
-        />
+    let ordonnance = {
+      nbMedicaments: this.medicaments.length,
+      medicaments: [],
+      recommandations: this.props.recommandations
+    }
 
-        <Message>
-          <Divider horizontal fitted><Header as='h5'>Récapitulatif</Header></Divider>
-          {this.getRecapitulatif()}
-        </Message>
-
-        <Field
-          component={formAdapter.renderCheckbox}
-          label="Je souhaite délivrer cette ordonnance"
-          name="estOK"
-        />
-
-        <Form.Group inline>
-          <Form.Button type='submit' primary>Valider</Form.Button>
-          <Form.Button onClick={this.props.reset}>Annuler</Form.Button>
-        </Form.Group>
-
-      </Form>
-    )
+    for (let numMedicament = 0; numMedicament < ordonnance.nbMedicaments; numMedicament++) {
+      ordonnance.medicaments[numMedicament] = {
+        medicament: this.libellesMedicaments[numMedicament],
+        dosages: this.getDosages(numMedicament),
+      }
+      autresChamps.forEach(champ => {
+        ordonnance.medicaments[numMedicament][champ] = this.props[champ + numMedicament]
+      })
+    }
+    return ordonnance
   }
+
 }
 
-export default reduxForm({
-  form: "ordonnance"
-})(OrdonnanceForm);
+export default OrdonnanceForm;

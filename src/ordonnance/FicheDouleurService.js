@@ -3,10 +3,13 @@
  * La méthode connect() relie le store au composant cible 
  */
 import { connect } from 'react-redux'
+import { reduxForm } from "redux-form";
 import { getPrescriptions } from "./OrdonnanceActions";
 import FicheDouleurComponent from "./FicheDouleurComponent";
 import React, { Component, Fragment } from 'react'
 import OrdonnanceForm from "./OrdonnanceForm";
+
+
 
 class FicheDouleur extends Component {
 
@@ -27,12 +30,10 @@ class FicheDouleur extends Component {
         return {}
     }
 
-
     componentDidMount() {
         let { idDouleur } = this.getRouteParams()
         getPrescriptions(idDouleur)
     }
-
 
     onClickOrdonnance = (index) => {
         this.setState({
@@ -42,6 +43,10 @@ class FicheDouleur extends Component {
         console.log('Choix de l\'ordonnance n° ' + (index + 1))
     }
 
+    submitOrdonnance = form => {
+        const body = JSON.stringify(form)
+        console.log(body)
+    }
 
     render() {
         return (
@@ -51,7 +56,7 @@ class FicheDouleur extends Component {
                 {
                     this.state.prescriptionChoisie &&
                     <OrdonnanceForm
-                        onSubmit={() => console.log("Formulaire ordonance soumis")}
+                        onSubmit={this.submitOrdonnance}
                         ordonnance={this.state.prescriptionChoisie}
                         {...this.props.formValues}
                     />
@@ -59,9 +64,12 @@ class FicheDouleur extends Component {
             </Fragment>
         )
     }
-
-
 }
+
+FicheDouleur = reduxForm({
+    form: "ordonnance",
+})(FicheDouleur);
+
 
 /**
  * La fonction mapStateToProps renvoie un objet résultant du state. 

@@ -1,6 +1,6 @@
 
-const apiURLs = {
+export const apiURLs = {
     douleurs: '/ordonnances/',   
 }
 
-export default apiURLs
+export const frontPrefix = '/clientApp'

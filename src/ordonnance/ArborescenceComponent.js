@@ -2,6 +2,7 @@ import React from 'react'
 import { Accordion, Button } from 'semantic-ui-react'
 import "./Arborescence.css";
 import TruncBox from '../components/TruncBox';
+import { frontPrefix } from '../config/URLs-conf'
 
 export default function Arborescence({ nomenclatures, history }) {
 
@@ -12,7 +13,7 @@ export default function Arborescence({ nomenclatures, history }) {
             if (data) {
                 return (
                     <React.Fragment>
-                        <Button style={buttonStyle} onClick={() => history.push(`/douleurs/${idDouleur}`)}>
+                        <Button style={buttonStyle} onClick={() => history.push(`${frontPrefix}/douleurs/${idDouleur}`)}>
                             Faire l'ordonnance
                         </Button>
                         <TruncBox height='6rem' moreText='▼ ( voir plus ... )' lessText='▲ ( réduire ... )'>

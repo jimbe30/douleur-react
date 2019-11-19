@@ -1,6 +1,6 @@
 import dispatchAction from "../redux/store";
 import axios from "axios";
-import urls from "../config/URLs-conf";
+import { apiURLs as urls } from "../config/URLs-conf";
 
 export const ordonnanceActions = {
     GET_PRESCRIPTIONS: 'GET_PRESCRIPTIONS', 

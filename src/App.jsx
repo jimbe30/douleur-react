@@ -1,16 +1,20 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import { Header, Segment } from 'semantic-ui-react';
+import { Divider } from '@material-ui/core';
+
+
 import { store } from "./redux/store";
+import { frontPrefix } from "./config/URLs-conf";
 import "./App.css";
 // import "./assets/bootstrap-slate.css";
 import Menu from "./components/MenuBar";
 import Accueil from "./components/Accueil";
 import Test from './Test';
-import { Header, Segment } from 'semantic-ui-react';
 import Arborescence from './ordonnance/ArborescenceService';
 import FicheDouleur from './ordonnance/FicheDouleurService';
-import { Divider } from '@material-ui/core';
+
 
 export default function App() {
 
@@ -43,8 +47,8 @@ export default function App() {
         <Segment className='center' style={{ top: '60px' }}>
 
           <Route exact path='/' render={props => <Accueil {...props} message={msgBienvenue} />} />
-          <Route exact path='/douleurs' component={Arborescence} />
-          <Route exact path='/douleurs/:idDouleur' component={FicheDouleur} />
+          <Route exact path={`${frontPrefix}/douleurs`} component={Arborescence} />
+          <Route exact path={`${frontPrefix}/douleurs/:idDouleur`} component={FicheDouleur} />
 
           <Divider></Divider>
           {/* 
