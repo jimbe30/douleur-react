@@ -2,9 +2,10 @@ import React from 'react'
 import { Accordion, Button } from 'semantic-ui-react'
 import "./Arborescence.css";
 import TruncBox from '../components/TruncBox';
-import { frontPrefix } from '../config/URLs-conf'
 
-export default function Arborescence({ nomenclatures, history }) {
+export default function Arborescence(props) {
+
+    const { handleClickDouleur } = props
 
     const buttonStyle = { float: 'right', maxWidth: '100%', marginTop: '-40px', marginBottom: '5px', marginRight: '2%' }
 
@@ -13,7 +14,7 @@ export default function Arborescence({ nomenclatures, history }) {
             if (data) {
                 return (
                     <React.Fragment>
-                        <Button style={buttonStyle} onClick={() => history.push(`${frontPrefix}/douleurs/${idDouleur}`)}>
+                        <Button style={buttonStyle} onClick={() => handleClickDouleur(idDouleur)}>
                             Faire l'ordonnance
                         </Button>
                         <TruncBox height='6rem' moreText='▼ ( voir plus ... )' lessText='▲ ( réduire ... )'>
@@ -32,7 +33,7 @@ export default function Arborescence({ nomenclatures, history }) {
         return (<Accordion styled panels={retour} />)
     }
 
-    const Branche = function ({ libelle, nomenclaturesEnfants }) {
+    const Branche = function ({ libelle, nomenclaturesEnfants, ...rest }) {
         const retour = [{
             title: libelle,
             content: {}
@@ -43,10 +44,10 @@ export default function Arborescence({ nomenclatures, history }) {
                 let infosGenerales = nomenclature.infosGenerales;
                 let idDouleur = nomenclature.id;
                 if (nomenclature.nomenclaturesEnfants && nomenclature.nomenclaturesEnfants.length > 0) {
-                    return <Branche libelle={titre} nomenclaturesEnfants={nomenclature.nomenclaturesEnfants} />;
+                    return <Branche libelle={titre} nomenclaturesEnfants={nomenclature.nomenclaturesEnfants} {...rest} />;
                 }
                 else {
-                    return <Entree libelle={titre} infosGenerales={infosGenerales} idDouleur={idDouleur} />;
+                    return <Entree libelle={titre} infosGenerales={infosGenerales} idDouleur={idDouleur} {...rest} />;
                 }
             });
             let content = <div>{entreesAffichables}</div>;
@@ -60,12 +61,12 @@ export default function Arborescence({ nomenclatures, history }) {
         return <Accordion styled panels={retour} />;
     }
 
-    const Arbre = function ({ nomenclatures }) {
+    const Arbre = function ({ nomenclatures, ...rest }) {
         return (
             <div>{
                 Array.isArray(nomenclatures) && nomenclatures.map(
                     nomenclature => {
-                        return <Branche libelle={nomenclature.libelle} nomenclaturesEnfants={nomenclature.nomenclaturesEnfants} />;
+                        return <Branche libelle={nomenclature.libelle} nomenclaturesEnfants={nomenclature.nomenclaturesEnfants} {...rest} />;
                     }
                 )
             }
@@ -74,6 +75,6 @@ export default function Arborescence({ nomenclatures, history }) {
     }
 
     return (
-        <Arbre nomenclatures={nomenclatures} />
+        <Arbre {...props} />
     );
 }

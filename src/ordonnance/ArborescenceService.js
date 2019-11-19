@@ -6,24 +6,29 @@ import { connect } from 'react-redux'
 import { setArborescence } from "../redux/OrdonnanceActions";
 import ArborescenceComponent from "./ArborescenceComponent";
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { Message } from 'semantic-ui-react';
+import { routes, goToRoute } from '../config/URLs-conf';
 
 class Arborescence extends Component {
 
-    propTypes = {
-        nomenclatures: PropTypes.arrayOf(PropTypes.object).isRequired,
-    };
+    constructor(props) {
+        super(props)
+        this.handleClickDouleur.bind(this)
+    }
 
     componentDidMount() {
         setArborescence()
+    }
+
+    handleClickDouleur = (idDouleur) => {
+        goToRoute(this.props.history)(routes.FICHE_DOULEUR, {idDouleur})
     }
 
     render() {
         return (
             <div>
                 <Message info>Choisissez le type de douleur concernée dans l'arborescence ci-dessous</Message>
-                <ArborescenceComponent {...this.props} />
+                <ArborescenceComponent {...this.props} handleClickDouleur={this.handleClickDouleur}/>
             </div>
         )
     }
