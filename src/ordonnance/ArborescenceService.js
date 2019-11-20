@@ -3,7 +3,7 @@
  * La méthode connect() relie le store au composant cible 
  */
 import { connect } from 'react-redux'
-import { setArborescence } from "../redux/OrdonnanceActions";
+import { setArborescence, dataTypes } from "../redux/OrdonnanceActions";
 import ArborescenceComponent from "./ArborescenceComponent";
 import React, { Component } from 'react'
 import { Message } from 'semantic-ui-react';
@@ -21,7 +21,7 @@ class Arborescence extends Component {
     }
 
     handleClickDouleur = (idDouleur) => {
-        goToRoute(this.props.history)(routes.FICHE_DOULEUR, {idDouleur})
+        goToRoute(this.props)(routes.FICHE_DOULEUR, {idDouleur})
     }
 
     render() {
@@ -39,7 +39,7 @@ class Arborescence extends Component {
  * L'objet renvoyé est passé en props du composant connecté
  */
 const mapStateToProps = appState => ({
-    nomenclatures: appState.ordonnance.arborescence
+    nomenclatures: appState.ordonnance[dataTypes.ARBORESCENCE]
 })
 /**
  * La méthode connect() relie le store au composant cible.

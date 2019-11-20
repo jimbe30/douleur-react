@@ -1,20 +1,25 @@
-import dispatchAction from "./store";
+import dispatchData from "./store";
 import axios from "axios";
 import { apiURLs as urls } from "../config/URLs-conf";
 
-export const ordonnanceActions = {
-    SET_PRESCRIPTIONS: 'SET_PRESCRIPTIONS', 
-    SET_ARBORESCENCE: 'SET_ARBORESCENCE',
+export const dataTypes = {
+  ARBORESCENCE: 'ARBORESCENCE',
+  PRESCRIPTIONS: 'PRESCRIPTIONS',
+  PRESCRIPTION_CHOISIE: 'PRESCRIPTION_CHOISIE',
+}
+
+export async function setArborescence() {
+  const result = await getResultFromUrl(urls.arborescenceDouleurs)
+  dispatchData(dataTypes.ARBORESCENCE, result);
 }
 
 export async function setPreconisations(idDouleur) {
   const result = await getResultFromUrl(urls.ficheDouleur(idDouleur))
-  dispatchAction(ordonnanceActions.SET_PRESCRIPTIONS, result);  
+  dispatchData(dataTypes.PRESCRIPTIONS, result);
 }
 
-export async function setArborescence() {
-    const result = await getResultFromUrl(urls.arborescenceDouleurs)
-    dispatchAction(ordonnanceActions.SET_ARBORESCENCE, result);
+export function setPrescriptionChoisie(prescription) {
+  dispatchData(dataTypes.PRESCRIPTION_CHOISIE, prescription);
 }
 
 const getResultFromUrl = async url => {
@@ -27,7 +32,6 @@ const getResultFromUrl = async url => {
   }
 }
 
-
 /**
  * Reducer pour le thème ordonnance
  * @param {*} ordonnance 
@@ -35,15 +39,10 @@ const getResultFromUrl = async url => {
  */
 export default function ordonnanceReducer(ordonnance = {}, action) {
 
-    switch(action.type) {
-        case ordonnanceActions.SET_PRESCRIPTIONS: {
-          return {...ordonnance, prescriptions: action.content}
-        }
-        case ordonnanceActions.SET_ARBORESCENCE: {
-           return {...ordonnance, arborescence: action.content}
-        }
-        default:
-            return ordonnance         
-    } 
+  if (dataTypes[action.type]) {
+    return { ...ordonnance, [dataTypes[action.type]]: action.content }
+  }
+  return ordonnance
+
 }
 

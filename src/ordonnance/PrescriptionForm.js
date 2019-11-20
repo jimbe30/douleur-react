@@ -5,10 +5,10 @@ import * as formAdapter from "../redux/reduxFormAdapter"
 import Prescription from "./PrescriptionObj";
 import { Grid } from "@material-ui/core";
 
-class OrdonnanceForm extends React.Component {
+class PrescriptionForm extends React.Component {
 
-  // On reçoit l'ordonnance en props. C'est un objet de la forme suivante :
-  // ordonnance
+  // On reçoit la prescription en props. C'est un objet de la forme suivante :
+  // prescription
   // 	.medicamentsPreconises[]
   // 		.description
   // 		.dureeMin
@@ -29,7 +29,7 @@ class OrdonnanceForm extends React.Component {
   constructor(props) {
 
     super(props)
-    this.prescriptionChoisie = new Prescription(props.ordonnance)
+    this.prescriptionChoisie = new Prescription(props.prescription)
     this.medicaments = this.prescriptionChoisie.medicamentsPreconises
     this.libellesMedicaments = this.medicaments.map(
       (medicament, numMedicament) => this.prescriptionChoisie.getDesignationsProduits(numMedicament).join(' + ')
@@ -39,7 +39,7 @@ class OrdonnanceForm extends React.Component {
   render() {
 
     return (
-      <Form size='small' onSubmit={() => this.props.onSubmit(this.ordonnanceSaisie())}>
+      <Form size='small' onSubmit={() => this.props.onSubmit(this.prescriptionSaisie())}>
 
         <Message info>Veuillez renseigner la posologie dans le formulaire ci-dessous</Message>  {
           this.prescriptionChoisie && this.prescriptionChoisie.medicamentsPreconises.map(
@@ -161,28 +161,28 @@ class OrdonnanceForm extends React.Component {
   }
 
 
-  ordonnanceSaisie() {
+  prescriptionSaisie() {
 
     const autresChamps = ['quantite', 'forme', 'frequence', 'duree']
 
-    let ordonnance = {
+    let prescpription = {
       nbMedicaments: this.medicaments.length,
       medicaments: [],
       recommandations: this.props.recommandations
     }
 
-    for (let numMedicament = 0; numMedicament < ordonnance.nbMedicaments; numMedicament++) {
-      ordonnance.medicaments[numMedicament] = {
+    for (let numMedicament = 0; numMedicament < prescpription.nbMedicaments; numMedicament++) {
+      prescpription.medicaments[numMedicament] = {
         medicament: this.libellesMedicaments[numMedicament],
         dosages: this.getDosages(numMedicament),
       }
       autresChamps.forEach(champ => {
-        ordonnance.medicaments[numMedicament][champ] = this.props[champ + numMedicament]
+        prescpription.medicaments[numMedicament][champ] = this.props[champ + numMedicament]
       })
     }
-    return ordonnance
+    return prescpription
   }
 
 }
 
-export default OrdonnanceForm;
+export default PrescriptionForm;
