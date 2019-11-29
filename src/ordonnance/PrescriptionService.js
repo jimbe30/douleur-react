@@ -4,7 +4,8 @@ import React, { Component, Fragment } from 'react'
 
 import PrescriptionForm from "./PrescriptionForm";
 import FicheDouleurComponent from './FicheDouleurComponent';
-import { dataTypes } from '../redux/OrdonnanceActions';
+import { dataTypes, setPrescriptionSaisie } from '../redux/OrdonnanceActions';
+import { goToRoute, routes } from '../config/URLs-conf';
 
 class PrescriptionService extends Component {
 
@@ -13,9 +14,11 @@ class PrescriptionService extends Component {
         this.submitPrescription.bind(this)
     }
 
-    submitPrescription = form => {
-        const body = JSON.stringify(form)
+    submitPrescription = prescriptionSaisie => {
+        setPrescriptionSaisie(prescriptionSaisie)
+        const body = JSON.stringify(prescriptionSaisie)
         console.log(body)
+        goToRoute(this.props)(routes.FORMULAIRE_ORDONNANCE)
     }
 
     render() {
@@ -28,11 +31,40 @@ class PrescriptionService extends Component {
                         onSubmit={this.submitPrescription}
                         prescription={this.props.prescriptionChoisie}
                         {...this.props.formValues}
+                        recapPrescription={recapitulerPrescription}
                     />
                 }
+
             </Fragment>
         )
     }
+
+}
+
+export const recapitulerPrescription = (prescription) => {
+    const recapDosage = medicament => (
+        Array.isArray(medicament.produits) ? (
+            medicament.produits
+                .filter(produit => produit.dosage)
+                .map(produit => produit.designation + ' ' + produit.dosage)
+                .join(' + ')
+        ) : null
+    )
+    if (prescription && Array.isArray(prescription.medicaments)) {
+        return (
+            prescription.medicaments.map(
+                (medicament, numMedicament) => (
+                    <div> {
+                        recapDosage(medicament)
+                        + (medicament.quantite && medicament.forme ? ', ' + medicament.quantite + ' ' + medicament.forme : '')
+                        + (medicament.frequence ? ', ' + medicament.frequence + ' fois par jour' : '')
+                        + (medicament.duree ? ' pendant ' + medicament.duree + ' jours' : '')
+                    } </div>
+                )
+            )
+        )
+    }
+    return null
 }
 
 PrescriptionService = reduxForm({

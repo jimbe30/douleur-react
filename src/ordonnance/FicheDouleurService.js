@@ -27,7 +27,7 @@ class FicheDouleur extends Component {
 
     clickPrescription = (index) => {
         setPrescriptionChoisie(this.props.prescriptions[index])
-        goToRoute(this.props)(routes.FORMULAIRE_ORDONNANCE)
+        goToRoute(this.props)(routes.FORMULAIRE_PRESCRIPTION)
     }
 
     render() {

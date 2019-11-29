@@ -7,29 +7,12 @@ import { Grid } from "@material-ui/core";
 
 class PrescriptionForm extends React.Component {
 
-  // On reçoit la prescription en props. C'est un objet de la forme suivante :
-  // prescription
-  // 	.medicamentsPreconises[]
-  // 		.description
-  // 		.dureeMin
-  // 		.dureeMax
-  // 		.idDouleur
-  // 		.numOrdonnance
-  // 		.numMedicament
-  // 		.compatibilites[]
-  // 			.produit
-  // 				.code
-  // 				.designation
-  // 				.id
-  // 				.indesirable
-  // 				.indication
-  // 			.dosages
-  // 			.formes
-
+  // On reçoit la prescription préconisée en props. Cet objet est utilisé pour construire la Prescription
   constructor(props) {
 
     super(props)
     this.prescriptionChoisie = new Prescription(props.prescription)
+    this.recapPrescription = props.recapPrescription
     this.medicaments = this.prescriptionChoisie.medicamentsPreconises
     this.libellesMedicaments = this.medicaments.map(
       (medicament, numMedicament) => this.prescriptionChoisie.getDesignationsProduits(numMedicament).join(' + ')
@@ -41,7 +24,9 @@ class PrescriptionForm extends React.Component {
     return (
       <Form size='small' onSubmit={() => this.props.onSubmit(this.prescriptionSaisie())}>
 
-        <Message info>Veuillez renseigner la posologie dans le formulaire ci-dessous</Message>  {
+        <Message info>Veuillez renseigner la posologie dans le formulaire ci-dessous</Message>
+
+        {
           this.prescriptionChoisie && this.prescriptionChoisie.medicamentsPreconises.map(
             (medicament, numMedicament) => this.formulaireMedicament(numMedicament)
           )
@@ -56,7 +41,7 @@ class PrescriptionForm extends React.Component {
 
         <Message>
           <Divider horizontal fitted><Header as='h5'>Récapitulatif</Header></Divider>
-          {this.getRecapitulatif()}
+          {this.recapPrescription(this.prescriptionSaisie())}
         </Message>
 
         <Form.Group inline>
@@ -115,53 +100,21 @@ class PrescriptionForm extends React.Component {
     )
   }
 
-  getRecapDosage(numMedicament) {
-    const produits = this.prescriptionChoisie.getProduits(numMedicament)
-    if (Array.isArray(produits)) {
-      const dosagesProduit = produits.map(
-        (produit, numProduit) => {
-          const designationProduit = produit.designation
-          const dosageProduit = this.props['dosage' + numMedicament + numProduit]
-          return (dosageProduit ? designationProduit + ' ' + dosageProduit : '')
-        }
-      )
-      return dosagesProduit.join(' + ')
-    }
-    return null
-  }
-
-  getDosages(numMedicament) {
-    const produits = this.prescriptionChoisie.getProduits(numMedicament)
-    if (Array.isArray(produits)) {
-      const dosagesProduit = produits.map(
-        (produit, numProduit) => {
-          return this.props['dosage' + numMedicament + numProduit]
-        }
-      )
-      return dosagesProduit
-    }
-    return null
-  }
-
-
-  getRecapitulatif() {
-    return (
-      this.medicaments.map(
-        (medicament, numMedicament) => (
-          <div> {
-            this.getRecapDosage(numMedicament)
-            + (this.props['quantite' + numMedicament] && this.props['forme' + numMedicament] ?
-              ', ' + this.props['quantite' + numMedicament] + ' ' + this.props['forme' + numMedicament] : '')
-            + (this.props['frequence' + numMedicament] ? ', ' + this.props['frequence' + numMedicament] + ' fois par jour' : '')
-            + (this.props['duree' + numMedicament] ? ' pendant ' + this.props['duree' + numMedicament] + ' jours' : '')
-          } </div>
-        )
-      )
-    )
-  }
-
-
   prescriptionSaisie() {
+
+    const dosagesProduits = (numMedicament) => {
+      const produits = this.prescriptionChoisie.getProduits(numMedicament)
+      if (Array.isArray(produits)) {
+        const dosagesProduits = produits.map(
+          (produit, numProduit) => {
+            const dosage = this.props['dosage' + numMedicament + numProduit]
+            return { designation: produit.designation, dosage }
+          }
+        )
+        return dosagesProduits
+      }
+      return null
+    }
 
     const autresChamps = ['quantite', 'forme', 'frequence', 'duree']
 
@@ -173,13 +126,14 @@ class PrescriptionForm extends React.Component {
 
     for (let numMedicament = 0; numMedicament < prescpription.nbMedicaments; numMedicament++) {
       prescpription.medicaments[numMedicament] = {
-        medicament: this.libellesMedicaments[numMedicament],
-        dosages: this.getDosages(numMedicament),
+        libelle: this.libellesMedicaments[numMedicament], // concat(produits, ' + ' )
+        produits: dosagesProduits(numMedicament),  // Array of {produit, dosage}
       }
       autresChamps.forEach(champ => {
         prescpription.medicaments[numMedicament][champ] = this.props[champ + numMedicament]
       })
     }
+
     return prescpription
   }
 

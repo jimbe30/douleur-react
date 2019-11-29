@@ -1,6 +1,24 @@
-export default function Prescription(ordonnance) {
+export default function Prescription(ordonnancePreconisee) {
 
-  this.medicamentsPreconises = ordonnance ? ordonnance.medicamentsPreconises : []
+  // L'ordonnance préconisée est reçue du backend et est un objet de la forme suivante :
+  // 	.medicamentsPreconises[]
+  // 		.description
+  // 		.dureeMin
+  // 		.dureeMax
+  // 		.idDouleur
+  // 		.numOrdonnance
+  // 		.numMedicament
+  // 		.compatibilites[]
+  // 			.produit
+  // 				.code
+  // 				.designation
+  // 				.id
+  // 				.indesirable
+  // 				.indication
+  // 			.dosages
+  // 			.formes
+
+  this.medicamentsPreconises = ordonnancePreconisee ? ordonnancePreconisee.medicamentsPreconises : []
 
   this.nbMedicaments = this.medicamentsPreconises.length
 
