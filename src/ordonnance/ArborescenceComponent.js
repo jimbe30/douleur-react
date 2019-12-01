@@ -14,7 +14,7 @@ export default function Arborescence(props) {
             if (data) {
                 return (
                     <React.Fragment>
-                        <Button style={buttonStyle} onClick={() => handleClickDouleur(idDouleur)}>
+                        <Button primary size='tiny' style={buttonStyle} onClick={() => handleClickDouleur(idDouleur)}>
                             Faire l'ordonnance
                         </Button>
                         <TruncBox height='6rem' moreText='▼ ( voir plus ... )' lessText='▲ ( réduire ... )'>

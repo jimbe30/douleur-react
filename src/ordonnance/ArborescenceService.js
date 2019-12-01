@@ -8,6 +8,15 @@ import ArborescenceComponent from "./ArborescenceComponent";
 import React, { Component } from 'react'
 import { Message } from 'semantic-ui-react';
 import { routes, goToRoute } from '../config/URLs-conf';
+import LoadComponent from '../components/LoadComponent';
+
+/**
+ * La fonction mapStateToProps renvoie un objet résultant du state. 
+ * L'objet renvoyé est passé en props du composant connecté
+ */
+const mapStateToProps = appState => ({
+    nomenclatures: appState.ordonnance[dataTypes.ARBORESCENCE]
+})
 
 class Arborescence extends Component {
 
@@ -25,22 +34,14 @@ class Arborescence extends Component {
     }
 
     render() {
-        return (
+        return <LoadComponent loadedObj={this.props.nomenclatures}>
             <div>
                 <Message info>Choisissez le type de douleur concernée dans l'arborescence ci-dessous</Message>
                 <ArborescenceComponent {...this.props} handleClickDouleur={this.handleClickDouleur}/>
             </div>
-        )
+        </LoadComponent>        
     }
-
 }
-/**
- * La fonction mapStateToProps renvoie un objet résultant du state. 
- * L'objet renvoyé est passé en props du composant connecté
- */
-const mapStateToProps = appState => ({
-    nomenclatures: appState.ordonnance[dataTypes.ARBORESCENCE]
-})
 /**
  * La méthode connect() relie le store au composant cible.
  * Elle prend en paramètres 

@@ -1,14 +1,13 @@
 import React, { Fragment } from 'react'
-import { Message, Label, Divider, Header } from 'semantic-ui-react'
+import { Message, Divider, Header, Button } from 'semantic-ui-react'
 
+/**
+ * Si une prescription a été choisie on n'affiche que celle ci avec un message approprié
+ * Sinon on affiche la liste des prescriptions proposées avec possibilité d'en choisir une par clic
+ */
 export default function FicheDouleurComponent(props) {
 
   const { prescriptions, prescriptionChoisie, clickOrdonnance } = props
-
-  /**
-   * Si une prescription a été choisie on n'affiche que celle ci avec un message approprié
-   * Sinon on affiche la liste des prescriptions proposées avec possibilité d'en choisir une par clic
-   */
 
   let douleur = () => {
     let nomenclatureDouleur = null
@@ -30,7 +29,6 @@ export default function FicheDouleurComponent(props) {
 
   let nbPreco = prescriptions && prescriptions.length > 0 ? prescriptions.length : 0
 
-
   let messageInfo = () => {
     if (prescriptionChoisie) {
       return (
@@ -42,7 +40,7 @@ export default function FicheDouleurComponent(props) {
         <Message warning>Aucune ordonnance n'est encore proposée pour cette douleur</Message> :
         <Message info>
           {` ${nbPreco} ordonnance${nbPreco > 1 ? 's vous sont proposées' : ' vous est proposée'} `}
-          <br />Cliquez sur l'ordonnance de votre choix
+          <br />Cliquez sur le bouton correspondant à l'ordonnance de votre choix
         </Message>
     )
   }
@@ -71,9 +69,10 @@ export default function FicheDouleurComponent(props) {
       return prescriptions.map(
         (prescription, index) => (
           <Fragment>
-            <Label as='a' onClick={() => clickOrdonnance(index)}>
-              Ordonnance {index + 1}
-            </Label>
+             <Button size='tiny' primary onClick={() => clickOrdonnance(index)}>
+                Ordonnance {index + 1}
+             </Button>
+           
             {renderPrescription(prescription)}
             <Divider />
           </Fragment>
@@ -81,8 +80,6 @@ export default function FicheDouleurComponent(props) {
       )
     }
   }
-
-
 
   const renderPrescription = (prescription) => {
     const formatTexte = description => {

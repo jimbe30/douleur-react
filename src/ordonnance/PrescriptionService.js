@@ -4,8 +4,18 @@ import React, { Component, Fragment } from 'react'
 
 import PrescriptionForm from "./PrescriptionForm";
 import FicheDouleurComponent from './FicheDouleurComponent';
-import { dataTypes, setPrescriptionSaisie } from '../redux/OrdonnanceActions';
+import { dataTypes, setPrescriptionSaisie, setPrescriptionFormValues } from '../redux/OrdonnanceActions';
 import { goToRoute, routes } from '../config/URLs-conf';
+
+/**
+ * La fonction mapStateToProps renvoie un objet provenant du state. 
+ * L'objet renvoyé est passé en props du composant connecté
+ */
+const mapStateToProps = state => ({
+    prescriptionChoisie: state.ordonnance[dataTypes.PRESCRIPTION_CHOISIE],
+    formValues: state.form.prescription ? state.form.prescription.values : {},
+    initialValues : state.ordonnance[dataTypes.PRESCRIPTION_FORM_VALUES],
+})
 
 class PrescriptionService extends Component {
 
@@ -14,10 +24,11 @@ class PrescriptionService extends Component {
         this.submitPrescription.bind(this)
     }
 
-    submitPrescription = prescriptionSaisie => {
+    submitPrescription = prescriptionSaisie => {  
+        // sauvegarde les valeurs saisies pour les réinjecter en initialValues
+        // lorsqu'on revient sur le formulaire
+        setPrescriptionFormValues(this.props.formValues)  
         setPrescriptionSaisie(prescriptionSaisie)
-        const body = JSON.stringify(prescriptionSaisie)
-        console.log(body)
         goToRoute(this.props)(routes.FORMULAIRE_ORDONNANCE)
     }
 
@@ -34,11 +45,9 @@ class PrescriptionService extends Component {
                         recapPrescription={recapitulerPrescription}
                     />
                 }
-
             </Fragment>
         )
     }
-
 }
 
 export const recapitulerPrescription = (prescription) => {
@@ -68,18 +77,8 @@ export const recapitulerPrescription = (prescription) => {
 }
 
 PrescriptionService = reduxForm({
-    form: "prescription",
+    form: "prescription", 
 })(PrescriptionService);
-
-
-/**
- * La fonction mapStateToProps renvoie un objet résultant du state. 
- * L'objet renvoyé est passé en props du composant connecté
- */
-const mapStateToProps = state => ({
-    prescriptionChoisie: state.ordonnance[dataTypes.PRESCRIPTION_CHOISIE],
-    formValues: state.form.prescription ? state.form.prescription.values : {},
-})
 
 /**
  * La méthode connect() relie le store au composant cible.

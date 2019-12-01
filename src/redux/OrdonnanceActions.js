@@ -7,6 +7,7 @@ export const dataTypes = {
   PRESCRIPTIONS: 'PRESCRIPTIONS',
   PRESCRIPTION_CHOISIE: 'PRESCRIPTION_CHOISIE',
   PRESCRIPTION_SAISIE: 'PRESCRIPTION_SAISIE',
+  PRESCRIPTION_FORM_VALUES: 'PRESCRIPTION_FORM_VALUES',
   ORDONNANCE_EMISE: 'ORDONNANCE_EMISE'
 }
 
@@ -24,17 +25,36 @@ export function setPrescriptionChoisie(prescription) {
   dispatchData(dataTypes.PRESCRIPTION_CHOISIE, prescription);
 }
 
-export function setPrescriptionSaisie(prescription) {  
+export function setPrescriptionFormValues(formValues) {
+  dispatchData(dataTypes.PRESCRIPTION_FORM_VALUES, formValues);
+}
+
+export function setPrescriptionSaisie(prescription) {
   dispatchData(dataTypes.PRESCRIPTION_SAISIE, prescription);
 }
 
 export async function setOrdonnanceEmise(ordonnance) {
-  let result = await postObjectToUrl(ordonnance, urls.nouvelleOrdonnance, {responseType: 'blob'})
+  let result = await postObjectToUrl(ordonnance, urls.nouvelleOrdonnance, { responseType: 'blob' })
   if (result.data) {
-    const file = new Blob([result.data], {type: 'application/pdf'})
-    const fileURL = URL.createObjectURL(file);
-    window.open(fileURL);
-    console.log('L\'ordonnance a bien été enregistrée')
+    let textResult
+    let isError = false
+    await result.data.text().then(text => textResult = text)
+    try {
+      const obj = JSON.parse(textResult)
+      if (obj && (obj.error || obj.errors)) {
+        isError = true
+        console.log(JSON.stringify(obj.error))
+        console.log(JSON.stringify(obj.errors))
+      }
+    } catch (error) {
+      console.log("error: " + error)
+    }
+    if (isError === false) {
+      const file = new Blob([result.data], { type: 'application/pdf' })
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+      console.log('L\'ordonnance a bien été enregistrée')
+    }
   } else {
     console.error('L\'ordonnance n\'a pas pu être correctement enregistrée')
   }
@@ -43,11 +63,14 @@ export async function setOrdonnanceEmise(ordonnance) {
 
 export const getResultFromUrl = async (url, config) => {
   try {
-    let result
-    await axios.get(url, config).then(response => result = response.data)
-    return result
+    let responseBody
+    await axios.get(url, config).then(response => {
+      responseBody = response.data
+    })
+    return responseBody
   } catch (error) {
-    return error;
+    console.log(JSON.stringify(error))
+    return { error: error.message };
   }
 }
 
@@ -55,13 +78,12 @@ export const postObjectToUrl = async (object, url, config) => {
   try {
     let result = {}
     await axios.post(url, object, config).then(response => {
-      result.status = response.status
-      result.data = response.data
-
+      result = response
     })
     return result
   } catch (error) {
-    return false
+    console.log(JSON.stringify(error))
+    return { error: error.message };
   }
 }
 

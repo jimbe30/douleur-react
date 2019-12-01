@@ -1,34 +1,15 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { Message } from 'semantic-ui-react'
 
 
-class Accueil extends Component {
+const Accueil = function (props) {
 
-    constructor(props) {
-        super(props)
-        this.onClick = this.onClick.bind(this)
-        this.state = {
-            actif: false,
-        }
-    }
+    return (
+        <Message info>
+            {props.message}<br />
+        </Message>
+    )
 
-    onClick(e) {
-        if (this.state.actif) {
-            e.target.className = 'noborder'
-            this.setState({ actif: false })
-        } else {
-            e.target.className = 'ui accordion styled'
-            this.setState({ actif: true })
-        }
-    }
-
-    render() {
-
-        return (
-            <div className='noborder' onClick={this.onClick} >                
-                {this.props.message}<br/>                
-            </div>
-        )
-    }
 }
 
 

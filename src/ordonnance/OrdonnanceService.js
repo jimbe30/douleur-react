@@ -7,6 +7,13 @@ import { dataTypes, setOrdonnanceEmise } from '../redux/OrdonnanceActions'
 import { recapitulerPrescription } from './PrescriptionService'
 import OrdonnanceForm from './OrdonnanceForm';
 
+const mapStateToProps = state => ({
+    prescriptionSaisie: state.ordonnance[dataTypes.PRESCRIPTION_SAISIE],
+    infosPatient: state.form.infosPatient ? state.form.infosPatient.values : null,
+    libelleDouleur: state.ordonnance[dataTypes.PRESCRIPTION_CHOISIE] ? 
+        state.ordonnance[dataTypes.PRESCRIPTION_CHOISIE].nomenclatureDouleur.libelle : ''
+})
+
 class OrdonnanceService extends Component {
 
     constructor(props) {
@@ -28,6 +35,7 @@ class OrdonnanceService extends Component {
         return (
             prescription ?
                 <Fragment>
+                    <h3>{this.props.libelleDouleur}</h3>
                     <OrdonnanceForm onSubmit={() => this.submitOrdonnance(this.props.infosPatient)} {...this.props} />
                     <p></p>
 
@@ -88,10 +96,5 @@ export const recapitulerInfosPatient = (infosPatient) => {
 OrdonnanceService = reduxForm({
     form: "infosPatient",
 })(OrdonnanceService);
-
-const mapStateToProps = state => ({
-    prescriptionSaisie: state.ordonnance[dataTypes.PRESCRIPTION_SAISIE],
-    infosPatient: state.form.infosPatient ? state.form.infosPatient.values : null,
-})
 
 export default connect(mapStateToProps)(OrdonnanceService)

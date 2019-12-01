@@ -1,10 +1,14 @@
 import { connect } from 'react-redux'
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 
 import { setPreconisations, setPrescriptionChoisie, dataTypes } from "../redux/OrdonnanceActions";
 import FicheDouleurComponent from "./FicheDouleurComponent";
 import { goToRoute, routes } from '../config/URLs-conf';
+import LoadComponent from '../components/LoadComponent';
 
+const mapStateToProps = appState => ({
+    prescriptions: appState.ordonnance[dataTypes.PRESCRIPTIONS],
+})
 
 class FicheDouleur extends Component {
 
@@ -32,21 +36,12 @@ class FicheDouleur extends Component {
 
     render() {
         return (
-            <Fragment>
+            <LoadComponent loadedObj={this.props.prescriptions}>
                 <FicheDouleurComponent clickOrdonnance={this.clickPrescription} prescriptions={this.props.prescriptions} />               
-            </Fragment>
+            </LoadComponent>
         )
     }
 }
-
-/**
- * La fonction mapStateToProps renvoie un objet résultant du state. 
- * L'objet renvoyé est passé en props du composant connecté
- */
-const mapStateToProps = appState => ({
-    prescriptions: appState.ordonnance[dataTypes.PRESCRIPTIONS],
-})
-
 /**
  * La méthode connect() relie le store au composant cible.
  * Elle prend en paramètre la fonction "mapStateToProps", laquelle prend elle-même en paramètre le state du store.

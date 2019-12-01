@@ -8,7 +8,7 @@
 }
 
 body {
-    background: rgb(35, 55, 60);
+    background: rgb(0, 55, 80);
 }
 
 .ui.header.center, .ui.segment.center, *.center {
@@ -17,8 +17,6 @@ body {
     margin-right: auto;
     margin-left: auto;
 }
-
-
 
 .infosBase, .infosBase::before, .infosBase::after, *.infosBase {
     font-family: 'Trebuchet MS', 'Calibri', 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
@@ -31,14 +29,15 @@ body {
 }
 
 .accueil::before, .ordonnance::before, .histo::before, .lien::before {
-    margin-right: 10px;
+    margin-right: 1rem;
     font-size: 1rem;
     font-family: 'Courier New', Courier, monospace;
 
 }
 .accueil::before {
     content: '\2302';
-    color: rgb(255, 255, 255);
+    font-size: 1.3rem;
+    color: rgb(250, 200, 100);
 }
 
 .ordonnance::before {

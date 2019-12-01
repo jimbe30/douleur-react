@@ -2,7 +2,6 @@ import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { Header, Segment } from 'semantic-ui-react';
-import { Divider } from '@material-ui/core';
 
 import { store } from "./redux/store";
 import { routesConfig } from "./config/URLs-conf";
@@ -10,17 +9,14 @@ import "./App.css";
 // import "./assets/bootstrap-slate.css";
 import Menu from "./components/MenuBar";
 import Accueil from "./components/Accueil";
-import Test from './Test';
 
 export default function App() {
 
   const msgBienvenue = (
     <div>
-      <h5>
         <p>Bienvenue dans Pain Control Pro</p>
         <p>L'application qu'il vous faut pour gérer la douleur de vos patients</p>
-        <p>Cliquez sur le menu en haut à gauche pour sélectionner votre choix</p>
-      </h5>
+        <p>Cliquez sur le menu en haut à gauche et sélectionnez votre choix</p>
     </div>
   )
 
@@ -34,13 +30,13 @@ export default function App() {
         <Menu />
 
         <Header as="h2" color="grey" textAlign="center" inverted dividing style={{
-          margin: 0, paddingTop: '20px', paddingBottom: '10px', position: 'fixed', top: 0, left: 0, 
-          zIndex: 900, background: 'rgb(35, 55, 60)', minWidth: '100%'
+          margin: 0, paddingTop: '1.5rem', paddingBottom: '1.5rem', position: 'fixed', top: 0, left: 0, 
+          zIndex: 900, background: 'rgb(0, 0, 0)', minWidth: '100%'
         }}>
           <span> Pain Control Pro </span>
         </Header>
 
-        <Segment className='center' style={{ top: '60px' }}>
+        <Segment className='center' style={{ top: '6rem', height: '900px', overflow: 'auto' }}>
 
           <Route exact path='/' render={props => <Accueil {...props} message={msgBienvenue} />} />
           
@@ -48,10 +44,8 @@ export default function App() {
             config => (<Route exact {...config} />)            
           )}
 
-          <Divider/>
           {/* 
            <Test className='infosBase'>
-
           </Test>  */}
 
         </Segment>
