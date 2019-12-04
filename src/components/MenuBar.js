@@ -1,7 +1,7 @@
 import React from "react";
 import { slide as Menu } from 'react-burger-menu'
 
-import { getRoutePath, routes } from "../config/URLs-conf";
+import { getRoutePath, routes } from "../services/routeService";
 import './MenuBar.css'
 
 

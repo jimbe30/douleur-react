@@ -5,12 +5,6 @@ import FicheDouleurService from "../ordonnance/FicheDouleurService"
 import PrescriptionService from "../ordonnance/PrescriptionService"
 import OrdonnanceService from "../ordonnance/OrdonnanceService";
 
-export const apiURLs = {
-    arborescenceDouleurs: '/douleurs/arborescence',
-    ficheDouleur: idDouleur => '/douleurs/' + idDouleur,
-    nouvelleOrdonnance: '/ordonnances/nouvelle',
-}
-
 const basePath = '/clientApp'
 
 export const routes = {

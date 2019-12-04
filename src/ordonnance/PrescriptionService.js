@@ -5,7 +5,7 @@ import React, { Component, Fragment } from 'react'
 import PrescriptionForm from "./PrescriptionForm";
 import FicheDouleurComponent from './FicheDouleurComponent';
 import { dataTypes, setPrescriptionSaisie, setPrescriptionFormValues } from '../redux/OrdonnanceActions';
-import { goToRoute, routes } from '../config/URLs-conf';
+import { goToRoute, routes } from '../services/routeService';
 
 /**
  * La fonction mapStateToProps renvoie un objet provenant du state. 
