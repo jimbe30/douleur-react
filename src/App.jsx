@@ -4,11 +4,12 @@ import { Provider } from 'react-redux'
 import { Header, Segment } from 'semantic-ui-react';
 
 import { store } from "./redux/store";
-import { routesConfig } from "./config/URLs-conf";
+import { routesConfig } from "./services/routeService";
 import "./App.css";
 // import "./assets/bootstrap-slate.css";
 import Menu from "./components/MenuBar";
 import Accueil from "./components/Accueil";
+import Test from './Test';
 
 export default function App() {
 
@@ -44,9 +45,9 @@ export default function App() {
             config => (<Route exact {...config} />)            
           )}
 
-          {/* 
-           <Test className='infosBase'>
-          </Test>  */}
+          
+           {/* <Test className='infosBase'>
+          </Test>   */}
 
         </Segment>
 

@@ -7,7 +7,7 @@ import { setArborescence, dataTypes } from "../redux/OrdonnanceActions";
 import ArborescenceComponent from "./ArborescenceComponent";
 import React, { Component } from 'react'
 import { Message } from 'semantic-ui-react';
-import { routes, goToRoute } from '../config/URLs-conf';
+import { routes, goToRoute } from '../services/routeService';
 import LoadComponent from '../components/LoadComponent';
 
 /**
@@ -34,7 +34,7 @@ class Arborescence extends Component {
     }
 
     render() {
-        return <LoadComponent loadedObj={this.props.nomenclatures}>
+        return <LoadComponent loadedObject={this.props.nomenclatures}>
             <div>
                 <Message info>Choisissez le type de douleur concernée dans l'arborescence ci-dessous</Message>
                 <ArborescenceComponent {...this.props} handleClickDouleur={this.handleClickDouleur}/>

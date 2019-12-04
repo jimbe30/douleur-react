@@ -4,16 +4,37 @@ import { Loader, Message } from 'semantic-ui-react'
 
 const LoadComponent = function (props) {
 
-  const { loadedObj, renderer, children } = props
-  const loader = <Loader active style={{ top: '30%' }}>Chargement en cours ... veuillez patienter</Loader>
-  const error = errorMessage => <Message error>{errorMessage}</Message>
+  const { loadedObject, render, children, ...rest } = props
 
-  if (!loadedObj) {
+  const loader = <Loader active style={{ top: '30%' }}>Chargement en cours ... veuillez patienter</Loader>
+  const error = errorMessage => errors([errorMessage])
+  const errors = errorList => {
+    if (Array.isArray(errorList)) {
+      return <Message error {...rest}>{
+        errorList.map(
+          (error, index) => {
+            let key = index, message = error
+            if (error.key) {
+              key = error.key
+            }
+            if (error.message) {
+              message = (error.key ? error.key + ': ' : index + '. ') + error.message
+            }
+            return <div key={key}>{message}</div>
+          }
+        )}
+      </Message>
+    }
+  }
+
+  if (!loadedObject) {
     return loader
-  } else if (loadedObj.error) {
-    return error(loadedObj.error)
-  } else if (renderer) {
-    return renderer
+  } else if (loadedObject.error) {
+    return error(loadedObject.error)
+  } else if (loadedObject.errors) {
+    return errors(loadedObject.errors)
+  } else if (render) {
+    return render
   } else if (children) {
     return children
   } else {

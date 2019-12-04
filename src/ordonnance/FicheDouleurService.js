@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 
 import { setPreconisations, setPrescriptionChoisie, dataTypes } from "../redux/OrdonnanceActions";
 import FicheDouleurComponent from "./FicheDouleurComponent";
-import { goToRoute, routes } from '../config/URLs-conf';
+import { goToRoute, routes } from '../services/routeService';
 import LoadComponent from '../components/LoadComponent';
 
 const mapStateToProps = appState => ({
@@ -36,7 +36,7 @@ class FicheDouleur extends Component {
 
     render() {
         return (
-            <LoadComponent loadedObj={this.props.prescriptions}>
+            <LoadComponent loadedObject={this.props.prescriptions}>
                 <FicheDouleurComponent clickOrdonnance={this.clickPrescription} prescriptions={this.props.prescriptions} />               
             </LoadComponent>
         )

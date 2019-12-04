@@ -17,3 +17,34 @@ Couleur image svg
 	lien pour convertir couleur hexa en filtre css -> https://codepen.io/sosuke/pen/Pjoqqp
 	css ->	content: url("./assets/pain-ico.svg");
 			filter: invert(24%) sepia(56%) saturate(6686%) hue-rotate(346deg) brightness(87%) contrast(123%);
+			
+
+
+/**************                      REACT                      **************/
+
+* Contexte : 
+	- pourquoi	=> passer implicitement des props globales à travers l'arborescence de composants
+	- exemple	=> react-router passe la prop 'history' à tous les composants enfants
+	- usage		=> 
+		const Context = React.createContext(// valeur par défaut)
+		<Context.Provider value={this.state.xxx}>
+          <NestedComponents ... />
+        </Context.Provider>
+		class NestedComponent {
+			static contextType = Context
+			this.valeurContexte = this.context 
+		}
+* HOC : 
+	- pourquoi	=> ajouter un comportement global à un ensemble de composants sans modifier leur manière de faire le rendu
+	- exemple	=> fonction connect() de react-redux qui branche un composant sur le store 
+				   et raffraichit le rendu avec les nouvelles props quand le state change
+
+* refs : 
+	- pourquoi	=> accéder aux nœuds du DOM ou éléments React créés dans la méthode de rendu
+	- exemple	=> gérer le focus, la sélection du texte, ou s’interfacer avec des bibliothèques DOM tierces (jQuery).		   
+	- usage		=> dans une classe
+		let textInput = React.createRef();
+		textInput.current.focus();
+		<input type="text" ref={this.textInput} />
+		
+	
