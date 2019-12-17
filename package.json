@@ -10,6 +10,7 @@
     "babel-preset-react-app": "^3.1.2",
     "bootstrap": "^4.3.1",
     "lodash.shuffle": "^4.2.0",
+    "popper.js": "^1.15.0",
     "react": "^16.8.6",
     "react-burger-menu": "^2.6.10",
     "react-dom": "^16.8.6",

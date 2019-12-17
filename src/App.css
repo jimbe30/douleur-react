@@ -18,6 +18,10 @@ body {
     margin-left: auto;
 }
 
+*.error {
+    color: #c5321a;
+}
+
 .infosBase, .infosBase::before, .infosBase::after, *.infosBase {
     font-family: 'Trebuchet MS', 'Calibri', 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
     font-size: 1rem;

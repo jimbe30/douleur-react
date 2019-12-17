@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
-import { Message, Divider, Header, Button } from 'semantic-ui-react'
+import { Message, Divider, Header, Button} from 'semantic-ui-react'
+import { Grid } from "@material-ui/core";
 
 /**
  * Si une prescription a été choisie on n'affiche que celle ci avec un message approprié
@@ -46,7 +47,6 @@ export default function FicheDouleurComponent(props) {
   }
   messageInfo = messageInfo()
 
-
   let messageRecommandation = (
     !prescriptionChoisie && douleur.recommandations && douleur.recommandations.length > 0 ?
       <Message warning className='infosBase'>
@@ -56,7 +56,6 @@ export default function FicheDouleurComponent(props) {
   )
 
   const renderListePrescriptions = () => {
-
     if (prescriptionChoisie) {
       return (
         <Fragment>
@@ -64,16 +63,11 @@ export default function FicheDouleurComponent(props) {
           <Divider />
         </Fragment>
       )
-    }
-    else if (nbPreco > 0) {
+    } else if (nbPreco > 0) {
       return prescriptions.map(
         (prescription, index) => (
           <Fragment>
-             <Button size='tiny' primary onClick={() => clickOrdonnance(index)}>
-                Ordonnance {index + 1}
-             </Button>
-           
-            {renderPrescription(prescription)}
+            {renderPrescription(prescription, index)}
             <Divider />
           </Fragment>
         )
@@ -81,7 +75,7 @@ export default function FicheDouleurComponent(props) {
     }
   }
 
-  const renderPrescription = (prescription) => {
+  const renderPrescription = (prescription, index) => {
     const formatTexte = description => {
       let lignes = description.split(' ; ')
       return lignes.map(
@@ -89,22 +83,40 @@ export default function FicheDouleurComponent(props) {
       )
     }
     if (prescription.medicamentsPreconises.length > 0) {
-      return (
-        <div className='infosBase'> {
-          prescription.medicamentsPreconises.map(
-            preconisation => <p>{formatTexte(preconisation.description)}</p>
-          )
-        }</div>)
+      if (index !== undefined) {
+        // const gridStyle = {width: 'auto', padding: '0.2rem 0.5rem'}
+        return (
+          <div className='infosBase'>
+            <Grid container justify='flex-start' direction='row' alignItems='center' spacing={2} >
+              <Grid item>
+                <Button size='tiny' primary onClick={() => clickOrdonnance(index)}>
+                  Ordonnance {index + 1}
+                </Button>
+              </Grid>
+              <Grid item>   {
+                prescription.medicamentsPreconises.map(
+                  preconisation => <p>{formatTexte(preconisation.description)}</p>)}
+              </Grid>
+            </Grid>
+          </div>
+        )
+      } else {
+        return (
+          <div className='infosBase'>   {
+            prescription.medicamentsPreconises.map(
+              preconisation => <p>{formatTexte(preconisation.description)}</p>)}
+          </div>
+        )
+      }
     }
   }
 
   return (
     <div>
       <h3>{douleur.libelle}</h3>
-      {messageInfo}         
+      {messageInfo}
       {renderListePrescriptions()}
-      {messageRecommandation}   
-    </div>
-  )
-}
+      {messageRecommandation}
+    </div>  )
 
+}

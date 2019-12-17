@@ -1,18 +1,23 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from "react-redux"
-import { reduxForm } from "redux-form";
 import { Message, Divider, Header, Label } from 'semantic-ui-react'
 
-import { dataTypes, setOrdonnanceEmise } from '../redux/OrdonnanceActions'
+import { dataTypes, setOrdonnanceEmise } from './OrdonnanceActions'
 import { recapitulerPrescription } from './PrescriptionService'
 import OrdonnanceForm from './OrdonnanceForm';
+import handleForm from '../HOC/formHandler';
+import { formNames } from '../redux/FormActions'
 
-const mapStateToProps = state => ({
-    prescriptionSaisie: state.ordonnance[dataTypes.PRESCRIPTION_SAISIE],
-    infosPatient: state.form.infosPatient ? state.form.infosPatient.values : null,
-    libelleDouleur: state.ordonnance[dataTypes.PRESCRIPTION_CHOISIE] ? 
+const FORM_NAME = formNames.INFOS_PATIENT_FORM
+
+const mapStateToProps = state => {
+    const prescriptionSaisie = state.ordonnance[dataTypes.PRESCRIPTION_SAISIE]
+    const libelleDouleur = state.ordonnance[dataTypes.PRESCRIPTION_CHOISIE] ?    
         state.ordonnance[dataTypes.PRESCRIPTION_CHOISIE].nomenclatureDouleur.libelle : ''
-})
+    return {
+        prescriptionSaisie, libelleDouleur
+    }
+}
 
 class OrdonnanceService extends Component {
 
@@ -21,33 +26,34 @@ class OrdonnanceService extends Component {
         this.submitOrdonnance.bind(this)
     }
 
-    submitOrdonnance = infosPatient => {
+    submitOrdonnance = (infosPatient, event) => {
         let ordonnance = {
             infosPatient,
-            prescription : this.props.prescriptionSaisie
+            prescription: this.props.prescriptionSaisie
         }
-        setOrdonnanceEmise(ordonnance)
-        console.log(JSON.stringify(ordonnance))
+        setOrdonnanceEmise(ordonnance, this.props.history)
+        event.preventDefault()
     }
 
     render() {
         const prescription = this.props.prescriptionSaisie
+        const infosPatient = this.props[FORM_NAME]
         return (
             prescription ?
                 <Fragment>
                     <h3>{this.props.libelleDouleur}</h3>
-                    <OrdonnanceForm onSubmit={() => this.submitOrdonnance(this.props.infosPatient)} {...this.props} />
+                    <OrdonnanceForm onSubmit={(event) => this.submitOrdonnance(infosPatient, event)} {...this.props} />
                     <p></p>
 
                     <Message>
 
                         <Divider horizontal fitted><Header as='h5'>Votre ordonnance</Header></Divider>
-                        
-                        {this.props.infosPatient && (
+
+                        {infosPatient && (
                             <Fragment>
                                 <Label>Patient</Label>
                                 <div style={{ margin: '20px 10px' }}>
-                                    {recapitulerInfosPatient(this.props.infosPatient)}
+                                    {recapitulerInfosPatient(infosPatient)}
                                 </div>
                             </Fragment>
                         )}
@@ -93,8 +99,6 @@ export const recapitulerInfosPatient = (infosPatient) => {
     return null
 }
 
-OrdonnanceService = reduxForm({
-    form: "infosPatient",
-})(OrdonnanceService);
+OrdonnanceService = handleForm(OrdonnanceService, FORM_NAME)
 
 export default connect(mapStateToProps)(OrdonnanceService)

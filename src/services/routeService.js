@@ -29,7 +29,7 @@ export const getRoutePath = (route, pathParams) => (
 )
 
 export const goToRoute = props => {
-    let { history } = props 
+    let { history } = props    
     if (!history) {
         history = props
     }

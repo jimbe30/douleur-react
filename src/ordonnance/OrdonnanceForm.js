@@ -1,6 +1,6 @@
 import React from "react";
 import { Field } from "redux-form";
-import { Form, Message } from "semantic-ui-react";
+import { Form, Message, Popup } from "semantic-ui-react";
 import { Grid } from "@material-ui/core";
 
 import * as formAdapter from "../redux/reduxFormAdapter";
@@ -9,11 +9,23 @@ export default class OrdonnanceForm extends React.Component {
 
   render() {
 
+    let dateError = this.props.infosPatient['error.dateNaissance']
+    let dateField = <div>
+                      <Field component={Form.Input} label="Date naissance" error={dateError !== undefined}
+                          name='dateNaissance' placeholder="jj/mm/aaaa" required />
+                    </div>
+
+    if (dateError) {
+      dateField = <Popup open trigger={dateField} size='tiny' mouseLeaveDelay={1000} on='click'>
+                    <Popup.Content>
+                      <div className='error'>{dateError}</div>
+                    </Popup.Content>
+                  </Popup>
+    }
+
     return (
       <Form size='small' onSubmit={this.props.onSubmit}>
-
         <Message info>Veuillez renseigner les informations du patient dans le formulaire ci-dessous</Message>
-
         <Grid container spacing={1}>
           <Grid item xs={3}>
             <Field component={Form.Input} label="Nom de famille" name='nomPatient' placeholder="Nom obligatoire" required />
@@ -25,12 +37,13 @@ export default class OrdonnanceForm extends React.Component {
             <Field component={Form.Input} label="Prénom" name='prenomPatient' placeholder="Prénom" required />
           </Grid>
           <Grid item xs={3}>
-            <Field component={Form.Input} label="Date naissance" name='dateNaissance' placeholder="jj/mm/aaaa" required />
+            {dateField}
+            {/* <Field component={Form.Input} label="Date naissance" name='dateNaissance' placeholder="jj/mm/aaaa" required /> */}
           </Grid>
           <Grid item xs={4}>
             <Field component={Form.Input} label="N° immatriculation" name='insee' placeholder="n° sur 13 car" required />
           </Grid>
-          <Grid item xs={6}>       
+          <Grid item xs={6}>
             <div className='field'><label>Sexe</label></div>
             <Form.Group inline>
               <Field
@@ -48,16 +61,13 @@ export default class OrdonnanceForm extends React.Component {
                 radioValue='F'
               />
             </Form.Group>
-
           </Grid>
-
         </Grid>
         <p></p>
         <Form.Group inline>
           <Form.Button type='submit' primary>Editer l'ordonnance</Form.Button>
           <Form.Button onClick={this.props.reset}>Annuler</Form.Button>
         </Form.Group>
-
       </Form>
     )
   }

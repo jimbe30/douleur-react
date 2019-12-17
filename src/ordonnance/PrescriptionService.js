@@ -1,20 +1,18 @@
 import { connect } from 'react-redux'
-import { reduxForm } from "redux-form";
 import React, { Component, Fragment } from 'react'
 
 import PrescriptionForm from "./PrescriptionForm";
 import FicheDouleurComponent from './FicheDouleurComponent';
-import { dataTypes, setPrescriptionSaisie, setPrescriptionFormValues } from '../redux/OrdonnanceActions';
+import { dataTypes, setPrescriptionSaisie } from './OrdonnanceActions';
 import { goToRoute, routes } from '../services/routeService';
+import handleForm from '../HOC/formHandler';
+import { formNames } from '../redux/FormActions';
 
-/**
- * La fonction mapStateToProps renvoie un objet provenant du state. 
- * L'objet renvoyé est passé en props du composant connecté
- */
+
+const FORM_NAME = formNames.PRESCRIPTION_FORM
+
 const mapStateToProps = state => ({
     prescriptionChoisie: state.ordonnance[dataTypes.PRESCRIPTION_CHOISIE],
-    formValues: state.form.prescription ? state.form.prescription.values : {},
-    initialValues : state.ordonnance[dataTypes.PRESCRIPTION_FORM_VALUES],
 })
 
 class PrescriptionService extends Component {
@@ -27,7 +25,6 @@ class PrescriptionService extends Component {
     submitPrescription = prescriptionSaisie => {  
         // sauvegarde les valeurs saisies pour les réinjecter en initialValues
         // lorsqu'on revient sur le formulaire
-        setPrescriptionFormValues(this.props.formValues)  
         setPrescriptionSaisie(prescriptionSaisie)
         goToRoute(this.props)(routes.FORMULAIRE_ORDONNANCE)
     }
@@ -41,7 +38,7 @@ class PrescriptionService extends Component {
                     <PrescriptionForm
                         onSubmit={this.submitPrescription}
                         prescription={this.props.prescriptionChoisie}
-                        {...this.props.formValues}
+                        {...this.props[FORM_NAME]}
                         recapPrescription={recapitulerPrescription}
                     />
                 }
@@ -76,12 +73,11 @@ export const recapitulerPrescription = (prescription) => {
     return null
 }
 
-PrescriptionService = reduxForm({
-    form: "prescription", 
-})(PrescriptionService);
-
 /**
- * La méthode connect() relie le store au composant cible.
- * Elle prend en paramètre la fonction "mapStateToProps", laquelle prend elle-même en paramètre le state du store.
+ * La fonction handleForm() est un HOC qui passe au composant la prop de nom FORM_NAME, 
+ * elle-même contient les valeurs des champs du formulaire (via les HOC connect() et reduxForm()).
+ * Un état du même nom (préfixé par le domaine appForms) est alimenté dans le store redux
  */
+PrescriptionService = handleForm(PrescriptionService, FORM_NAME)
+
 export default connect(mapStateToProps)(PrescriptionService)
