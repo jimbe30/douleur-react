@@ -1,47 +1,36 @@
 import React from "react";
 import { Field } from "redux-form";
-import { Form, Message, Popup } from "semantic-ui-react";
+import { Form, Message } from "semantic-ui-react";
 import { Grid } from "@material-ui/core";
 
 import * as formAdapter from "../redux/reduxFormAdapter";
+import FormInput from "../utils-components/FormInput";
+import { formNames } from "../redux/FormActions";
 
-export default class OrdonnanceForm extends React.Component {
+export default class OrdonnanceForm extends React.Component {	
 
   render() {
 
-    let dateError = this.props.infosPatient['error.dateNaissance']
-    let dateField = <div>
-                      <Field component={Form.Input} label="Date naissance" error={dateError !== undefined}
-                          name='dateNaissance' placeholder="jj/mm/aaaa" required />
-                    </div>
-
-    if (dateError) {
-      dateField = <Popup open trigger={dateField} size='tiny' mouseLeaveDelay={1000} on='click'>
-                    <Popup.Content>
-                      <div className='error'>{dateError}</div>
-                    </Popup.Content>
-                  </Popup>
-    }
+		const form = this.props[formNames.INFOS_PATIENT_FORM];
 
     return (
-      <Form size='small' onSubmit={this.props.onSubmit}>
+      <Form size='small' onSubmit={(event) => this.props.onSubmit(form, event)}>
         <Message info>Veuillez renseigner les informations du patient dans le formulaire ci-dessous</Message>
         <Grid container spacing={1}>
           <Grid item xs={3}>
-            <Field component={Form.Input} label="Nom de famille" name='nomPatient' placeholder="Nom obligatoire" required />
+            <FormInput form={form} label="Nom de famille" name='nomPatient' placeholder="Nom obligatoire" required />
           </Grid>
           <Grid item xs={3}>
-            <Field component={Form.Input} label="Nom usuel" name='nomUsuPatient' placeholder="Facultatif" />
+            <FormInput form={form} label="Nom usuel" name='nomUsuPatient' placeholder="Facultatif" />
           </Grid>
           <Grid item xs={3}>
-            <Field component={Form.Input} label="Prénom" name='prenomPatient' placeholder="Prénom" required />
+            <FormInput form={form} label="Prénom" name='prenomPatient' placeholder="Prénom" required />
           </Grid>
           <Grid item xs={3}>
-            {dateField}
-            {/* <Field component={Form.Input} label="Date naissance" name='dateNaissance' placeholder="jj/mm/aaaa" required /> */}
+						<FormInput form={form} name='dateNaissance' placeholder="jj/mm/aaaa" label="Date naissance" required />
           </Grid>
           <Grid item xs={4}>
-            <Field component={Form.Input} label="N° immatriculation" name='insee' placeholder="n° sur 13 car" required />
+            <FormInput form={form} label="N° immatriculation" name='insee' placeholder="n° sur 13 car" required />
           </Grid>
           <Grid item xs={6}>
             <div className='field'><label>Sexe</label></div>
@@ -66,7 +55,7 @@ export default class OrdonnanceForm extends React.Component {
         <p></p>
         <Form.Group inline>
           <Form.Button type='submit' primary>Editer l'ordonnance</Form.Button>
-          <Form.Button onClick={this.props.reset}>Annuler</Form.Button>
+          <Form.Button type='reset'>Annuler</Form.Button>
         </Form.Group>
       </Form>
     )

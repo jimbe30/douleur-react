@@ -4,11 +4,16 @@ import { setFormValues, formNames, setFormErrors, resetFormErrors } from "../red
 import { goToRoute, routes } from "../services/routeService";
 
 export const dataTypes = {
+	INFOS_TEST: 'INFOS_TEST',
   ARBORESCENCE: 'ARBORESCENCE',
   PRESCRIPTIONS: 'PRESCRIPTIONS',
   PRESCRIPTION_CHOISIE: 'PRESCRIPTION_CHOISIE',
   PRESCRIPTION_SAISIE: 'PRESCRIPTION_SAISIE',
   ORDONNANCE_EMISE: 'ORDONNANCE_EMISE'
+}
+
+export async function setInfosTest(infos) {
+  dispatchData(dataTypes.INFOS_TEST, infos);
 }
 
 export async function setArborescence() {

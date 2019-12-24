@@ -1,6 +1,7 @@
 import dispatchData, { getState } from "./store";
 
 export const formNames = {
+	TEST_FORM: 'testForm',
   PRESCRIPTION_FORM: 'prescriptionForm',
   INFOS_PATIENT_FORM: 'infosPatient',
 }

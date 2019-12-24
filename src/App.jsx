@@ -46,8 +46,8 @@ export default function App() {
           )}
 
           
-           {/* <Test className='infosBase'>
-          </Test>   */}
+           <Test className='infosBase'>
+          </Test>  
 
         </Segment>
 

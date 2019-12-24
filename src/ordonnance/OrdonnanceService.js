@@ -5,100 +5,100 @@ import { Message, Divider, Header, Label } from 'semantic-ui-react'
 import { dataTypes, setOrdonnanceEmise } from './OrdonnanceActions'
 import { recapitulerPrescription } from './PrescriptionService'
 import OrdonnanceForm from './OrdonnanceForm';
-import handleForm from '../HOC/formHandler';
 import { formNames } from '../redux/FormActions'
+import {handleForm} from '../hoc/FormHandler'
 
 const FORM_NAME = formNames.INFOS_PATIENT_FORM
 
 const mapStateToProps = state => {
-    const prescriptionSaisie = state.ordonnance[dataTypes.PRESCRIPTION_SAISIE]
-    const libelleDouleur = state.ordonnance[dataTypes.PRESCRIPTION_CHOISIE] ?    
-        state.ordonnance[dataTypes.PRESCRIPTION_CHOISIE].nomenclatureDouleur.libelle : ''
-    return {
-        prescriptionSaisie, libelleDouleur
-    }
+	const prescriptionSaisie = state.ordonnance[dataTypes.PRESCRIPTION_SAISIE]
+	const libelleDouleur = state.ordonnance[dataTypes.PRESCRIPTION_CHOISIE] ?
+		state.ordonnance[dataTypes.PRESCRIPTION_CHOISIE].nomenclatureDouleur.libelle : ''
+	return {
+		prescriptionSaisie, libelleDouleur,
+	}
 }
+
 
 class OrdonnanceService extends Component {
 
-    constructor(props) {
-        super(props)
-        this.submitOrdonnance.bind(this)
-    }
+	constructor(props) {
+		super(props)
+		this.submitOrdonnance.bind(this)
+	}
 
-    submitOrdonnance = (infosPatient, event) => {
-        let ordonnance = {
-            infosPatient,
-            prescription: this.props.prescriptionSaisie
-        }
-        setOrdonnanceEmise(ordonnance, this.props.history)
-        event.preventDefault()
-    }
+	submitOrdonnance = (infosPatient, event) => {
+		let ordonnance = {
+			infosPatient,
+			prescription: this.props.prescriptionSaisie
+		}
+		setOrdonnanceEmise(ordonnance, this.props.history)
+		event.preventDefault()
+	}
 
-    render() {
-        const prescription = this.props.prescriptionSaisie
-        const infosPatient = this.props[FORM_NAME]
-        return (
-            prescription ?
-                <Fragment>
-                    <h3>{this.props.libelleDouleur}</h3>
-                    <OrdonnanceForm onSubmit={(event) => this.submitOrdonnance(infosPatient, event)} {...this.props} />
-                    <p></p>
+	render() {
+		const prescription = this.props.prescriptionSaisie
+		const infosPatient = this.props[FORM_NAME]
+		return (
+			prescription ?
+				<Fragment>
+					<h3>{this.props.libelleDouleur}</h3>
+					<OrdonnanceForm onSubmit={this.submitOrdonnance}	{...this.props} />
+					<p></p>
 
-                    <Message>
+					<Message>
 
-                        <Divider horizontal fitted><Header as='h5'>Votre ordonnance</Header></Divider>
+						<Divider horizontal fitted><Header as='h5'>Votre ordonnance</Header></Divider>
 
-                        {infosPatient && (
-                            <Fragment>
-                                <Label>Patient</Label>
-                                <div style={{ margin: '20px 10px' }}>
-                                    {recapitulerInfosPatient(infosPatient)}
-                                </div>
-                            </Fragment>
-                        )}
+						{infosPatient && (
+							<Fragment>
+								<Label>Patient</Label>
+								<div style={{ margin: '20px 10px' }}>
+									{recapitulerInfosPatient(infosPatient)}
+								</div>
+							</Fragment>
+						)}
 
-                        <Label>Prescription</Label>
-                        <div style={{ margin: '20px 10px' }}>
-                            {recapitulerPrescription(prescription)}
-                            {
-                                prescription.recommandations &&
-                                <p> <b> Recommandations </b>
-                                    <div className='infosBase'>{prescription.recommandations}</div>
-                                </p>
-                            }
-                        </div>
+						<Label>Prescription</Label>
+						<div style={{ margin: '20px 10px' }}>
+							{recapitulerPrescription(prescription)}
+							{
+								prescription.recommandations &&
+								<p> <b> Recommandations </b>
+									<div className='infosBase'>{prescription.recommandations}</div>
+								</p>
+							}
+						</div>
 
-                    </Message>
-                </Fragment>
-                :
-                <Message error> Erreur : Aucune prescription saisie !!! </Message>
-        )
-    }
+					</Message>
+				</Fragment>
+				:
+				<Message error> Erreur : Aucune prescription saisie !!! </Message>
+		)
+	}
 }
 
 export const recapitulerInfosPatient = (infosPatient) => {
-    if (infosPatient) {
-        return (
-            <div> {
-                Object.keys(infosPatient).map(
-                    key => {
-                        switch (key) {
-                            case 'nomPatient': return infosPatient[key]
-                            case 'dateNaissance': return ' - né(e) le ' + infosPatient[key]
-                            case 'insee': return <p>n° immatriculation {infosPatient[key]}</p>
-                            case 'sexe': return ''
-                            default: return ' - ' + infosPatient[key]
-                        }
-                    }
-                )
-            } </div>
-        )
+	if (infosPatient) {
+		return (
+			<div> {
+				Object.keys(infosPatient).map(
+					key => {
+						switch (key) {
+							case 'nomPatient': return infosPatient[key]
+							case 'dateNaissance': return ' - né(e) le ' + infosPatient[key]
+							case 'insee': return <p>n° immatriculation {infosPatient[key]}</p>							
+							case 'nomUsuPatient': return ' - ' + infosPatient[key]
+							case 'prenomPatient': return ' - ' + infosPatient[key]
+							default: return ''
+						}
+					}
+				)
+			} </div>
+		)
 
-    }
-    return null
+	}
+	return null
 }
 
-OrdonnanceService = handleForm(OrdonnanceService, FORM_NAME)
-
-export default connect(mapStateToProps)(OrdonnanceService)
+export default connect(mapStateToProps)(handleForm(OrdonnanceService, FORM_NAME))

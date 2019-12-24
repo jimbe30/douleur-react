@@ -1,87 +1,68 @@
-import React, { Fragment } from 'react';
-import { Grid, TextField, Button } from '@material-ui/core';
+import React, { Component } from 'react';
+import { Grid } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab'
-import { Segment } from 'semantic-ui-react';
+import FormHandler from './hoc/FormHandler';
+import { formNames } from './redux/FormActions'
 
 
-///////////////////////////////////////////////////////////
+export default class Test extends Component {
 
-/**
- *    ====>    Contexte React pour propager implicitement des valeurs dans l'arborescence 
- */
+	tableau = [
+		{ nom: 'TPO' },
+		{ nom: 'GDC' },
+		{ nom: 'SUIVI AMC' },
+		{ nom: 'esope' },
+	]
 
-const themes = {
-    light: {
-        foreground: '#000000',
-        background: '#eeeeee',
-    },
-    dark: {
-        foreground: '#ffffff',
-        background: '#222222',
-    },
-};
 
-const ThemeContext = React.createContext(
-    themes.dark // valeur par défaut
-)
+	render() {
 
-class ThemedButton extends React.Component {
+		return ''
 
-    contextType = ThemeContext
-    render() {
-        let props = this.props;
-        let theme = this.context;
-        return (
-            <button
-                {...props}
-                style={{ backgroundColor: theme.background }}
-            />
-        );
-    }
+		// return <ActiveItemHandler
+		// 	render={ ({handleClickIndex, activeIndex, component, index}) =>
+		// 		<div key={index} onClick={(event) => handleClickIndex(index)} className={index === activeIndex ? 'active' : 'inactive'}>
+		// 			{component.nom}
+		// 		</div>
+		// 	}
+		// 	nestedComponents={this.tableau}
+		// />
+
+
+	}
+
 }
 
+class ActiveItemHandler extends React.Component {
 
-// Un composant intermédiaire qui utilise ThemedButton
-function Toolbar(props) {
-    return (
-        <ThemedButton onClick={props.changeTheme}>
-            Changer le thème
-    </ThemedButton>
-    );
-}
+	constructor(props) {
+		super(props)
+		this.handleClickIndex = this.handleClickIndex.bind(this)
+		this.state = {
+			activeIndex: -1
+		}
+	}
 
-export default class Test extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            theme: themes.light,
-        };
+	handleClickIndex = (index) => {
+		let currentActive = this.state.activeIndex
+		if (currentActive === index) {
+			currentActive = -1
+		} else {
+			currentActive = index
+		}
+		this.setState({ activeIndex: currentActive })
+	}
 
-        this.toggleTheme = () => {
-            this.setState(state => ({
-                theme:
-                    state.theme === themes.dark
-                        ? themes.light
-                        : themes.dark,
-            }));
-        };
-    }
-
-    render() {
-        // Le bouton ThemedButton à l'intérieur du ThemeProvider
-        // utilise le thème de l’état local tandis que celui à l'extérieur
-        // utilise le thème dark par défaut
-        return (
-            <Segment>
-                <ThemeContext.Provider value={this.state.theme}>
-                    <Toolbar changeTheme={this.toggleTheme} />
-                </ThemeContext.Provider>
-                <section>
-                    <ThemedButton />
-                </section>
-            </Segment>
-        );
-    }
+	render() {
+		const { render, nestedComponents } = this.props
+		if (Array.isArray(nestedComponents)) {
+			return nestedComponents.map((component, index) => {
+				return render({ handleClickIndex: this.handleClickIndex, ...this.state, component, index })
+			})
+		} else {
+			return render({ handleClickIndex: this.handleClickIndex, ...this.state, component: nestedComponents, index: 0 })
+		}
+	}
 }
 
 
