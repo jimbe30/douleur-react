@@ -1,11 +1,8 @@
-import React, { Component } from 'react';
-import { Grid } from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab'
-import FormHandler from './hoc/FormHandler';
-import { formNames } from './redux/FormActions'
+import React from 'react';
 
 
-export default class Test extends Component {
+
+export default class Test extends React.Component {
 
 	tableau = [
 		{ nom: 'TPO' },
@@ -18,52 +15,12 @@ export default class Test extends Component {
 	render() {
 
 		return ''
-
-		// return <ActiveItemHandler
-		// 	render={ ({handleClickIndex, activeIndex, component, index}) =>
-		// 		<div key={index} onClick={(event) => handleClickIndex(index)} className={index === activeIndex ? 'active' : 'inactive'}>
-		// 			{component.nom}
-		// 		</div>
-		// 	}
-		// 	nestedComponents={this.tableau}
-		// />
-
+	
 
 	}
 
 }
 
-class ActiveItemHandler extends React.Component {
-
-	constructor(props) {
-		super(props)
-		this.handleClickIndex = this.handleClickIndex.bind(this)
-		this.state = {
-			activeIndex: -1
-		}
-	}
-
-	handleClickIndex = (index) => {
-		let currentActive = this.state.activeIndex
-		if (currentActive === index) {
-			currentActive = -1
-		} else {
-			currentActive = index
-		}
-		this.setState({ activeIndex: currentActive })
-	}
-
-	render() {
-		const { render, nestedComponents } = this.props
-		if (Array.isArray(nestedComponents)) {
-			return nestedComponents.map((component, index) => {
-				return render({ handleClickIndex: this.handleClickIndex, ...this.state, component, index })
-			})
-		} else {
-			return render({ handleClickIndex: this.handleClickIndex, ...this.state, component: nestedComponents, index: 0 })
-		}
-	}
-}
 
 
 

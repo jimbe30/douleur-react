@@ -56,7 +56,9 @@ export async function setOrdonnanceEmise(ordonnance, history) {
     if (isError === false) {
       const file = new Blob([result.data], { type: 'application/pdf' })
       const fileURL = URL.createObjectURL(file);
-      window.open(fileURL);
+			ordonnance.fileURL = fileURL
+
+			goToRoute(history)(routes.CONFIRMATION_ORDONNANCE)
       console.log('L\'ordonnance a bien été enregistrée')
     }
   } else {

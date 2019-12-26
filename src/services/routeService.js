@@ -4,6 +4,7 @@ import ArborescenceService from "../ordonnance/ArborescenceService"
 import FicheDouleurService from "../ordonnance/FicheDouleurService"
 import PrescriptionService from "../ordonnance/PrescriptionService"
 import OrdonnanceService from "../ordonnance/OrdonnanceService";
+import OrdonnanceConfirm from "../ordonnance/OrdonnanceConfirm";
 
 const basePath = '/clientApp'
 
@@ -12,6 +13,7 @@ export const routes = {
     FICHE_DOULEUR: 'ficheDouleur',
     FORMULAIRE_PRESCRIPTION: 'formulairePrescription',
     FORMULAIRE_ORDONNANCE: 'formulaireOrdonnance',
+		CONFIRMATION_ORDONNANCE: 'confirmationOrdonnance',
     HISTORIQUE: 'historique',
     LIENS: 'liens',
 }
@@ -21,6 +23,7 @@ export const routesConfig = [
     { key: routes.FICHE_DOULEUR, path: `${basePath}/douleurs/:idDouleur`, component: FicheDouleurService },
     { key: routes.FORMULAIRE_PRESCRIPTION, path: `${basePath}/prescriptionForm`, component: PrescriptionService },
     { key: routes.FORMULAIRE_ORDONNANCE, path: `${basePath}/ordonnanceForm`, component: OrdonnanceService },
+		{ key: routes.CONFIRMATION_ORDONNANCE, path: `${basePath}/ordonnanceConfirm`, component: OrdonnanceConfirm },
 ]
 
 export const getRoutePath = (route, pathParams) => (
