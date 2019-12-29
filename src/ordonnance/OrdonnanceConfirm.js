@@ -14,8 +14,8 @@ function OrdonnanceConfirm({ ordonnance, ...others }) {
 	return (
 		<LoadComponent loadedObject={ordonnance}>
 			{ordonnance && ordonnance.fileURL ?
-				<iframe title='ordonnance émise' src={ordonnance.fileURL} width="750" height="900">
-				</iframe>
+				<embed id='ordo' title='ordonnance émise' src={ordonnance.fileURL} type='application/pdf' width="750" height="900">
+				</embed>
 				:
 				<Message error>
 					Un problème est survenu : l'ordonnance n'a pas pu être émise. Veuillez recommencer ultérieurement
