@@ -7,6 +7,8 @@ export const apiURLs = {
 	ordonnanceEmise: idOrdonnance => '/ordonnances/emises/' + idOrdonnance,
 }
 
+export const backendURL = process.env.REACT_APP_BACKEND_URL
+
 const textMimeTypes = [
 	"application/javascript", "application/json", "application/xml",
 	'application/xhtml+xml', 'application/typescript', 'application/x-sh',

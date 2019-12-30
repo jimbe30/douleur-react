@@ -20,7 +20,7 @@ Couleur image svg
 			
 
 
-/**************                      REACT                      **************/
+/**************                             REACT                            **************/
 
 * Contexte : 
 	- pourquoi	=> passer implicitement des props globales à travers l'arborescence de composants
@@ -46,5 +46,18 @@ Couleur image svg
 		let textInput = React.createRef();
 		textInput.current.focus();
 		<input type="text" ref={this.textInput} />
-		
+
+
+/**************                      Variables d'environnement                     **************/
+
+Ex : pour l'environnement 'integration'
+	- Dans fichier .env.integration -> Référencer les variables sous la forme REACT_APP_xxx
+	- Dans package.json ->
+			"scripts": {
+					...
+					"build:integration": "env-cmd -f .env.integration npm run build"
+				},
+	- Au moment du build -> npm run build:integration
+	- Dans les programmes -> accès à la variable process.env.REACT_APP_xxx 
+	
 	

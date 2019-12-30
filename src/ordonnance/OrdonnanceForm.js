@@ -54,7 +54,7 @@ export default class OrdonnanceForm extends React.Component {
         </Grid>
         <p></p>
         <Form.Group inline>
-          <Form.Button type='submit' primary>Editer l'ordonnance</Form.Button>
+          <Form.Button type='submit' primary>Délivrer cette ordonnance</Form.Button>
           <Form.Button type='reset'>Annuler</Form.Button>
         </Form.Group>
       </Form>

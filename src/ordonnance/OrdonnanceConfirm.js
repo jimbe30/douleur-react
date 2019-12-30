@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Message } from 'semantic-ui-react'
+import { Message, Button, Icon } from 'semantic-ui-react'
 import LoadComponent from "../components/LoadComponent";
 import { dataTypes } from './OrdonnanceActions';
 
@@ -14,8 +14,16 @@ function OrdonnanceConfirm({ ordonnance, ...others }) {
 	return (
 		<LoadComponent loadedObject={ordonnance}>
 			{ordonnance && ordonnance.fileURL ?
-				<embed id='ordo' title='ordonnance émise' src={ordonnance.fileURL} type='application/pdf' width="750" height="900">
-				</embed>
+				<Message info>
+					<p>Votre ordonnance a bien été enregistrée.</p>
+					<p>Si elle ne s'affiche pas automatiquement, vous pouvez y accéder en cliquant le lien suivant</p>
+					<a id='ordo' title='ordonnance émise' href={ordonnance.fileURL} target='_blank' rel='noopener noreferrer'>
+						<Button primary icon labelPosition='left' size='small'>
+							<Icon name='file outline' />
+							Editer l'ordonnance
+						</Button>
+					</a>
+				</Message>
 				:
 				<Message error>
 					Un problème est survenu : l'ordonnance n'a pas pu être émise. Veuillez recommencer ultérieurement

@@ -1,5 +1,5 @@
 import dispatchData, { store } from "../redux/store";
-import { apiURLs as urls, getResultFromUrl, postObjectToUrl } from "../services/apiService";
+import { apiURLs as urls, getResultFromUrl, postObjectToUrl, backendURL } from "../services/apiService";
 import { setFormValues, formNames, setFormErrors, resetFormErrors } from "../redux/FormActions";
 import { goToRoute, routes } from "../services/routeService";
 
@@ -52,14 +52,8 @@ export async function setOrdonnanceEmise(ordonnance, history) {
 		} else {
 			const idOrdonnance = result.data
 			try {
-				let pdfOrdonnance = await getResultFromUrl(urls.ordonnanceEmise(idOrdonnance), { responseType: 'blob' })
-				pdfOrdonnance = new Blob([pdfOrdonnance.data], { type: 'application/pdf' })
-				if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-					window.navigator.msSaveOrOpenBlob(pdfOrdonnance);
-				}	else {
-					ordonnance.fileURL = URL.createObjectURL(pdfOrdonnance)
-					goToRoute(history)(routes.CONFIRMATION_ORDONNANCE)
-				}
+				ordonnance.fileURL = await getOrdonnanceEmise(idOrdonnance)
+				goToRoute(history)(routes.CONFIRMATION_ORDONNANCE)
 				console.log('L\'ordonnance a bien été enregistrée')
 			} catch (error) {
 				console.error(error)
@@ -70,6 +64,27 @@ export async function setOrdonnanceEmise(ordonnance, history) {
 	}
 	dispatchData(dataTypes.ORDONNANCE_EMISE, ordonnance)
 }
+
+export async function getOrdonnanceEmise(idOrdonnance) {
+	let fileURL
+	try {
+		let pdfOrdonnance = await getResultFromUrl(urls.ordonnanceEmise(idOrdonnance), { responseType: 'blob' })
+		pdfOrdonnance = new Blob([pdfOrdonnance.data], { type: 'application/pdf' })
+		fileURL = URL.createObjectURL(pdfOrdonnance)
+		if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+			window.navigator.msSaveOrOpenBlob(pdfOrdonnance, idOrdonnance);
+			fileURL = (backendURL ? backendURL : '') + urls.ordonnanceEmise(idOrdonnance)
+		} else {
+			window.open(fileURL)
+		}
+	} catch (error) {
+		console.error(error)
+		throw error
+	}
+	return fileURL
+}
+
+
 
 
 
