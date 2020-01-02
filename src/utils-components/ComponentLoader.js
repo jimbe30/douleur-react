@@ -2,44 +2,65 @@ import React from 'react'
 import { Loader, Message } from 'semantic-ui-react'
 
 
-const ComponentLoader = function (props) {
+export default class ComponentLoader extends React.Component {
 
-  const { loadedObject, render, children, ...rest } = props
+	IN_PROGRESS=0
+	FINISHED=1  
 
-  const loader = <Loader active style={{ top: '30%' }}>Chargement en cours ... veuillez patienter</Loader>
-  const error = errorMessage => errors([errorMessage])
-  const errors = errorList => {
-    if (Array.isArray(errorList)) {
-      return <Message error {...rest}>{
-        errorList.map(
-          (error, index) => {
-            let key = index, message = error
-            if (error.key) {
-              key = error.key
-            }
-            if (error.message) {
-              message = (error.key ? error.key + ': ' : index + '. ') + error.message
-            }
-            return <div key={key}>{message}</div>
-          }
-        )}
-      </Message>
-    }
-  }
+	constructor(props) {
+		super(props)
+		this.state = {
+			progression: this.IN_PROGRESS
+		}
+	}
+	
+	error(errorMessage, props) {
+		return this.errors([errorMessage])
+	}
 
-  if (!loadedObject) {
-    return loader
-  } else if (loadedObject.error) {
-    return error(loadedObject.error)
-  } else if (loadedObject.errors) {
-    return errors(loadedObject.errors)
-  } else if (render) {
-    return render
-  } else if (children) {
-    return children
-  } else {
-    return <div className='center'><h1>???</h1></div>
-  }
+	errors(errorList, props) {
+		if (Array.isArray(errorList)) {
+			return <Message error {...props}>{
+				errorList.map(
+					(error, index) => {
+						let key = index, message = error
+						if (error.key) {
+							key = error.key
+						}
+						if (error.message) {
+							message = (error.key ? error.key + ': ' : index + '. ') + error.message
+						}
+						return <div key={key}>{message}</div>
+					}
+				)}
+			</Message>
+		}
+	}
+
+	componentDidMount() {
+		setTimeout(() => {
+				this.setState({ progression: this.FINISHED})
+			}, this.props.timeout ? this.props.timeout: 30000);
+	}
+
+	render() {
+
+		const { loadedObject, render, children, timeout, ...rest } = this.props
+		const loader = <Loader active style={{ top: '30%' }}>Chargement en cours ... veuillez patienter</Loader>
+
+		if (!loadedObject && this.state.progression === this.IN_PROGRESS) {			
+			return loader
+		} else if (loadedObject && loadedObject.error) {
+			return this.error(loadedObject.error, rest)
+		} else if (loadedObject && loadedObject.errors) {
+			return this.errors(loadedObject.errors, rest)
+		} else if (loadedObject && render) {
+			return render
+		} else if (loadedObject && children) {
+			return children
+		} else {
+			return <Message error><h4>Il n'y a aucun résultat trouvé pour votre requête</h4></Message>
+		}
+	}
 }
 
-export default ComponentLoader
