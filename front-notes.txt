@@ -1,3 +1,9 @@
+    _
+   (_)
+	_   _   _
+   | | | | | | 
+  _| | | |_| | 
+ |___/  \___/  
 
 Préserver un texte
 	css -> white-space: pre-wrap;

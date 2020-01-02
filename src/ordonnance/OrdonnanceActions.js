@@ -72,11 +72,11 @@ export async function getOrdonnanceEmise(idOrdonnance) {
 		pdfOrdonnance = new Blob([pdfOrdonnance.data], { type: 'application/pdf' })
 		fileURL = URL.createObjectURL(pdfOrdonnance)
 		if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-			window.navigator.msSaveOrOpenBlob(pdfOrdonnance, idOrdonnance);
-			fileURL = (backendURL ? backendURL : '') + urls.ordonnanceEmise(idOrdonnance)
+			window.navigator.msSaveOrOpenBlob(pdfOrdonnance, idOrdonnance);			
 		} else {
 			window.open(fileURL)
 		}
+		fileURL = (backendURL ? backendURL : '') + urls.ordonnanceEmise(idOrdonnance)
 	} catch (error) {
 		console.error(error)
 		throw error
