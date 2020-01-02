@@ -1,7 +1,7 @@
 import React from 'react'
 import { Accordion, Button, Icon } from 'semantic-ui-react'
 import "./Arborescence.css";
-import TruncBox from '../components/TruncBox';
+import TruncBox from '../utils-components/TruncBox';
 import ActiveItemHandler from '../hoc/ActiveItemHandler';
 
 

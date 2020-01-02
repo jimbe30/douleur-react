@@ -3,12 +3,13 @@
  * La méthode connect() relie le store au composant cible 
  */
 import { connect } from 'react-redux'
-import { setArborescence, dataTypes } from "./OrdonnanceActions";
+import { setArborescence, dataTypes } from "./OrdonnanceServices";
 import ArborescenceComponent from "./ArborescenceComponent";
 import React, { Component } from 'react'
 import { Message } from 'semantic-ui-react';
 import { routes, goToRoute } from '../services/routeService';
-import LoadComponent from '../components/LoadComponent';
+import ComponentLoader from '../utils-components/ComponentLoader';
+
 
 /**
  * La fonction mapStateToProps renvoie un objet résultant du state. 
@@ -34,12 +35,12 @@ class Arborescence extends Component {
     }
 
     render() {
-        return <LoadComponent loadedObject={this.props.nomenclatures}>
+        return <ComponentLoader loadedObject={this.props.nomenclatures}>
             <div>
                 <Message info>Choisissez le type de douleur concernée dans l'arborescence ci-dessous</Message>
                 <ArborescenceComponent {...this.props} handleClickDouleur={this.handleClickDouleur}/>
             </div>
-        </LoadComponent>        
+        </ComponentLoader>        
     }
 }
 /**

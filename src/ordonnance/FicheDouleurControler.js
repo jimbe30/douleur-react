@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 
-import { setPreconisations, setPrescriptionChoisie, dataTypes } from "./OrdonnanceActions";
+import { setPreconisations, setPrescriptionChoisie, dataTypes } from "./OrdonnanceServices";
 import FicheDouleurComponent from "./FicheDouleurComponent";
 import { goToRoute, routes } from '../services/routeService';
-import LoadComponent from '../components/LoadComponent';
+import ComponentLoader from '../utils-components/ComponentLoader';
 
 const mapStateToProps = appState => ({
     prescriptions: appState.ordonnance[dataTypes.PRESCRIPTIONS],
@@ -36,9 +36,9 @@ class FicheDouleur extends Component {
 
     render() {
         return (
-            <LoadComponent loadedObject={this.props.prescriptions}>
+            <ComponentLoader loadedObject={this.props.prescriptions}>
                 <FicheDouleurComponent clickOrdonnance={this.clickPrescription} prescriptions={this.props.prescriptions} />               
-            </LoadComponent>
+            </ComponentLoader>
         )
     }
 }

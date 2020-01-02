@@ -2,7 +2,7 @@ import React from 'react'
 import { Loader, Message } from 'semantic-ui-react'
 
 
-const LoadComponent = function (props) {
+const ComponentLoader = function (props) {
 
   const { loadedObject, render, children, ...rest } = props
 
@@ -42,4 +42,4 @@ const LoadComponent = function (props) {
   }
 }
 
-export default LoadComponent
+export default ComponentLoader

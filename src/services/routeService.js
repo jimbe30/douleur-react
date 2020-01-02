@@ -1,9 +1,9 @@
 import { generatePath } from "react-router";
 
-import ArborescenceService from "../ordonnance/ArborescenceService"
-import FicheDouleurService from "../ordonnance/FicheDouleurService"
-import PrescriptionService from "../ordonnance/PrescriptionService"
-import OrdonnanceService from "../ordonnance/OrdonnanceService";
+import ArborescenceService from "../ordonnance/ArborescenceControler"
+import FicheDouleurService from "../ordonnance/FicheDouleurControler"
+import PrescriptionService from "../ordonnance/PrescriptionControler"
+import OrdonnanceService from "../ordonnance/OrdonnanceControler";
 import OrdonnanceConfirm from "../ordonnance/OrdonnanceConfirm";
 
 const basePath = '/clientApp'

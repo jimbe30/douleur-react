@@ -3,7 +3,7 @@ import React, { Component, Fragment } from 'react'
 
 import PrescriptionForm from "./PrescriptionForm";
 import FicheDouleurComponent from './FicheDouleurComponent';
-import { dataTypes, setPrescriptionSaisie } from './OrdonnanceActions';
+import { dataTypes, setPrescriptionSaisie } from './OrdonnanceServices';
 import { goToRoute, routes } from '../services/routeService';
 import { formNames } from '../redux/FormActions';
 import FormHandler from '../hoc/FormHandler';

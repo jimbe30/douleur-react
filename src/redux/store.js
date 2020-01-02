@@ -1,6 +1,6 @@
 import { createStore, combineReducers } from "redux";
 import { reducer as formReducer } from "redux-form";
-import ordonnanceReducer from "../ordonnance/OrdonnanceActions";
+import ordonnanceReducer from "../ordonnance/OrdonnanceServices";
 import formsReducer from "./FormActions";
 
 /**

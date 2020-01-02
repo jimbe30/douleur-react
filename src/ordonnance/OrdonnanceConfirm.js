@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Message, Button, Icon } from 'semantic-ui-react'
-import LoadComponent from "../components/LoadComponent";
-import { dataTypes } from './OrdonnanceActions';
+import { dataTypes } from './OrdonnanceServices';
+import ComponentLoader from '../utils-components/ComponentLoader';
 
 function mapStateToProps(state) {
 	return {
@@ -12,7 +12,7 @@ function mapStateToProps(state) {
 
 function OrdonnanceConfirm({ ordonnance, ...others }) {
 	return (
-		<LoadComponent loadedObject={ordonnance}>
+		<ComponentLoader loadedObject={ordonnance}>
 			{ordonnance && ordonnance.fileURL ?
 				<Message info>
 					<p>Votre ordonnance a bien été enregistrée.</p>
@@ -29,7 +29,7 @@ function OrdonnanceConfirm({ ordonnance, ...others }) {
 					Un problème est survenu : l'ordonnance n'a pas pu être émise. Veuillez recommencer ultérieurement
 				</Message>
 			}
-		</LoadComponent>
+		</ComponentLoader>
 
 
 	)
