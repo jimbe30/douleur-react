@@ -15,8 +15,8 @@ export default function App() {
 
   const msgBienvenue = (
     <div>
-        <p>Bienvenue dans Pain Control Pro</p>
-        <p>L'application qu'il vous faut pour gérer la douleur de vos patients</p>
+        <h4>Avec Med Pain Contrôlez la douleur de votre patient </h4>
+        <p>Accédez aux protocoles douleur adaptés, avec rapidité et efficacité, où que vous soyez</p>
         <p>Cliquez sur le menu en haut à gauche et sélectionnez votre choix</p>
     </div>
   )
@@ -34,7 +34,7 @@ export default function App() {
           margin: 0, paddingTop: '1.5rem', paddingBottom: '1.5rem', position: 'fixed', top: 0, left: 0, 
           zIndex: 900, background: 'rgb(0, 0, 0)', minWidth: '100%'
         }}>
-          <span> Pain Control Pro </span>
+          <span> Med Pain Pro </span>
         </Header>
 
         <Segment className='center' style={{ top: '6rem', height: '900px', overflow: 'auto' }}>

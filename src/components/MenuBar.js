@@ -12,6 +12,7 @@ export default function MenuBar() {
             <a className="menu-item ordonnance" href={getRoutePath(routes.ARBORESCENCE)}>Ordonnance</a>
             <a className="menu-item histo" href={getRoutePath(routes.HISTORIQUE)}>Historique</a>
             <a className="menu-item lien" href={getRoutePath(routes.LIENS)}>Liens</a>
+				<a className="menu-item" href={getRoutePath(routes.GESTION_NOMENCLATURE)}>Configurer nomenclature</a>
         </Menu>
     )
 }

@@ -1,14 +1,16 @@
 import React from 'react'
-import { Message } from 'semantic-ui-react'
+import { Message, Segment } from 'semantic-ui-react'
+import { Fragment } from 'react'
 
 
 const Accueil = function (props) {
 
-    return (
-        <Message info>
-            {props.message}<br />
-        </Message>
-    )
+	return (
+		<Segment>
+			{props.message}<br />
+		</Segment>
+
+	)
 
 }
 
