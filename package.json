@@ -34,7 +34,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-		"build:integration": "env-cmd -f .env.integration npm run build"
+    "build:integration": "env-cmd -f .env.integration npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"

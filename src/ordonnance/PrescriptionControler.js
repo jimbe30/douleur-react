@@ -15,7 +15,7 @@ const mapStateToProps = state => ({
 	prescriptionChoisie: state.ordonnance[dataTypes.PRESCRIPTION_CHOISIE],
 })
 
-class PrescriptionService extends Component {
+class PrescriptionControler extends Component {
 
 	constructor(props) {
 		super(props)
@@ -61,7 +61,7 @@ export const recapitulerPrescription = (prescription) => {
 		return (
 			prescription.medicaments.map(
 				(medicament, numMedicament) => (
-					<div> {
+					<div key={numMedicament}> {
 						recapDosage(medicament)
 						+ (medicament.quantite && medicament.forme ? ', ' + medicament.quantite + ' ' + medicament.forme : '')
 						+ (medicament.frequence ? ', ' + medicament.frequence + ' fois par jour' : '')
@@ -74,4 +74,4 @@ export const recapitulerPrescription = (prescription) => {
 	return null
 }
 
-export default connect(mapStateToProps)(PrescriptionService)
+export default connect(mapStateToProps)(PrescriptionControler)

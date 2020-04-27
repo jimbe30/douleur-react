@@ -66,7 +66,7 @@ export default function FicheDouleurComponent(props) {
     } else if (nbPreco > 0) {
       return prescriptions.map(
         (prescription, index) => (
-          <Fragment>
+          <Fragment key={index}>
             {renderPrescription(prescription, index)}
             <Divider />
           </Fragment>
@@ -95,7 +95,7 @@ export default function FicheDouleurComponent(props) {
               </Grid>
               <Grid item>   {
                 prescription.medicamentsPreconises.map(
-                  preconisation => <p>{formatTexte(preconisation.description)}</p>)}
+                  (preconisation, index) => <p key={index}>{formatTexte(preconisation.description)}</p>)}
               </Grid>
             </Grid>
           </div>
@@ -104,7 +104,7 @@ export default function FicheDouleurComponent(props) {
         return (
           <div className='infosBase'>   {
             prescription.medicamentsPreconises.map(
-              preconisation => <p>{formatTexte(preconisation.description)}</p>)}
+              (preconisation, index) => <p key={index}>{formatTexte(preconisation.description)}</p>)}
           </div>
         )
       }

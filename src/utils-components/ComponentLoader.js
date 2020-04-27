@@ -38,9 +38,13 @@ export default class ComponentLoader extends React.Component {
 	}
 
 	componentDidMount() {
-		setTimeout(() => {
+		this.timeout = setTimeout(() => {
 				this.setState({ progression: this.FINISHED})
 			}, this.props.timeout ? this.props.timeout: 30000);
+	}
+
+	componentWillUnmount() {
+		clearTimeout(this.timeout)
 	}
 
 	render() {
@@ -59,7 +63,7 @@ export default class ComponentLoader extends React.Component {
 		} else if (loadedObject && children) {
 			return children
 		} else {
-			return <Message error><h4>Il n'y a aucun résultat trouvé pour votre requête</h4></Message>
+			return <Message error>Aucun résultat n'a été trouvé pour votre requête</Message>
 		}
 	}
 }

@@ -20,7 +20,7 @@ const mapStateToProps = state => {
 }
 
 
-class OrdonnanceService extends Component {
+class OrdonnanceControler extends Component {
 
 	constructor(props) {
 		super(props)
@@ -101,4 +101,4 @@ export const recapitulerInfosPatient = (infosPatient) => {
 	return null
 }
 
-export default connect(mapStateToProps)(handleForm(OrdonnanceService, FORM_NAME))
+export default connect(mapStateToProps)(handleForm(OrdonnanceControler, FORM_NAME))
