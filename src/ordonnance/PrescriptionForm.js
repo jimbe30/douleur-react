@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
 import { Field } from "redux-form";
 import { Form, Message, Header, Divider, Label, Icon } from "semantic-ui-react";
-import * as formAdapter from "../redux/reduxFormAdapter"
+import * as formAdapter from "../globals/redux/reduxFormAdapter"
 import Prescription from "./PrescriptionObj";
 import { Grid } from "@material-ui/core";
-import PrescriptionLibreControler from "./PrescriptionLibreControler";
+import PrescriptionLibre from "./PrescriptionLibreController";
 
 class PrescriptionForm extends React.Component {
 
@@ -35,7 +35,7 @@ class PrescriptionForm extends React.Component {
 					(medicament, numMedicament) =>
 						this.formulaireMedicament(numMedicament)
 				)}
-				<PrescriptionLibreControler debutCompteur={this.medicaments.length} />
+				<PrescriptionLibre debutCompteur={this.medicaments.length} />
 				<Field
 					component={formAdapter.renderTextArea}
 					label="Recommandations"

@@ -1,23 +1,23 @@
 import React from 'react';
 
+export default function Test (props) {
+
+	let objet1 = {
+		attr1: "objet1.attr1",
+		attr2: "objet1.attr2"
+	}
+	let objet2 = {
+		attr2: "objet2.attr2",
+		attr3: "objet2.attr3"
+	}
+
+	let result = JSON.stringify({...objet1, ...objet2, attr3: "objet3.attr3"})
 
 
-export default class Test extends React.Component {
 
-	tableau = [
-		{ nom: 'TPO' },
-		{ nom: 'GDC' },
-		{ nom: 'SUIVI AMC' },
-		{ nom: 'esope' },
-	]
-
-
-	render() {
-
-		return ''
+	return ''
 	
 
-	}
 
 }
 

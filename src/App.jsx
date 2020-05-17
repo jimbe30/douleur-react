@@ -3,19 +3,19 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { Header, Segment } from 'semantic-ui-react';
 
-import { store } from "./redux/store";
-import { routesConfig } from "./services/routeService";
+import { store } from "./globals/redux/store";
+import { routesConfig } from "./globals/services/routeService";
 import "./App.css";
 // import "./assets/bootstrap-slate.css";
-import Menu from "./components/MenuBar";
-import Accueil from "./components/Accueil";
+import Menu from "./globals/components/MenuBar";
+import Accueil from "./globals/components/Accueil";
 import Test from './Test';
 
 export default function App() {
 
   const msgBienvenue = (
     <div>
-        <h4>Avec Med Pain Contrôlez la douleur de votre patient </h4>
+        <h4>Avec Med Pain, contrôlez la douleur de vos patients </h4>
         <p>Accédez aux protocoles douleur adaptés, avec rapidité et efficacité, où que vous soyez</p>
         <p>Cliquez sur le menu en haut à gauche et sélectionnez votre choix</p>
     </div>

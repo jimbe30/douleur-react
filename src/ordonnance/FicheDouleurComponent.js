@@ -48,11 +48,14 @@ export default function FicheDouleurComponent(props) {
   messageInfo = messageInfo()
 
   let messageRecommandation = (
-    !prescriptionChoisie && douleur.recommandations && douleur.recommandations.length > 0 ?
+	 !prescriptionChoisie && douleur.recommandations && douleur.recommandations.length > 0 ?
+
       <Message warning className='infosBase'>
-        <Divider horizontal fitted><Header as='h4'>Remarques</Header></Divider>
+        <Header as='h4'>Remarques</Header>
         {douleur.recommandations}
-      </Message> : ''
+		</Message> 
+
+		: ''
   )
 
   const renderListePrescriptions = () => {

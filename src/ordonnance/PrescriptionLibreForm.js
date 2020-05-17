@@ -1,8 +1,9 @@
 import React, { Fragment } from "react";
 import { Field } from "redux-form";
-import { Form, Popup, Message, Icon } from "semantic-ui-react";
-import * as formAdapter from "../redux/reduxFormAdapter"
+import { Form, Message } from "semantic-ui-react";
+import * as formAdapter from "../globals/redux/reduxFormAdapter"
 import { Grid } from "@material-ui/core";
+import { BoutonAjouter, BoutonSupprimer } from "../globals/util-components/Boutons";
 
 export default function PrescriptionLibreForm({ numMedicaments, handleClickAjouter, handleClickSupprimer }) {
 	return (
@@ -17,31 +18,8 @@ export default function PrescriptionLibreForm({ numMedicaments, handleClickAjout
 					</Fragment>
 				)
 			})}
-			<BoutonAjout handleClick={handleClickAjouter} />
+			<BoutonAjouter title='Ajouter un médicament' handleClick={handleClickAjouter} />
 		</Fragment>
-	)
-}
-
-const BoutonAjout = function ({ handleClick }) {
-	return (
-		<div style={{ padding: '1rem 0' }}>
-			<Popup content='Ajouter un médicament' trigger={
-				<Icon name='add' size='tiny'
-					bordered circular color='green'
-					onClick={event => handleClick(event)} />
-			} />
-		</div>
-	)
-}
-
-const BoutonSuppression = function ({ numMedicament, handleClick }) {
-	return (
-		<Popup content='Supprimer le médicament' trigger={
-			<Icon name='delete' size='tiny' key={numMedicament}
-				bordered circular color='red'
-				style={{ 'marginTop': '50%', 'marginLeft': '50%' }}
-				onClick={event => handleClick(event, numMedicament)} />
-		} />
 	)
 }
 
@@ -71,7 +49,9 @@ const LigneDispensation = function ({ numMedicament, handleClickSupprimer }) {
 			<Grid item xs={3}>
 				<Field component={Form.Input} label="Durée" name={'duree' + numMedicament} placeholder="Nb jours" />
 			</Grid>
-			<Grid item xs={1}><BoutonSuppression numMedicament={numMedicament} handleClick={handleClickSupprimer} /></Grid>
+			<Grid item xs={1}>
+				<BoutonSupprimer index={numMedicament} handleClick={handleClickSupprimer} title='Supprimer le médicament' />
+			</Grid>
 		</Grid>
 	)
 }

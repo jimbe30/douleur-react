@@ -1,9 +1,14 @@
-    _
+ _
    (_)
 	_   _   _
    | | | | | | 
   _| | | |_| | 
  |___/  \___/  
+ 
+ 
+CDN pour librairies javascript : https://unpkg.com 
+
+----------
 
 Préserver un texte
 	css -> white-space: pre-wrap;
@@ -27,6 +32,7 @@ Couleur image svg
 
 
 /**************                             REACT                            **************/
+
 
 * create-react-app : 
 	
