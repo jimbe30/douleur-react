@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from "react-redux"
 import { Message, Divider, Header, Label } from 'semantic-ui-react'
 
-import { dataTypes, setOrdonnanceEmise } from './redux/OrdonnanceActions'
+import { dataTypes, setOrdonnanceEmise } from './services/OrdonnanceActions'
 import { recapitulerPrescription } from './PrescriptionController'
 import OrdonnanceForm from './OrdonnanceForm';
 import { formNames } from '../globals/redux/FormActions'

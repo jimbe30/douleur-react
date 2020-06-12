@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 
-import { setPreconisations, setPrescriptionChoisie, dataTypes } from "./redux/OrdonnanceActions";
+import { setPreconisations, setPrescriptionChoisie, dataTypes } from "./services/OrdonnanceActions";
 import FicheDouleurComponent from "./FicheDouleurComponent";
 import { goToRoute, routes } from '../globals/services/routeService';
 import ComponentLoader from '../globals/util-components/ComponentLoader';

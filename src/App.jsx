@@ -13,15 +13,9 @@ import Test from './Test';
 
 export default function App() {
 
-  const msgBienvenue = (
-    <div>
-        <h4>Avec Med Pain, contrôlez la douleur de vos patients </h4>
-        <p>Accédez aux protocoles douleur adaptés, avec rapidité et efficacité, où que vous soyez</p>
-        <p>Cliquez sur le menu en haut à gauche et sélectionnez votre choix</p>
-    </div>
-  )
+ const contentHeight = Math.floor(0.75 * window.screen.availHeight) + 'px'
 
-  return (
+ return (
     // le Provider permet la connexion des composants enfants au store
     <Provider store={store}>
 
@@ -37,9 +31,9 @@ export default function App() {
           <span> Med Pain Pro </span>
         </Header>
 
-        <Segment className='center' style={{ top: '6rem', height: '900px', overflow: 'auto' }}>
+        <Segment className='center' style={{ top: '6rem', maxHeight: contentHeight, overflow: 'auto', paddingBottom: '1rem' }}>
 
-          <Route exact path='/' render={props => <Accueil {...props} message={msgBienvenue} />} />
+          <Route exact path='/' render={props => <Accueil {...props} />} />
           
           {routesConfig.map(
             config => (<Route exact {...config} />)            

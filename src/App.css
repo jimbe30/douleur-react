@@ -1,22 +1,69 @@
+body {
+	background: rgb(0, 55, 80);
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: .8rem;
+}
+
+.ui.segment, .ui.segments .segment {
+	font-size: 0.85rem;
+}
+
 .ui.styled.accordion.noborder, .noborder {
     border-style: none;
     box-shadow: unset;
+}
+
+.ui.header.center, .ui.segment.center, *.center {
+    width: 800px;
+    max-width: 98%;
+	 margin: auto;
+}
+
+.ui.label {
+	padding: .3em .5em;
+}
+
+/****  Grid  ****/
+.ui.grid {
+	margin-left: 0rem;
+	margin-right: 0rem;
+}
+
+.ui.grid>.row {
+	padding-bottom: 0;
+	padding-top: 0.7rem;
+}
+
+.row {
+	margin-right: 0;
+	margin-left: 0;
+}
+
+.ui.grid>.column:not(.row), .ui.grid>.row>.column {
+	padding-left: 0.5rem ;
+	padding-right: 0;
+}
+/*******************/
+
+/****  Forms  ****/
+.ui.input input {
+	width: auto!important;
+}
+
+.ui.form select {
+	padding: .2em 0.3em;
 }
 
 .ui.selection.dropdown {
     min-width: auto;
 }
 
-body {
-    background: rgb(0, 55, 80);
+.ui.form .fields {
+	margin: 0 0 0;
 }
 
-.ui.header.center, .ui.segment.center, *.center {
-    width: 750px;
-    max-width: 95%;
-    margin-right: auto;
-    margin-left: auto;
-}
+option { color: black; }
+/*******************/
 
 *.error {
     color: #c5321a;
@@ -31,6 +78,7 @@ body {
     padding: 5px;
     white-space: pre-wrap;
 }
+
 
 .accueil::before, .ordonnance::before, .histo::before, .lien::before {
     margin-right: 1rem;

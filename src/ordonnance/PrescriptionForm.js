@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { Field } from "redux-form";
 import { Form, Message, Header, Divider, Label, Icon } from "semantic-ui-react";
 import * as formAdapter from "../globals/redux/reduxFormAdapter"
+import { FormSelect } from "../globals/redux/reduxFormAdapter"
 import Prescription from "./PrescriptionObj";
 import { Grid } from "@material-ui/core";
 import PrescriptionLibre from "./PrescriptionLibreController";
@@ -80,7 +81,7 @@ class PrescriptionForm extends React.Component {
 						<Field component={Form.Input} label="Qté/prise" name={'quantite' + numMedicament} placeholder="Nb comprimés" required />
 					</Grid>
 					<Grid item xs={4}>
-						<Field component={formAdapter.renderSelect} label="Forme" name={'forme' + numMedicament} placeholder="Comprimé ..."
+						<Field component={FormSelect} label="Forme" name={'forme' + numMedicament} placeholder="Comprimé ..."
 							options={[
 								{ key: "forme1", text: "Comprimé", value: "comprimé(s)" },
 								{ key: "forme2", text: "Gélule", value: "gélule(s)" }

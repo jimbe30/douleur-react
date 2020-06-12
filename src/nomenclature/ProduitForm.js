@@ -1,111 +1,140 @@
-import React, { useState } from 'react'
-import { Form, Grid } from 'semantic-ui-react'
+import React, { useContext } from 'react'
+import { Grid, FormGroup } from 'semantic-ui-react'
 import { useEffect } from 'react'
+
 import FormInput from '../globals/util-components/FormInput'
+import { NomenclatureContext } from './GestionNomenclatureController'
+import Helper from '../globals/util-components/Helper'
+import { FormSelect } from '../globals/redux/reduxFormAdapter'
 
 
-export default function ProduitForm({ listeProduits, listeUnitesDosage, produit, 
-		numMedicament, numProduit, changeDosage, ...rest }) {
+export default function ProduitForm({ produit, majProduit, numProduit, ...rest }) {
+
+	// hook useContext()
+	let { listeProduits, listeUnitesDosage } = useContext(NomenclatureContext)
+
+	const produitsProposes = listeProduits.map(
+		itemProduit => ({ value: itemProduit.id, text: itemProduit.designation })
+	)
+	const unitesDosage = listeUnitesDosage.map(
+		unite => ({ value: unite, text: unite })
+	)
 
 	if (!produit) {
 		produit = {}
 	}
-	if (!numProduit) {
-		numProduit = 0
+	if (!produit.uniteDosage) {
+		produit.uniteDosage = 'mg'
 	}
-
-	const cleProduit = numMedicament + '_' + numProduit
-
-	const produitsProposes = listeProduits.map(
-		itemProduit => ({
-			value: itemProduit.id,
-			text: itemProduit.designation,
-		})
-	)
-	const unitesDosage = listeUnitesDosage.map(
-		unite => ({
-			value: unite,
-			text: unite,
-		})
-	)
 
 	const listeDosages = produit.listeDosages ? produit.listeDosages : []
 
-	// hook useState()
-	const [dosageEnCours, setDosageEnCours] = useState()
+	// hook useEffect() : focus sur le dosage en cours de saisie après chaque rendu
+	useEffect(() => {
+		if (produit.focus) {
+			let input = document.querySelector(`input[name=${produit.focus}]`)
+			produit.focus = null
+			if (input) {
+				input.focus()				
+			}
+		}
+	}, [produit.focus]);
 
-	function handleChangeDosage(input, index) {		
-		const value = input.value
-		changeDosage(value, index)
-		setDosageEnCours(input.name) // on va redonner le focus à l'élément émetteur après le rendu grâce à useEffect
+	function handleChangeData(attribut, data) {
+		if (majProduit) {
+			const { value } = data
+			let designation = {}
+			if (attribut === 'idProduit') {
+				designation.designation = listeProduits.find(
+					produitPropose => produitPropose.id === value
+				)['designation']
+			}
+			majProduit({ ...produit, [attribut]: value, ...designation })
+		}
 	}
 
-	// hook useEffect (équivalent à componentDidMount et componentDidUpdate)
-	useEffect(() => {
-		// focus sur le dosage en cour de saisie après chaque rendu
-		if (dosageEnCours) {
-			document.querySelector(`input[name=${dosageEnCours}]`).focus();
-			setDosageEnCours(undefined)
+	function handleChangeDosage(input, index) {
+		const dosage = input.value
+		let nouvelleListeDosages = [...listeDosages]
+		if (!dosage) {
+			nouvelleListeDosages.splice(index, 1)
+		} else {
+			nouvelleListeDosages[index] = dosage
 		}
-	 }, [dosageEnCours]);
+		if (majProduit) {
+			majProduit({ ...produit, listeDosages: nouvelleListeDosages, focus: input.name })
+		}
+	}
+
+	function dosageError(index) {
+		if (produit.errors['listeDosages[' + index + ']']) {
+			return produit.errors['listeDosages[' + index + ']']
+		}
+		return null
+	}
 
 	// rendu
 	return (
-		<React.Fragment>
-
-			<Grid verticalAlign='middle' padded='horizontally' container>
+		<>
+			<Grid verticalAlign='middle' padded>
 
 				{/* 1ère ligne : la désignation du produit à choisir dans la liste 'produitsProposes' */}
 				<Grid.Row >
-					<Grid.Column width={5}>
-						<Form.Select inline
+					<Grid.Column width={10}>
+						<FormSelect inline
+							onChange={(e, data) => handleChangeData('idProduit', data)}
 							label='Désignation'
 							title='Choisissez un produit dans la liste proposée'
-							name={`produit_${cleProduit}`}
+							name={'idProduit' + numProduit}
 							options={produitsProposes}
-							defaultValue={produit.idProduit}
-							placeholder='désignation' required />
+							value={produit ? produit.idProduit : ''}
+							placeholder='désignation'
+							required />
 					</Grid.Column>
 				</Grid.Row>
 
 				{/* 2ème ligne : les dosages avec choix de l'unité de dosage + valorisation des doses possibles */}
-				<Grid.Row >	
+				<Grid.Row >
 					<Grid.Column width={4}>
-						<Form.Select inline required
+						<FormSelect inline required
+							onChange={(e, data) => handleChangeData('uniteDosage', data)}
 							label='Unité dosage'
-							name={`uniteDosage_${cleProduit}`}
+							name={'uniteDosage' + numProduit}
 							options={unitesDosage}
-							defaultValue={produit.uniteDosage ? produit.uniteDosage : 'mg'} />
+							value={produit.uniteDosage} />
 					</Grid.Column>
-					<Grid.Column width={2}>
-						Dosages
-					</Grid.Column>	
-					{
-						Array.isArray(listeDosages) && listeDosages.map(
-							(dosage, index) =>
-							<Grid.Column width={2}>
+					
+					<Grid.Column width={3}>
+						<Helper text='Dosages' helpText='renseigner les dosages possibles : 4 occurrences maxi' />
+					</Grid.Column>												 
+					
+					<Grid.Column width={9}>
+						<FormGroup widths={listeDosages.length + 1} unstackable>						
+							{ listeDosages.map(
+								(dosage, index) =>
+									<FormInput placeholder='dosage'
+										key={index}
+										error={dosageError(index)}
+										name={'dosage' + numProduit + '_' + index}
+										value={dosage}
+										onChange={(e) => handleChangeDosage(e.target, index)}
+									/>
+							)}
+							{ listeDosages.length < 4 &&
 								<FormInput placeholder='dosage'
-									name={`dosage_${cleProduit}_${index}`}
-									value={dosage}
-									onChange={(e) => handleChangeDosage(e.target, index)}
-									form={rest.form}
+									required={listeDosages.length === 0}
+									name={'dosage' + numProduit + '_' + listeDosages.length}
+									value=''
+									onChange={(e) => handleChangeDosage(e.target, listeDosages.length)}
 								/>
-							</Grid.Column>
-						)						
-					}
-					<Grid.Column width={2}>
-						<FormInput placeholder='dosage'
-							required={listeDosages.length === 0}
-							name={`dosage_${cleProduit}_${listeDosages.length}`}
-							value=''
-							onChange={(e) => handleChangeDosage(e.target, listeDosages.length)}
-							form={rest.form}
-						/>
+							}
+						</FormGroup>
 					</Grid.Column>
+
 
 				</Grid.Row>
 
 			</Grid>
-		</React.Fragment>
+		</>
 	)
 }

@@ -1,10 +1,9 @@
-import React, { createRef } from 'react'
+import React from 'react'
 import { Field } from 'redux-form';
 import { Form, Popup } from 'semantic-ui-react';
-import { setFormValue } from '../redux/FormActions';
+
 
 export default class FormInput extends React.Component {
-
 
 	constructor(props) {
 		super(props)
@@ -12,7 +11,7 @@ export default class FormInput extends React.Component {
 		this.openPopup = this.openPopup.bind(this)
 		this.closePopup = this.closePopup.bind(this)
 		this.clickInput = this.clickInput.bind(this)
-		// this.initializeValue = this.initializeValue.bind(this)
+		this.checkError()
 
 		this.state = {
 			openPopup: true,
@@ -20,26 +19,23 @@ export default class FormInput extends React.Component {
 		}
 	}
 
-	// componentDidMount() {
-	// 	this.initializeValue()
-	// }
-
-	// initializeValue(prevProps) {
-	// 	if (this.props.form && this.props.name) {
-	// 		let value = this.props.value			
-	// 		if (value !== undefined) {
-	// 			if (!prevProps || prevProps.value !== value) {
-	// 				setFormValue(this.props.form, this.props.name, value)
-	// 			}
-	// 		}			
-	// 	}		
-	// }
-
 	componentDidUpdate(prevProps) {
+		this.checkError()
+	}
+
+	checkError() {
 		if (this.props.form) {
 			this.error = this.props.form['error.' + this.props.name]
+			if (!this.error) {
+				this.error = this.props.form[this.props.name + '.error']
+			}
 		}
-		// this.initializeValue(prevProps)
+		if (!this.error && this.props.error) {
+			this.error = this.props.error
+		}
+		if (!this.error && this.props.errors) {
+			this.error = this.props.errors[this.props.name]
+		}
 	}
 
 	clickInput() {
@@ -62,24 +58,21 @@ export default class FormInput extends React.Component {
 
 		const props = {
 			...this.props,
-			error:  this.error !== undefined,
+			error: this.error !== undefined,
 			name: this.props.name,
 			onMouseOver: () => this.openPopup(),
 			onMouseOut: () => this.closePopup(),
 			onClick: () => this.clickInput(),
 		}
 
-		let input = props.value !== undefined ? 
+		let input = props.value !== undefined ?
 			<Form.Input {...props} /> : <Field component={Form.Input} {...props} />
 
-		
+
 		if (this.error) {
 			input =
-				<Popup open={this.state.openPopup} size='tiny' mouseLeaveDelay={1000} 
-					hoverable on='hover' trigger={
-						<span ref={this.inputRef}>{input}</span> 
-					}
-				>
+				<Popup open={this.state.openPopup} size='tiny' mouseLeaveDelay={500}
+					hoverable on='hover' trigger={<span ref={this.inputRef}>{input}</span>}>
 					<Popup.Content>
 						<div className='error'>{this.error}</div>
 					</Popup.Content>

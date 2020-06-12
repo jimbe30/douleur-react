@@ -6,6 +6,7 @@ import Prescription from "../../ordonnance/PrescriptionController"
 import Ordonnance from "../../ordonnance/OrdonnanceController"
 import OrdonnanceConfirm from "../../ordonnance/OrdonnanceConfirm"
 import GestionNomenclature from "../../nomenclature/GestionNomenclatureController"
+import OrdonnancesTypes from "../../nomenclature/OrdonnancesTypesController";
 
 const basePath = '/clientApp'
 
@@ -18,6 +19,7 @@ export const routes = {
     HISTORIQUE: 'historique',
 	 LIENS: 'liens',
 	 GESTION_NOMENCLATURE: 'gestionNomenclature',
+	 ORDONNANCES_TYPES: 'ordonnancesTypes',
 }
 
 export const routesConfig = [
@@ -26,7 +28,8 @@ export const routesConfig = [
     { key: routes.FORMULAIRE_PRESCRIPTION, path: `${basePath}/prescriptionForm`, component: Prescription },
     { key: routes.FORMULAIRE_ORDONNANCE, path: `${basePath}/ordonnanceForm`, component: Ordonnance },
 	 { key: routes.CONFIRMATION_ORDONNANCE, path: `${basePath}/ordonnanceConfirm`, component: OrdonnanceConfirm },
-	 { key: routes.GESTION_NOMENCLATURE, path: `${basePath}/gestionNomenclature`, component: GestionNomenclature }
+	 { key: routes.GESTION_NOMENCLATURE, path: `${basePath}/gestionNomenclature`, component: GestionNomenclature },
+	 { key: routes.ORDONNANCES_TYPES, path: `${basePath}/ordonnancesTypes`, component: OrdonnancesTypes },
 ]
 
 export const getRoutePath = (route, pathParams) => (

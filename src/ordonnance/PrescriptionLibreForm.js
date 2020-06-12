@@ -18,7 +18,9 @@ export default function PrescriptionLibreForm({ numMedicaments, handleClickAjout
 					</Fragment>
 				)
 			})}
-			<BoutonAjouter title='Ajouter un médicament' handleClick={handleClickAjouter} />
+			<div style={{ paddingTop: '1rem' }}>
+				<BoutonAjouter title='Ajouter un médicament' handleClick={handleClickAjouter} />
+			</div>
 		</Fragment>
 	)
 }
@@ -36,7 +38,7 @@ const LigneDispensation = function ({ numMedicament, handleClickSupprimer }) {
 				<Field component={Form.Input} label="Qté/prise" name={'quantite' + numMedicament} placeholder="Nb comprimés" />
 			</Grid>
 			<Grid item xs={3}>
-				<Field component={formAdapter.renderSelect} label="Forme" name={'forme' + numMedicament} placeholder="Comprimé ..."
+				<Field component={formAdapter.FormSelect} label="Forme" name={'forme' + numMedicament} placeholder="Comprimé ..."
 					options={[
 						{ key: "forme1", text: "Comprimé", value: "comprimé(s)" },
 						{ key: "forme2", text: "Gélule", value: "gélule(s)" }
@@ -50,7 +52,9 @@ const LigneDispensation = function ({ numMedicament, handleClickSupprimer }) {
 				<Field component={Form.Input} label="Durée" name={'duree' + numMedicament} placeholder="Nb jours" />
 			</Grid>
 			<Grid item xs={1}>
-				<BoutonSupprimer index={numMedicament} handleClick={handleClickSupprimer} title='Supprimer le médicament' />
+				<div style={{ marginLeft: '0.5rem', marginTop: '50%' }} >
+					<BoutonSupprimer index={numMedicament} handleClick={handleClickSupprimer} title='Supprimer le médicament' />
+				</div>
 			</Grid>
 		</Grid>
 	)

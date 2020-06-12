@@ -1,14 +1,16 @@
 import { combineReducers } from "redux";
 import { reducer as formReducer } from "redux-form";
 
-import { dataTypes as ordonnanceDataTypes  } from "../../ordonnance/redux/OrdonnanceActions";
+import { dataTypes as ordonnanceDataTypes  } from "../../ordonnance/services/OrdonnanceActions";
+import { dataTypes as nomenclatureDataTypes  } from "../../nomenclature/services/GestionNomenclatureActions";
 import { formNames } from "./FormActions"
 
 /**
- * Ici on répertorie les types de données à gérer par redux, répartis par fonctionnalité
+ * Ici on répertorie les types de données à gérer par redux, répartis par fonctionnalité (namespace)
  * Ces types de données sont transmis aux actions redux via la méthode dispatch()
  */
-const dataTypes = {
+export const namespaces = {
+	nomenclature: nomenclatureDataTypes,
 	ordonnance: ordonnanceDataTypes, 
 	appForms: formNames
 }
@@ -25,7 +27,7 @@ export const reducers = combineReducers({
 
 function getReducers() {
 	let reducers = {} 
-	Object.keys(dataTypes).forEach(namespace =>	{
+	Object.keys(namespaces).forEach(namespace =>	{
 		reducers[namespace] = getReducer(namespace)
 	})
 	return reducers
@@ -37,10 +39,10 @@ function getReducers() {
 function getReducer(namespace) {
 
 	const reducer =  function(state = {}, action) {
-		if (dataTypes[namespace][action.type]) {
-			return { ...state, [dataTypes[namespace][action.type]]: action.content }
-		} else if (typeof dataTypes[namespace] === 'object') {
-			const namespaceData = dataTypes[namespace]
+		if (namespaces[namespace][action.type]) {
+			return { ...state, [namespaces[namespace][action.type]]: action.content }
+		} else if (typeof namespaces[namespace] === 'object') {
+			const namespaceData = namespaces[namespace]
 			if (
 				Object.values(namespaceData).findIndex(value =>	
 					value === action.type
