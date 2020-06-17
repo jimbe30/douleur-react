@@ -1,25 +1,39 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { backendURL } from './globals/services/apiService';
 
-export default function Test (props) {
-
-	let objet1 = {
-		attr1: "objet1.attr1",
-		attr2: "objet1.attr2"
-	}
-	let objet2 = {
-		attr2: "objet2.attr2",
-		attr3: "objet2.attr3"
-	}
-
-	let result = JSON.stringify({...objet1, ...objet2, attr3: "objet3.attr3"})
-
-
-
-	return ''
-	
-
-
+export const dataTypes = {
+	REDIRECT_TEST: 'redirectTest',
 }
+
+const serverRedirect = async (history) => {
+	window.location = backendURL + "/tests/redirect"
+}
+
+function Test (props) {
+
+	const { history } = { ...props }
+
+	const urlParams = new URLSearchParams(window.location.search)
+	const redirectInfo = urlParams.get('redirectInfo')
+	if (redirectInfo) {
+		return <> {redirectInfo} </>
+	} else {
+		serverRedirect(history)
+		return null
+	}
+}
+
+const mapStateToProps = (state) => {
+	if (state.test) {
+		return {
+			redirectInfo : state.test[dataTypes.REDIRECT_TEST]
+		}
+	} else {
+		return {}
+	}
+}
+export default connect(mapStateToProps)(Test)
 
 
 

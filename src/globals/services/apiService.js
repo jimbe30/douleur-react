@@ -1,10 +1,17 @@
 import axios from "axios";
+import dispatchData, { store, getState } from "../redux/store";
+import { dataTypes as authDataTypes } from "../../auth/services/AuthService";
+import { routesConfig, goToRoute } from "./routeService";
+
 
 export const apiURLs = {
 	arborescenceDouleurs: '/douleurs/arborescence',
 	ficheDouleur: idDouleur => '/douleurs/' + idDouleur,
 	nouvelleOrdonnance: '/ordonnances/nouvelle',
 	ordonnanceEmise: idOrdonnance => '/ordonnances/emises/' + idOrdonnance,
+	idProvidersList: '/users/login/infos',
+	login: idProvider => '/users/login/' + idProvider,	
+	validateToken: '/users/login/registerToken',
 }
 
 export const backendURL = process.env.REACT_APP_BACKEND_URL
@@ -20,38 +27,87 @@ export const returnTypes = {
 	BLOB: 'blob',
 }
 
+const messagesFromStatus = {
+	401: "Votre session a expiré ou l'authentification a échoué, veuillez vous reconnecter",
+	403: "Vous n'êtes pas autorisé à accéder à cette ressource, veuillez vous identifier"
+}
+
 export const getResultFromUrl = async (url, config) => {
 	let result = {}
+	config = secureUrlConfig(config)
 	try {
 		await axios.get(url, config).then(response => {
 			result = getResultFromResponse(response)
 		})
 	} catch (error) {
 		result = getResultFromError(error)
+		handleError(result)
 	}
 	return result
 }
 
 export const postObjectToUrl = async (object, url, config) => {
 	let result = {}
+	config = secureUrlConfig(config)
 	try {
 		await axios.post(url, object, config).then(response => {
 			result = getResultFromResponse(response)
 		})
 	} catch (error) {
 		result = getResultFromError(error)
+		handleError(result)
 	}
 	return result
 }
 
+const secureUrlConfig = config => {
+	const idToken = getIdToken()
+	if (idToken) {
+		if (!config) {
+			config = {}
+		}
+		config.headers = { ...config.headers, ...{ Authorization: 'Bearer ' + idToken } }
+	}
+	return config
+}
+
+const getIdToken = () => {
+	if (getState('auth')) {
+		const state = getState('auth')
+		const idToken = state[authDataTypes.ID_TOKEN]
+		return idToken
+	}
+	return null
+}
+
 const getResultFromError = error => {
 	console.log("error: " + JSON.stringify(error))
+	let data = { error: error.message }
+	if (error.response && error.response.data) {
+		data = error.response.data
+		let message = messagesFromStatus[data.status]
+		if (message) {
+			data.message = message
+		}
+	}
 	const result = {
-		data: { error: error.message },
+		data,
 		type: returnTypes.OBJECT,
 		contentType: 'application/json'
 	}
 	return result;
+}
+
+const handleError = error => {
+	if ([401, 403].indexOf(error.data.status) > -1) {
+		if (store.getState().router) {
+			const history = store.getState().router.history
+			if (history) {
+				goToRoute(history)(routesConfig.LOGIN_FORM)
+			}
+		}
+		dispatchData(authDataTypes.ERROR_MESSAGE, error.data.message)
+	}
 }
 
 const getResultFromResponse = async response => {

@@ -1,7 +1,7 @@
 import dispatchData, { store } from "../../globals/redux/store";
 import { apiURLs as urls, getResultFromUrl, postObjectToUrl, backendURL } from "../../globals/services/apiService";
 import { setFormValues, formNames, setFormErrors, resetFormErrors } from "../../globals/redux/FormActions";
-import { goToRoute, routes } from "../../globals/services/routeService";
+import { goToRoute, routesConfig } from "../../globals/services/routeService";
 
 export const dataTypes = {
 	INFOS_TEST: 'INFOS_TEST',
@@ -48,12 +48,12 @@ export async function setOrdonnanceEmise(ordonnance, history) {
 		if (obj.errors) {
 			console.log(JSON.stringify(obj))
 			setFormErrors(formNames.INFOS_PATIENT_FORM, obj.errors)
-			goToRoute(history)(routes.FORMULAIRE_ORDONNANCE)
+			goToRoute(history)(routesConfig.FORMULAIRE_ORDONNANCE)
 		} else {
 			const idOrdonnance = result.data
 			try {
 				ordonnance.fileURL = await getOrdonnanceEmise(idOrdonnance)
-				goToRoute(history)(routes.CONFIRMATION_ORDONNANCE)
+				goToRoute(history)(routesConfig.CONFIRMATION_ORDONNANCE)
 				console.log('L\'ordonnance a bien été enregistrée')
 			} catch (error) {
 				console.error(error)

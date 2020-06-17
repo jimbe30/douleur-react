@@ -1,11 +1,11 @@
 body {
 	background: rgb(0, 55, 80);
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: .8rem;
+	font-size: .9rem;
 }
 
 .ui.segment, .ui.segments .segment {
-	font-size: 0.85rem;
+	font-size: 0.9rem;
 }
 
 .ui.styled.accordion.noborder, .noborder {
@@ -67,6 +67,10 @@ option { color: black; }
 
 *.error {
     color: #c5321a;
+}
+
+*.entete {
+	color: #2a649e;
 }
 
 .infosBase, .infosBase::before, .infosBase::after, *.infosBase {

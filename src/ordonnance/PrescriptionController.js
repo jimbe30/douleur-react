@@ -4,7 +4,7 @@ import React, { Component, Fragment } from 'react'
 import PrescriptionForm from "./PrescriptionForm";
 import FicheDouleurComponent from './FicheDouleurComponent';
 import { dataTypes, setPrescriptionSaisie } from './services/OrdonnanceActions';
-import { goToRoute, routes } from '../globals/services/routeService';
+import { goToRoute, routesConfig } from '../globals/services/routeService';
 import { formNames } from '../globals/redux/FormActions';
 import FormHandler from '../globals/hoc/FormHandler';
 
@@ -26,7 +26,7 @@ class PrescriptionControler extends Component {
 		// sauvegarde les valeurs saisies pour les réinjecter en initialValues
 		// lorsqu'on revient sur le formulaire
 		setPrescriptionSaisie(prescriptionSaisie)
-		goToRoute(this.props)(routes.FORMULAIRE_ORDONNANCE)
+		goToRoute(this.props)(routesConfig.FORMULAIRE_ORDONNANCE)
 	}
 
 	render() {

@@ -7,7 +7,7 @@ import { setArborescence, dataTypes } from "./services/OrdonnanceActions";
 import ArborescenceComponent from "./ArborescenceComponent";
 import React, { Component } from 'react'
 import { Message } from 'semantic-ui-react';
-import { routes, goToRoute } from '../globals/services/routeService';
+import { routesConfig, goToRoute } from '../globals/services/routeService';
 import ComponentLoader from '../globals/util-components/ComponentLoader';
 
 /**
@@ -30,7 +30,7 @@ class Arborescence extends Component {
     }
 
     handleClickDouleur = (idDouleur) => {
-        goToRoute(this.props)(routes.FICHE_DOULEUR, {idDouleur})
+        goToRoute(this.props)(routesConfig.FICHE_DOULEUR, {idDouleur})
     }
 
     render() {

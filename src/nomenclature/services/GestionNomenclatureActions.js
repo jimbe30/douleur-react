@@ -1,7 +1,7 @@
 import dispatchData, { store } from "../../globals/redux/store";
 import { apiURLs as urls, getResultFromUrl, postObjectToUrl } from "../../globals/services/apiService";
 import { setFormValues, formNames, setFormErrors, resetFormErrors } from "../../globals/redux/FormActions";
-import { goToRoute, routes } from "../../globals/services/routeService";
+import { goToRoute, routesConfig } from "../../globals/services/routeService";
 import { descriptionOrdonnanceType } from "./GestionNomenclatureService";
 
 export const namespace = 'nomenclature'
@@ -26,7 +26,7 @@ function getState(dataType) {
 export async function validerOrdonnanceType(ordonnanceType, {history}) {
 	descriptionOrdonnanceType(ordonnanceType)
 	dispatchData(dataTypes.ORDONNANCE_TYPE, ordonnanceType)
-	goToRoute(history)(routes.ORDONNANCES_TYPES)
+	goToRoute(history)(routesConfig.ORDONNANCES_TYPES)
 }
 
 export function ajouterOrdonnanceType(ordonnanceType) {
@@ -59,9 +59,9 @@ export async function setOrdonnanceEmise(ordonnance, history) {
 		if (obj.errors) {
 			console.log(JSON.stringify(obj))
 			setFormErrors(formNames.INFOS_PATIENT_FORM, obj.errors)
-			goToRoute(history)(routes.FORMULAIRE_ORDONNANCE)
+			goToRoute(history)(routesConfig.FORMULAIRE_ORDONNANCE)
 		} else {
-			goToRoute(history)(routes.CONFIRMATION_ORDONNANCE)
+			goToRoute(history)(routesConfig.CONFIRMATION_ORDONNANCE)
 			console.log('L\'ordonnance a bien été enregistrée')
 		}
 	} else {

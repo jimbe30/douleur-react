@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 
 import { setPreconisations, setPrescriptionChoisie, dataTypes } from "./services/OrdonnanceActions";
 import FicheDouleurComponent from "./FicheDouleurComponent";
-import { goToRoute, routes } from '../globals/services/routeService';
+import { goToRoute, routesConfig, getRouteParams } from '../globals/services/routeService';
 import ComponentLoader from '../globals/util-components/ComponentLoader';
 
 const mapStateToProps = appState => ({
@@ -18,20 +18,13 @@ class FicheDouleur extends Component {
     }    
 
     componentDidMount() {
-        let { idDouleur } = this.getRouteParams()
+        let { idDouleur } = getRouteParams(this.props)
         setPreconisations(idDouleur)
-    }
-
-    getRouteParams() {
-        if (this.props.match) {
-            return this.props.match.params
-        }
-        return {}
     }
 
     clickPrescription = (index) => {
         setPrescriptionChoisie(this.props.prescriptions[index])
-        goToRoute(this.props)(routes.FORMULAIRE_PRESCRIPTION)
+        goToRoute(this.props)(routesConfig.FORMULAIRE_PRESCRIPTION)
     }
 
     render() {

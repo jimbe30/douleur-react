@@ -2,7 +2,7 @@ import React from 'react'
 import ListeOrdonnancesTypes from './ListeOrdonnancesTypes'
 import { dataTypes } from './services/GestionNomenclatureActions'
 import { connect } from 'react-redux'
-import { routes, goToRoute } from '../globals/services/routeService'
+import { routesConfig, goToRoute } from '../globals/services/routeService'
 
 const mapStateToProps = state => {
 	let props = state.nomenclature ? 
@@ -19,7 +19,7 @@ function OrdonnancesTypesController({ ordonnancesTypes, ...otherProps }) {
 
 	function creerOrdonnance() {
 		let {history} = otherProps
-		goToRoute(history)(routes.GESTION_NOMENCLATURE)
+		goToRoute(history)(routesConfig.GESTION_NOMENCLATURE)
 	}
 
 	const props = { ordonnancesTypes, creerOrdonnance, ...otherProps }
