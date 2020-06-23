@@ -4,17 +4,17 @@ import { dataTypes as authDataTypes } from "../../auth/services/AuthService";
 import { routesConfig, goToRoute } from "./routeService";
 
 
-export const apiURLs = {
-	arborescenceDouleurs: '/douleurs/arborescence',
-	ficheDouleur: idDouleur => '/douleurs/' + idDouleur,
-	nouvelleOrdonnance: '/ordonnances/nouvelle',
-	ordonnanceEmise: idOrdonnance => '/ordonnances/emises/' + idOrdonnance,
-	idProvidersList: '/users/login/infos',
-	login: idProvider => '/users/login/' + idProvider,	
-	validateToken: '/users/login/registerToken',
-}
+export const backendURL = process.env.REACT_APP_BACKEND_URL ? process.env.REACT_APP_BACKEND_URL : ''
 
-export const backendURL = process.env.REACT_APP_BACKEND_URL
+export const apiURLs = {
+	arborescenceDouleurs: backendURL + '/douleurs/arborescence',
+	ficheDouleur: idDouleur => backendURL + '/douleurs/' + idDouleur,
+	nouvelleOrdonnance: backendURL + '/ordonnances/nouvelle',
+	ordonnanceEmise: idOrdonnance => backendURL + '/ordonnances/emises/' + idOrdonnance,
+	idProvidersList: backendURL + '/users/login/infos',
+	login: idProvider => backendURL + '/users/login/' + idProvider,	
+	validateToken: backendURL + '/users/login/registerToken',
+}
 
 const textMimeTypes = [
 	"application/javascript", "application/json", "application/xml",
@@ -103,6 +103,10 @@ const handleError = error => {
 		if (store.getState().router) {
 			const history = store.getState().router.history
 			if (history) {
+				if (store.getState().auth && store.getState().auth.idProvider) {
+					const idProvider = store.getState().auth.idProvider
+					goToRoute(history)(routesConfig.LOGIN_IDP, {idProvider})
+				}
 				goToRoute(history)(routesConfig.LOGIN_FORM)
 			}
 		}

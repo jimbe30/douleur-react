@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { Header, Segment } from 'semantic-ui-react';
+import { Header, Segment, Grid } from 'semantic-ui-react';
 
 import { store } from "./globals/redux/store";
 import { routesConfig } from "./globals/services/routeService";
@@ -10,6 +10,7 @@ import "./App.css";
 import Menu from "./globals/components/MenuBar";
 import Accueil from "./globals/components/Accueil";
 import ReduxHistory from './globals/components/ReduxHistory';
+import UserInfos from './auth/UserInfos';
 
 export default function App() {
 
@@ -22,15 +23,23 @@ export default function App() {
 			{/** le Router transmets la prop history à tous les composants enfants */}
 			<Router>
 
-				<ReduxHistory />
+				<ReduxHistory />	{/** stocke l'objet history dans le store pour le rendre accessible partout */}
 
 				<Menu />
 
 				<Header as="h2" color="grey" textAlign="center" inverted dividing style={{
 					margin: 0, paddingTop: '1.5rem', paddingBottom: '1.5rem', position: 'fixed', top: 0, left: 0,
-					zIndex: 900, background: 'rgb(0, 0, 0)', minWidth: '100%'
+					zIndex: 10, background: 'rgb(0, 0, 0)', minWidth: '100%'
 				}}>
-					<span> Med Pain Pro </span>
+					<Grid>
+						<Grid.Column width={5}></Grid.Column>
+						<Grid.Column width={6}>
+							<span>Med Pain Pro</span>
+						</Grid.Column>
+						<Grid.Column width={5} style= {{paddingTop: 0, paddingBottom: 0}}>
+							<UserInfos />
+						</Grid.Column>
+					</Grid>
 				</Header>
 
 				<Segment className='center' style={{ top: '6rem', height: contentHeight, overflow: 'auto', paddingBottom: '1rem' }}>

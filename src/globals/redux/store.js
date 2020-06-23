@@ -10,6 +10,10 @@ export function getState(namespace) {
     return state
 }
 
+export function resetState(namespace) {
+	dispatchData(namespace + '.reset', {})
+}
+
 export default function dispatchData(type, content) {
     store.dispatch({ type, content })
 }

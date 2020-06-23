@@ -46,12 +46,12 @@ function getReducer(namespace) {
 		if (namespaces[namespace][action.type]) {
 			return { ...state, [namespaces[namespace][action.type]]: action.content }
 		} else if (typeof namespaces[namespace] === 'object') {
+			if (action.type === namespace + '.reset') {
+				return {}
+			}
 			const namespaceData = namespaces[namespace]
-			if (
-				Object.values(namespaceData).findIndex(value =>	
-					value === action.type
-				) >= 0
-			) {
+			if ( Object.values(namespaceData).findIndex(value => 
+						value === action.type) >= 0 ) {
 				return { ...state, [action.type]: action.content }
 			}
 		}
