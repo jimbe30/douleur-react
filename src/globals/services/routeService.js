@@ -10,6 +10,7 @@ import OrdonnancesTypes from "../../nomenclature/OrdonnancesTypesController"
 import LoginController from "../../auth/LoginController"
 import UserInfos from "../../auth/UserInfos"
 import Test from "../../Test"
+import SaisieOrdonnanceType from "../../nomenclature/SaisieOrdonnanceTypeController";
 
 export const basePath = '/clientApp'
 
@@ -30,6 +31,8 @@ export const routesConfig = {
 		key: 'gestionNomenclature', path: getPath('/gestionNomenclature'), component: GestionNomenclature },
 	ORDONNANCES_TYPES: {
 		key: 'ordonnancesTypes', path: getPath('/ordonnancesTypes'), component: OrdonnancesTypes },	
+	SAISIE_ORDONNANCE_TYPE: {
+		key: 'saisieOrdonnanceType', path: getPath('/saisieOrdonnanceType'), component: SaisieOrdonnanceType },	
 	LOGIN_FORM: {
 		key: 'loginForm', path: getPath('/login'), component: LoginController },
 	LOGIN_IDP: {

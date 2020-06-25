@@ -3,15 +3,15 @@ import { Grid, FormGroup } from 'semantic-ui-react'
 import { useEffect } from 'react'
 
 import FormInput from '../globals/util-components/FormInput'
-import { NomenclatureContext } from './GestionNomenclatureController'
 import Helper from '../globals/util-components/Helper'
 import { FormSelect } from '../globals/redux/reduxFormAdapter'
+import { OrdonnanceTypeContext } from './SaisieOrdonnanceTypeController'
 
 
 export default function ProduitForm({ produit, majProduit, numProduit, ...rest }) {
 
 	// hook useContext()
-	let { listeProduits, listeUnitesDosage } = useContext(NomenclatureContext)
+	let { listeProduits, listeUnitesDosage } = useContext(OrdonnanceTypeContext)
 
 	const produitsProposes = listeProduits.map(
 		itemProduit => ({ value: itemProduit.id, text: itemProduit.designation })

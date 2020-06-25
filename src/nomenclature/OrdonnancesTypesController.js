@@ -19,7 +19,7 @@ function OrdonnancesTypesController({ ordonnancesTypes, ...otherProps }) {
 
 	function creerOrdonnance() {
 		let {history} = otherProps
-		goToRoute(history)(routesConfig.GESTION_NOMENCLATURE)
+		goToRoute(history)(routesConfig.SAISIE_ORDONNANCE_TYPE)
 	}
 
 	const props = { ordonnancesTypes, creerOrdonnance, ...otherProps }

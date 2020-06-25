@@ -21,15 +21,15 @@ export default class ActiveItemHandler extends React.Component {
 	}
 
 	render() {
-		const { render, componentList, ...otherProps } = this.props
+		const { render, componentList } = this.props
 		if (Array.isArray(componentList)) {
 			return componentList.map((component, index) => {
 				const isActive = index === this.state.activeIndex
-				return render({ component, index, isActive, handleClick: this.handleClick, otherProps })
+				return render({ component, index, isActive, handleClick: this.handleClick })
 			})
 		} else {
 			const isActive = 0 === this.state.activeIndex
-			return render({ component: componentList, index: 0, isActive, handleClick: this.handleClick, otherProps })
+			return render({ component: componentList, index: 0, isActive, handleClick: this.handleClick })
 		}
 	}
 }

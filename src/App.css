@@ -1,3 +1,6 @@
+
+/****  General  ****/
+
 body {
 	background: rgb(0, 55, 80);
 	font-family: Arial, Helvetica, sans-serif;
@@ -23,7 +26,11 @@ body {
 	padding: .3em .5em;
 }
 
+/*******************/
+
+
 /****  Grid  ****/
+
 .ui.grid {
 	margin-left: 0rem;
 	margin-right: 0rem;
@@ -45,7 +52,35 @@ body {
 }
 /*******************/
 
+
+/****  Accordion  ****/
+
+.ui.styled.accordion,
+.ui.styled.accordion .accordion {
+    box-shadow: -1px 0px 0rem 0 rgba(34, 36, 38, .5);
+}
+
+.ui.styled.accordion .accordion .title,
+.ui.styled.accordion .title {
+    margin: 0.3rem 0rem;
+    padding: 0rem 0rem;
+}
+
+.ui.styled.accordion .accordion .content,
+.ui.styled.accordion .content {
+    margin: .8rem 0 0 1.7rem;
+    padding: 0rem 0rem;
+}
+
+.ui.accordion .accordion {
+	margin: 0.4rem 0;
+}
+
+/*******************/
+
+
 /****  Forms  ****/
+
 .ui.input input {
 	width: auto!important;
 }
@@ -63,6 +98,7 @@ body {
 }
 
 option { color: black; }
+
 /*******************/
 
 *.error {

@@ -4,7 +4,7 @@
  */
 import { connect } from 'react-redux'
 import { setArborescence, dataTypes } from "./services/OrdonnanceActions";
-import ArborescenceComponent from "./ArborescenceComponent";
+import ArborescenceComponent from "../nomenclature/ArborescenceComponent";
 import React, { Component } from 'react'
 import { Message } from 'semantic-ui-react';
 import { routesConfig, goToRoute } from '../globals/services/routeService';
@@ -20,24 +20,21 @@ const mapStateToProps = appState => ({
 
 class Arborescence extends Component {
 
-    constructor(props) {
-        super(props)
-        this.handleClickDouleur.bind(this)
-    }
-
     componentDidMount() {
         setArborescence()
     }
 
-    handleClickDouleur = (idDouleur) => {
-        goToRoute(this.props)(routesConfig.FICHE_DOULEUR, {idDouleur})
-    }
+	 actionDouleur = {
+		libelle : 'Choisir une ordonnance',
+		process: (idDouleur) => goToRoute(this.props)(routesConfig.FICHE_DOULEUR, {idDouleur}),
+		primary: true
+	 }
 
     render() {
         return <ComponentLoader loadedObject={this.props.nomenclatures}>
             <div>
                 <Message info>Choisissez le type de douleur concernée dans l'arborescence ci-dessous</Message>
-                <ArborescenceComponent {...this.props} handleClickDouleur={this.handleClickDouleur}/>
+                <ArborescenceComponent {...this.props} actionsDouleurs={[this.actionDouleur]}/>
             </div>
         </ComponentLoader>        
     }

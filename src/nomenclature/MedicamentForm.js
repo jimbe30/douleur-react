@@ -3,8 +3,9 @@ import { Table, TableBody, TableRow, TableCell, Grid, Label, FormField } from 's
 import ProduitForm from './ProduitForm'
 import { BoutonSupprimer, BoutonAjouter } from '../globals/util-components/Boutons'
 import { verifierMedicament } from './services/GestionNomenclatureService'
-import { NomenclatureContext } from './GestionNomenclatureController'
+
 import Helper from '../globals/util-components/Helper'
+import { OrdonnanceTypeContext } from './SaisieOrdonnanceTypeController'
 
 
 export default function Medicament({ produits, formes, numMedicament, majMedicament }) {
@@ -12,7 +13,7 @@ export default function Medicament({ produits, formes, numMedicament, majMedicam
 	// Attributs
 	const medicament = { produits, formes }
 
-	const { formesMedicamenteuses } = useContext(NomenclatureContext)
+	const { formesMedicamenteuses } = useContext(OrdonnanceTypeContext)
 	const formesProposees = formesMedicamenteuses.map(
 		item => ({ value: item, text: item })
 	)

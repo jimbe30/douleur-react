@@ -9,29 +9,28 @@ import { Link } from "react-router-dom";
 export default function MenuBar() {
 
 	const [open, setOpen] = useState(false)
+	const rest = {onClick : () => setOpen(false)}
 
 	return (
 		<Menu isOpen={open} onStateChange={(state) => setOpen(state.isOpen)}>
 
-			<Link className="menu-item accueil" onClick={() => setOpen(false)}
-				to="/">
+			<Link className="menu-item accueil" {...rest} to="/">
 				Accueil
 			</Link>
-			<Link className="menu-item ordonnance" onClick={() => setOpen(false)}
-				to={getRoutePath(routesConfig.ARBORESCENCE)}>
+			<Link className="menu-item ordonnance" {...rest} to={getRoutePath(routesConfig.ARBORESCENCE)}>
 				Ordonnance
 			</Link>
-			<Link className="menu-item histo" onClick={() => setOpen(false)}
-				to={getRoutePath(routesConfig.HISTORIQUE)}>
+			<Link className="menu-item histo" {...rest} to={getRoutePath(routesConfig.HISTORIQUE)}>
 				Historique
 			</Link>
-			<Link className="menu-item lien" onClick={() => setOpen(false)}
-				to={getRoutePath(routesConfig.LIENS)}>
+			<Link className="menu-item lien" {...rest} to={getRoutePath(routesConfig.LIENS)}>
 				Liens
 			</Link>
-			<Link className="menu-item" onClick={() => setOpen(false)}
-				to={getRoutePath(routesConfig.GESTION_NOMENCLATURE)}>
+			<Link className="menu-item" {...rest} to={getRoutePath(routesConfig.GESTION_NOMENCLATURE)}>
 				Configurer nomenclature
+			</Link>
+			<Link className="menu-item" {...rest} to={getRoutePath(routesConfig.ORDONNANCES_TYPES)}>
+				Gérer ordonnances types
 			</Link>
 
 		</Menu>
