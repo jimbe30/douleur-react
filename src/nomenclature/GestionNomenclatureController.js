@@ -1,57 +1,72 @@
-import React, { createContext } from 'react';
+import React, { useEffect, useState } from 'react'
 import Arborescence from './ArborescenceComponent';
+import { dataTypes, setArborescence } from './services/GestionNomenclatureActions';
+import { connect } from 'react-redux';
+import AjoutNiveauNomenclature from './AjoutNiveauNomenclatureForm';
 
+function GestionNomenclature(props) {
 
-// Config générale pour ! TESTS ! //
-const nomenclatures = [	{ 
-		id: 1, 
-		libelle: 'douleur post opératoire',
-		nomenclaturesEnfants : [	{
-				id : 2, 
-				libelle : 'cardiovasculaire', 
-				infosGenerales : 'Intensité post opératoire de 10 à 30 à la toux' 
-			}
-		]
-	},	{
-		id: 3, 
-		libelle: 'enfant', 
-		nomenclaturesEnfants : [
-			{
-				id : 4, 
-				libelle : 'abdominal'
-			}
-		]
-	},	
-]
+	const { nomenclatures, ...rest } = { ...props }
 
-// Contexte portant la config générale de la fonctionnalité
-export const NomenclatureContext = createContext({ nomenclatures })
+	useEffect(() => {
+		if (!nomenclatures) {
+			setArborescence()
+		}
+	}, [nomenclatures])
 
-// Composant chargé du rendu 
-export default function GestionNomenclature(props) {
+	///// Gestion de la modale pour ajout d'un niveau dans la branche /////
 
-	const actionsBranches = [	{
-			libelle : 'ajouter un niveau',
-			process: (id) => { console.log("ajout d'un niveau à l'idDouleur " + id) }
-		},	{
-			libelle : 'ajouter un protocole',
+	const [dataModalBranche, setDataModalBranche] = useState({})
+	const openModalBranche = (idBranche) => {
+		setDataModalBranche({id: idBranche, isOpenModal: true}) 
+	}
+	const closeModalBranche = () => {
+		setDataModalBranche({isOpenModal: false}) 
+	}
+
+	///// Définition des actions au niveau branche dans l'arborescence /////
+
+	const actionsBranches = [{
+			libelle: 'Ajouter une entrée',
+			process: openModalBranche
+		}, {
+			libelle: 'ajouter un protocole',
 			process: (id) => { console.log("ajout d'un protocole anti douleur à l'idDouleur " + id) },
 			primary: true
 		},
 	]
-	
-	const actionsDouleurs = [	{
-			libelle : 'modifier le protocole',
+
+	///// Définition des actions au niveau douleur dans l'arborescence /////
+
+	const actionsDouleurs = [{
+			libelle: 'modifier le protocole',
 			process: (id) => { console.log("modification du protocole pour l'idDouleur " + id) }
 		}
 	]
 
+	///// Rendu /////
 
-	props = {...props, nomenclatures, actionsBranches, actionsDouleurs}
+	props = { nomenclatures, actionsBranches, actionsDouleurs, ...rest }
 
 	return (
-		<Arborescence {...props} />
+		<>
+			<Arborescence {...props} />
+			<AjoutNiveauNomenclature {...dataModalBranche} handleClose={closeModalBranche} />
+		</>
 	)
 }
+
+///// Connexion au store redux /////
+
+const mapStateToProps = state => {
+	let props = state.ordonnance ? {
+		nomenclatures: state.nomenclature[dataTypes.ARBORESCENCE]
+	} : {}
+	return props
+}
+export default connect(mapStateToProps)(GestionNomenclature)
+
+
+
 
 

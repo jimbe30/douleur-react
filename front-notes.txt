@@ -8,6 +8,43 @@
  
 CDN pour librairies javascript : https://unpkg.com 
 
+Couleurs 
+	turquoise
+		#058090
+		#237e91
+		#019baf
+		#00626f
+		#00c3d9
+		#2CA5C2
+		linear-gradient(165deg, #468a9a 50%, #77bfcc 75%)
+	gris 
+		#f8f9fe
+		#f7fafc
+		#f7f9fa
+		#b1b3b7
+		#5c6063
+		#dde6ec
+		#fbfbfb
+	bleu
+		#003750
+		#004070
+		#135482
+		#163c7d
+		#172b4d
+		#196faa
+		#2185d0
+		#4062a0		
+		#d7f3ff
+		#a9d5de
+		#f8ffff
+		
+		
+
+Polices
+	line-height: 1.5
+	Open Sans
+	Barlow
+	
 ----------
 
 Préserver un texte

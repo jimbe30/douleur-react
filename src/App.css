@@ -5,13 +5,14 @@ body {
 	background: rgb(0, 55, 80);
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: .9rem;
+	line-height: 1.5rem;
 }
 
 .ui.segment, .ui.segments .segment {
 	font-size: 0.9rem;
 }
 
-.ui.styled.accordion.noborder, .noborder {
+.noborder {
     border-style: none;
     box-shadow: unset;
 }
@@ -60,6 +61,11 @@ body {
     box-shadow: -1px 0px 0rem 0 rgba(34, 36, 38, .5);
 }
 
+.ui.styled.accordion.noborder {
+	border-style: none;
+	box-shadow: unset;
+}
+
 .ui.styled.accordion .accordion .title,
 .ui.styled.accordion .title {
     margin: 0.3rem 0rem;
@@ -101,6 +107,14 @@ option { color: black; }
 
 /*******************/
 
+
+.modalNiveauNomenclature {
+	top: auto;
+	bottom: auto;
+	right: auto;
+	left: auto;
+}
+
 *.error {
     color: #c5321a;
 }
@@ -110,9 +124,8 @@ option { color: black; }
 }
 
 .infosBase, .infosBase::before, .infosBase::after, *.infosBase {
-    font-family: 'Trebuchet MS', 'Calibri', 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+    font-family: 'Calibri', 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
     font-size: 1rem;
-    color: rgb(97, 96, 128);
     width: 100%;
     background: #F7F9FA;
     padding: 5px;

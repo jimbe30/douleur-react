@@ -11,9 +11,12 @@ const buttonStyle = {
 
 const buttonGroupStyle = {
 	float: 'right',
-	marginTop: '-2.3rem'
+	marginTop: '-2.4rem'
 }
 
+/**
+ * fonction de rendu des boutons d'action soit au niveau branche soit au niveau feuille
+ */
 const BoutonsActions = ({ actions, id }) =>
 	<>	{
 		Array.isArray(actions) &&
@@ -40,7 +43,7 @@ export default function Arborescence({ nomenclatures, actionsBranches, actionsDo
 			<>
 				<Branche
 					key={index}
-					nomenclature = {component}
+					nomenclature={component}
 					onClick={() => handleClick(index)}
 					isActive={isActive}
 					actionsBranches={actionsBranches}
@@ -50,48 +53,55 @@ export default function Arborescence({ nomenclatures, actionsBranches, actionsDo
 			</>
 		)
 	}
-	return <ActiveItemHandler render={renderBranche} componentList={nomenclatures} />
+	return <ActiveItemHandler key={0} render={renderBranche} componentList={nomenclatures} />
 }
 
 function Branche({ nomenclature, onClick, isActive, actionsBranches, actionsDouleurs, ...otherProps }) {
 
-	function renderNomenclatureEnfant({ component, index, isActive, handleClick }) {
-		// Fonction de rendu de chaque nomenclature enfant :	
+	if (nomenclature) {
 
-		if (component.nomenclaturesEnfants && component.nomenclaturesEnfants.length > 0) {
-			// l'enfant a des enfants : on construit la branche de niveau inférieur
-			return (
-				<Branche
-					key={index}
-					nomenclature={component}
-					onClick={() => handleClick(index)}
-					isActive={isActive}
-					actionsBranches={actionsBranches}
-					actionsDouleurs={actionsDouleurs}
-					{...otherProps}>
-				</Branche>
-			)
-		} else {
-			// l'enfant n'a pas d'enfant: on construit la feuille correspondante
-			return (
-				<Feuille
-					key={index}
-					nomenclature={component}
-					onClick={() => handleClick(index)}
-					isActive={isActive}
-					actionsDouleurs={actionsDouleurs}
-					{...otherProps} />
-			)
+		function renderNomenclatureEnfant({ component, index, isActive, handleClick }) {
+			// Fonction de rendu de chaque nomenclature enfant :	
+
+			if (component.nomenclaturesEnfants && component.nomenclaturesEnfants.length > 0) {
+				// l'enfant a des enfants : on construit la branche de niveau inférieur
+				return (
+					<Branche
+						key={index}
+						nomenclature={component}
+						onClick={() => handleClick(index)}
+						isActive={isActive}
+						actionsBranches={actionsBranches}
+						actionsDouleurs={actionsDouleurs}
+						{...otherProps}>
+					</Branche>
+				)
+			} else {
+				// l'enfant n'a pas d'enfant: on construit la feuille correspondante
+				return (
+					<Feuille
+						key={index}
+						nomenclature={component}
+						onClick={() => handleClick(index)}
+						isActive={isActive}
+						actionsDouleurs={actionsDouleurs}
+						{...otherProps} />
+				)
+			}
 		}
+
+		const content =
+			<>
+				<BoutonsActions actions={actionsBranches} id={nomenclature.id} />
+				<ActiveItemHandler key={nomenclature.id} render={renderNomenclatureEnfant} componentList={nomenclature.nomenclaturesEnfants} />
+			</>
+
+		return accordion({ title: nomenclature.libelle, content, isActive, onClick })
+
+	} else {
+		return null
 	}
 
-	const content =
-		<>
-			<BoutonsActions actions={actionsBranches} id={nomenclature.id} />
-			<ActiveItemHandler render={renderNomenclatureEnfant} componentList={nomenclature.nomenclaturesEnfants} />
-		</>
-
-	return accordion({ title: nomenclature.libelle, content, isActive, onClick })
 }
 
 
@@ -108,14 +118,14 @@ function Feuille({ nomenclature, onClick, isActive, actionsDouleurs }) {
 			}
 		</>
 
-	return accordion({ title: nomenclature.libelle, content, isActive, onClick })
+	return accordion({ title: nomenclature.libelle, content, isActive, onClick})
 }
 
 
 function accordion({ title, content, isActive, onClick }) {
 
 	return (
-		<Accordion styled className={!isActive ? 'noborder' : ''}>
+		<Accordion styled className={'center' + (!isActive ? ' noborder' : '')}>
 			<Accordion.Title active={isActive} index={0} onClick={onClick} >
 				<Icon name='dropdown' />
 				{title}

@@ -5,7 +5,6 @@ import { goToRoute, routesConfig } from "../../globals/services/routeService";
 
 export const dataTypes = {
 	INFOS_TEST: 'INFOS_TEST',
-	ARBORESCENCE: 'ARBORESCENCE',
 	PRESCRIPTIONS: 'PRESCRIPTIONS',
 	PRESCRIPTION_CHOISIE: 'PRESCRIPTION_CHOISIE',
 	PRESCRIPTION_SAISIE: 'PRESCRIPTION_SAISIE',
@@ -16,15 +15,12 @@ export async function setInfosTest(infos) {
 	dispatchData(dataTypes.INFOS_TEST, infos);
 }
 
-export async function setArborescence() {
-	const result = await getResultFromUrl(urls.arborescenceDouleurs)
-	dispatchData(dataTypes.ARBORESCENCE, result.data);
-}
 
 export async function setPreconisations(idDouleur) {
 	const result = await getResultFromUrl(urls.ficheDouleur(idDouleur))
 	dispatchData(dataTypes.PRESCRIPTIONS, result.data);
 }
+
 
 export function setPrescriptionChoisie(prescription) {
 	let state = store.getState().ordonnance
@@ -35,9 +31,11 @@ export function setPrescriptionChoisie(prescription) {
 	dispatchData(dataTypes.PRESCRIPTION_CHOISIE, prescription);
 }
 
+
 export function setPrescriptionSaisie(prescription) {
 	dispatchData(dataTypes.PRESCRIPTION_SAISIE, prescription);
 }
+
 
 export async function setOrdonnanceEmise(ordonnance, history) {
 
@@ -64,6 +62,7 @@ export async function setOrdonnanceEmise(ordonnance, history) {
 	}
 	dispatchData(dataTypes.ORDONNANCE_EMISE, ordonnance)
 }
+
 
 export async function getOrdonnanceEmise(idOrdonnance) {
 	let fileURL

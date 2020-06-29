@@ -6,11 +6,13 @@ import { descriptionOrdonnanceType } from "./GestionNomenclatureService";
 
 export const namespace = 'nomenclature'
 export const dataTypes = {
+	ARBORESCENCE: 'arborescence',
 	ORDONNANCE_TYPE: 'ordonnanceType',
 	LISTE_ORDONNANCES_TYPES: 'listeOrdonnancesTypes',
 	PROTOCOLE_DOULEUR: 'protocoleDouleur',
 	NOMENCLATURE_DOULEUR: 'nomenclatureDouleur'
 }
+
 
 function getState(dataType) {
 	const state = store.getState()[namespace][dataType]
@@ -23,7 +25,48 @@ function getState(dataType) {
 	}
 }
 
-export async function validerOrdonnanceType(ordonnanceType, {history}) {
+
+//////////////////////////////
+
+export async function setArborescence() {
+	const result = await getResultFromUrl(urls.arborescenceDouleurs)
+	dispatchData(dataTypes.ARBORESCENCE, result.data);
+}
+
+export function addNiveauNomenclature(id, libelle) {
+
+	if (!libelle) {
+		return {error: 'Le libellé est obligatoire'}
+	}
+
+	const arborescence = getState(dataTypes.ARBORESCENCE)
+	if (arborescence) {
+		const nomenclature = findNiveauNomenclature(id, arborescence)
+		if (nomenclature) {
+			nomenclature.nomenclaturesEnfants = [...nomenclature.nomenclaturesEnfants, { id: null, libelle }]
+			dispatchData(dataTypes.ARBORESCENCE, arborescence)
+		}
+	}
+}
+
+function findNiveauNomenclature(id, branche) {
+	let niveau
+	if (Array.isArray(branche)) {
+		niveau = branche.find(nomenclature => nomenclature.id === id)
+		if (!niveau) {
+			branche.forEach(nomenclature => {
+				if (!niveau && nomenclature.nomenclaturesEnfants) {
+					niveau = findNiveauNomenclature(id, nomenclature.nomenclaturesEnfants)
+				}
+			})
+		}
+	}
+	return niveau
+}
+
+//////////////////////////////
+
+export async function validerOrdonnanceType(ordonnanceType, { history }) {
 	descriptionOrdonnanceType(ordonnanceType)
 	dispatchData(dataTypes.ORDONNANCE_TYPE, ordonnanceType)
 	goToRoute(history)(routesConfig.ORDONNANCES_TYPES)
@@ -32,8 +75,8 @@ export async function validerOrdonnanceType(ordonnanceType, {history}) {
 export function ajouterOrdonnanceType(ordonnanceType) {
 	let listeOrdonnances = getState(dataTypes.LISTE_ORDONNANCES_TYPES)
 	if (Array.isArray(listeOrdonnances)) {
-		if (!listeOrdonnances.find(ordonnance => 
-				JSON.stringify(ordonnance) === JSON.stringify(ordonnanceType)
+		if (!listeOrdonnances.find(ordonnance =>
+			JSON.stringify(ordonnance) === JSON.stringify(ordonnanceType)
 		)) {
 			listeOrdonnances.push(ordonnanceType)
 		}
@@ -43,29 +86,6 @@ export function ajouterOrdonnanceType(ordonnanceType) {
 	dispatchData(dataTypes.LISTE_ORDONNANCES_TYPES, listeOrdonnances);
 }
 
-/////
+//////////////////////////////
 
-export async function setPreconisations(idDouleur) {
-	const result = await getResultFromUrl(urls.ficheDouleur(idDouleur))
-	dispatchData(dataTypes.PRESCRIPTIONS, result.data);
-}
 
-export async function setOrdonnanceEmise(ordonnance, history) {
-
-	resetFormErrors(formNames.INFOS_PATIENT_FORM)
-	let result = await postObjectToUrl(ordonnance, urls.nouvelleOrdonnance)
-	if (result.data) {
-		const obj = result.data
-		if (obj.errors) {
-			console.log(JSON.stringify(obj))
-			setFormErrors(formNames.INFOS_PATIENT_FORM, obj.errors)
-			goToRoute(history)(routesConfig.FORMULAIRE_ORDONNANCE)
-		} else {
-			goToRoute(history)(routesConfig.CONFIRMATION_ORDONNANCE)
-			console.log('L\'ordonnance a bien été enregistrée')
-		}
-	} else {
-		console.error('L\'ordonnance n\'a pas pu être correctement enregistrée')
-	}
-	dispatchData(dataTypes.ORDONNANCE_EMISE, ordonnance)
-}

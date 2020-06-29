@@ -1,5 +1,5 @@
 import React from 'react'
-import ListeOrdonnancesTypes from './ListeOrdonnancesTypes'
+import OrdonnancesTypes from './OrdonnancesTypesComponent'
 import { dataTypes } from './services/GestionNomenclatureActions'
 import { connect } from 'react-redux'
 import { routesConfig, goToRoute } from '../globals/services/routeService'
@@ -26,7 +26,7 @@ function OrdonnancesTypesController({ ordonnancesTypes, ...otherProps }) {
 
 	// rendu
 	return (
-		<ListeOrdonnancesTypes {...props} />
+		<OrdonnancesTypes {...props} />
 	)
 }
 
