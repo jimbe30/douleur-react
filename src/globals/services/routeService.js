@@ -6,11 +6,11 @@ import Prescription from "../../ordonnance/PrescriptionController"
 import Ordonnance from "../../ordonnance/OrdonnanceController"
 import OrdonnanceConfirm from "../../ordonnance/OrdonnanceConfirm"
 import GestionNomenclature from "../../nomenclature/GestionNomenclatureController"
-import OrdonnancesTypes from "../../nomenclature/OrdonnancesTypesController"
+import OrdonnancesTypes from "../../ordonnanceType/OrdonnancesTypesController"
 import LoginController from "../../auth/LoginController"
 import UserInfos from "../../auth/UserInfos"
 import Test from "../../Test"
-import SaisieOrdonnanceType from "../../nomenclature/SaisieOrdonnanceTypeController";
+import SaisieOrdonnanceType from "../../ordonnanceType/SaisieOrdonnanceTypeController";
 
 export const basePath = '/clientApp'
 

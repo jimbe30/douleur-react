@@ -1,14 +1,10 @@
 import dispatchData, { store } from "../../globals/redux/store";
-import { apiURLs as urls, getResultFromUrl, postObjectToUrl } from "../../globals/services/apiService";
-import { setFormValues, formNames, setFormErrors, resetFormErrors } from "../../globals/redux/FormActions";
-import { goToRoute, routesConfig } from "../../globals/services/routeService";
-import { descriptionOrdonnanceType } from "./GestionNomenclatureService";
+import { apiURLs as urls, getResultFromUrl } from "../../globals/services/apiService";
+
 
 export const namespace = 'nomenclature'
 export const dataTypes = {
 	ARBORESCENCE: 'arborescence',
-	ORDONNANCE_TYPE: 'ordonnanceType',
-	LISTE_ORDONNANCES_TYPES: 'listeOrdonnancesTypes',
 	PROTOCOLE_DOULEUR: 'protocoleDouleur',
 	NOMENCLATURE_DOULEUR: 'nomenclatureDouleur'
 }
@@ -26,12 +22,11 @@ function getState(dataType) {
 }
 
 
-//////////////////////////////
-
 export async function setArborescence() {
 	const result = await getResultFromUrl(urls.arborescenceDouleurs)
 	dispatchData(dataTypes.ARBORESCENCE, result.data);
 }
+
 
 export function addNiveauNomenclature(id, libelle) {
 
@@ -43,11 +38,12 @@ export function addNiveauNomenclature(id, libelle) {
 	if (arborescence) {
 		const nomenclature = findNiveauNomenclature(id, arborescence)
 		if (nomenclature) {
-			nomenclature.nomenclaturesEnfants = [...nomenclature.nomenclaturesEnfants, { id: null, libelle }]
+			nomenclature.nomenclaturesEnfants = [...nomenclature.nomenclaturesEnfants, { id: null, type: 'niveau', libelle }]
 			dispatchData(dataTypes.ARBORESCENCE, arborescence)
 		}
 	}
 }
+
 
 function findNiveauNomenclature(id, branche) {
 	let niveau
@@ -64,28 +60,5 @@ function findNiveauNomenclature(id, branche) {
 	return niveau
 }
 
-//////////////////////////////
-
-export async function validerOrdonnanceType(ordonnanceType, { history }) {
-	descriptionOrdonnanceType(ordonnanceType)
-	dispatchData(dataTypes.ORDONNANCE_TYPE, ordonnanceType)
-	goToRoute(history)(routesConfig.ORDONNANCES_TYPES)
-}
-
-export function ajouterOrdonnanceType(ordonnanceType) {
-	let listeOrdonnances = getState(dataTypes.LISTE_ORDONNANCES_TYPES)
-	if (Array.isArray(listeOrdonnances)) {
-		if (!listeOrdonnances.find(ordonnance =>
-			JSON.stringify(ordonnance) === JSON.stringify(ordonnanceType)
-		)) {
-			listeOrdonnances.push(ordonnanceType)
-		}
-	} else {
-		listeOrdonnances = [ordonnanceType]
-	}
-	dispatchData(dataTypes.LISTE_ORDONNANCES_TYPES, listeOrdonnances);
-}
-
-//////////////////////////////
 
 

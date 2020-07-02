@@ -60,6 +60,10 @@ function Branche({ nomenclature, onClick, isActive, actionsBranches, actionsDoul
 
 	if (nomenclature) {
 
+		if (!nomenclature.type) {
+			nomenclature.type = nomenclature.infosGenerales ? 'protocole' : 'niveau'
+		}
+
 		function renderNomenclatureEnfant({ component, index, isActive, handleClick }) {
 			// Fonction de rendu de chaque nomenclature enfant :	
 
@@ -84,6 +88,7 @@ function Branche({ nomenclature, onClick, isActive, actionsBranches, actionsDoul
 						nomenclature={component}
 						onClick={() => handleClick(index)}
 						isActive={isActive}
+						actionsBranches={actionsBranches}
 						actionsDouleurs={actionsDouleurs}
 						{...otherProps} />
 				)
@@ -105,11 +110,18 @@ function Branche({ nomenclature, onClick, isActive, actionsBranches, actionsDoul
 }
 
 
-function Feuille({ nomenclature, onClick, isActive, actionsDouleurs }) {
+function Feuille({ nomenclature, onClick, isActive, actionsBranches, actionsDouleurs }) {
+
+	if (!nomenclature.type) {
+		nomenclature.type = nomenclature.infosGenerales ? 'protocole' : 'niveau'
+	}
+
+	const actions = nomenclature.type === 'protocole' ? actionsDouleurs : actionsBranches
 
 	const content =
 		<>
-			<BoutonsActions actions={actionsDouleurs} id={nomenclature.id} />
+			{ /** ArborescenceComponent.Feuille */ }
+			<BoutonsActions actions={actions} id={nomenclature.id} />
 			{
 				nomenclature.infosGenerales &&
 				<TruncBox height='6rem' moreText='▼ ( voir plus ... )' lessText='▲ ( réduire ... )'>
@@ -118,20 +130,23 @@ function Feuille({ nomenclature, onClick, isActive, actionsDouleurs }) {
 			}
 		</>
 
-	return accordion({ title: nomenclature.libelle, content, isActive, onClick})
+	return accordion({ title: nomenclature.libelle, content, isActive, onClick })
 }
 
 
 function accordion({ title, content, isActive, onClick }) {
 
 	return (
-		<Accordion styled className={'center' + (!isActive ? ' noborder' : '')}>
-			<Accordion.Title active={isActive} index={0} onClick={onClick} >
-				<Icon name='dropdown' />
-				{title}
-			</Accordion.Title>
-			<Accordion.Content active={isActive}>{content}</Accordion.Content>
-		</Accordion>
+		<>
+			{ /** ArborescenceComponent.accordion */ }
+				<Accordion styled className={'center' + (!isActive ? ' noborder' : '')}>
+					<Accordion.Title active={isActive} index={0} onClick={onClick} >
+						<Icon name='dropdown' />
+						{title}
+					</Accordion.Title>
+					<Accordion.Content active={isActive}>{content}</Accordion.Content>
+				</Accordion>
+		</>
 	)
 
 }

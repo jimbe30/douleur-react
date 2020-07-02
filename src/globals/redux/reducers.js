@@ -3,6 +3,7 @@ import { reducer as formReducer } from "redux-form";
 import { dataTypes as testDataTypes } from "../../Test"
 import { dataTypes as ordonnanceDataTypes  } from "../../ordonnance/services/OrdonnanceActions";
 import { dataTypes as nomenclatureDataTypes  } from "../../nomenclature/services/GestionNomenclatureActions";
+import { dataTypes as ordonnanceTypeDataTypes  } from "../../ordonnanceType/services/OrdonnanceTypeActions";
 import { formNames } from "./FormActions"
 import { dataTypes as authDataTypes} from "../../auth/services/AuthService"
 
@@ -14,6 +15,7 @@ export const namespaces = {
 	test: testDataTypes,
 	nomenclature: nomenclatureDataTypes,
 	ordonnance: ordonnanceDataTypes, 
+	ordonnanceType: ordonnanceTypeDataTypes,
 	appForms: formNames,
 	auth: authDataTypes,
 	router: { history: 'history' }
