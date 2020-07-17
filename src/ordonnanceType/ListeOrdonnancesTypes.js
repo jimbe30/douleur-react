@@ -1,9 +1,11 @@
 import React from 'react'
 import { Grid, GridRow, GridColumn, Message } from 'semantic-ui-react'
 import { BoutonAjouter } from '../globals/util-components/Boutons'
+import { modesAction } from '../nomenclature/services/GestionNomenclatureActions'
 
 
-export default function ListeOrdonnancesTypes({ ordonnancesTypes, creerOrdonnance, ...otherPrpos }) {
+export default function ListeOrdonnancesTypes(
+	{ ordonnancesTypes, selectOrdonnanceType, creerOrdonnance, mode, ...otherPrpos }) {
 
 	const listeOrdonnancesTypes = Array.isArray(ordonnancesTypes) ? ordonnancesTypes : [{}]
 
@@ -14,16 +16,22 @@ export default function ListeOrdonnancesTypes({ ordonnancesTypes, creerOrdonnanc
 		}
 	}
 
+	function choisirOrdonnanceType(ordonnanceType) {
+		if (selectOrdonnanceType) {
+			return () => selectOrdonnanceType(ordonnanceType)
+		}
+		return () => {}
+	}
+
+	const modeSelection = mode === modesAction.SELECTION
+	const titre = 'Veuillez sélectionner une ordonnance type ci-dessous'
+		+ (modeSelection !== true ? ' ou en créer une nouvelle' : '')
+
 	// fonctions de rendu
 	const Entete = () =>
 		<Grid.Row verticalAlign='middle'>
 			<Grid.Column width={10} textAlign='center'>
-				<h4>Liste des ordonnances types</h4>
-				<Message info>
-					<strong>
-						Veuillez sélectionner une ordonnance type ci-dessous ou en créer une nouvelle
-				</strong>
-				</Message>
+				<h4>{titre}</h4>
 			</Grid.Column>
 		</Grid.Row>
 
@@ -31,20 +39,26 @@ export default function ListeOrdonnancesTypes({ ordonnancesTypes, creerOrdonnanc
 		return listeOrdonnancesTypes.map(
 			(ordonnanceType, index) =>
 				<GridRow key={index}>
-					<GridColumn>
+					<GridColumn as='a' onClick={choisirOrdonnanceType(ordonnanceType) }>
 						{ordonnanceType.description}
 					</GridColumn>
 				</GridRow>
 		)
 	}
 
-	const BoutonsActions = () =>
-		<Grid.Row verticalAlign='middle'>
-			<Grid.Column width={5} textAlign='left'>
-				<BoutonAjouter size='tiny' long title='Nouvelle ordonnance type'
-					handleClick={nouvelleOrdonnance} />
-			</Grid.Column>
-		</Grid.Row>
+	const BoutonsActions = () => {
+		if (modeSelection !== true) {
+			return (
+				<Grid.Row verticalAlign='middle'>
+					<Grid.Column width={5} textAlign='left'>
+						<BoutonAjouter size='tiny' long title='Nouvelle ordonnance type'
+							handleClick={nouvelleOrdonnance} />
+					</Grid.Column>
+				</Grid.Row>
+			)
+		}
+		return null
+	}
 
 
 	// rendu

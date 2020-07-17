@@ -5,7 +5,8 @@ import { connect } from 'react-redux'
 import { routesConfig, goToRoute } from '../globals/services/routeService'
 
 const mapStateToProps = state => {
-	let props = state.ordonnanceType ? 
+	let props = state.ordonnanceType 
+		&& state.ordonnanceType[dataTypes.LISTE_ORDONNANCES_TYPES]? 
 		{ 
 			ordonnancesTypes: state.ordonnanceType[dataTypes.LISTE_ORDONNANCES_TYPES]
 		}

@@ -9,6 +9,14 @@ export const dataTypes = {
 	NOMENCLATURE_DOULEUR: 'nomenclatureDouleur'
 }
 
+export const modesAction = {
+	AJOUT: 'Ajout',
+	MODIFICATION: 'Modification',
+	SUPPRESSION: 'Suppression',
+	SELECTION: 'Sélection',
+	VISU: 'Visualisation'
+}
+
 
 function getState(dataType) {
 	const state = store.getState()[namespace][dataType]
@@ -26,6 +34,12 @@ export async function setArborescence() {
 	const result = await getResultFromUrl(urls.arborescenceDouleurs)
 	dispatchData(dataTypes.ARBORESCENCE, result.data);
 }
+
+export function majProtocoleDouleur(protocole) {
+
+	console.log('Mise à jour du protocole anti douleur')
+}
+
 
 
 export function addNiveauNomenclature(id, libelle) {

@@ -87,8 +87,16 @@ body {
 
 /****  Forms  ****/
 
-.ui.input input {
+.field:not([style]) .ui.input input {
 	width: auto!important;
+}
+
+.field[style] .ui.input input {
+	width: 100%;
+}
+
+.ui.form .inline.fields .field {
+	padding: 0 .5rem 0 .5rem;
 }
 
 .ui.form select {
