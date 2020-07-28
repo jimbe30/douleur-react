@@ -5,13 +5,16 @@ import ProtocoleDouleurForm from './ProtocoleDouleurForm';
 
 export default function ProtocoleDouleur(props) {
 
-	const { id, isOpenModal, mode, handleClose, } = props
+	let { id, isOpenModal, mode, handleClose, protocoleDouleur } = props
 
-	const [libelle, setLibelle] = useState()
+	if (!protocoleDouleur) {
+		protocoleDouleur = {}
+	}
+
 	const [error, setError] = useState(null)
 
 	const handleValider = () => {
-		const retour = majProtocoleDouleur(id, libelle)
+		const retour = majProtocoleDouleur(protocoleDouleur)
 		if (retour && retour.error) {
 			setError(retour.error)
 		} else {
@@ -22,35 +25,39 @@ export default function ProtocoleDouleur(props) {
 	const quitter = () => {
 		handleClose()
 		setError(null)
-		setLibelle(null)
 	}
 
 	if (id) {
 		return (
 			<>
-				< Modal size='tiny'
+				<Modal 
+					size='tiny'
 					open={isOpenModal}
 					onClose={quitter}
 				>
 					<Modal.Header>{mode} d'un protocole anti douleur</Modal.Header>
-					<Modal.Content>
-						{
+					
+					<Modal.Content> {
 							error &&	<Message error content={error} />
 						}
-
-						<ProtocoleDouleurForm />
+						<ProtocoleDouleurForm protocoleDouleur={protocoleDouleur} />
 					</Modal.Content>
+					
 					<Modal.Actions>
 						<Button
 							onClick={handleValider}
 							positive
 						>
 							Valider
-					</Button>
-						<Button onClick={quitter} negative>
+						</Button>
+						<Button 
+							onClick={quitter} 
+							negative
+						>
 							Annuler
-            	</Button>
+            		</Button>
 					</Modal.Actions>
+					
 				</Modal >
 			</>
 		)

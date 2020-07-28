@@ -38,22 +38,26 @@ const BoutonsActions = ({ actions, id }) =>
 
 
 export default function Arborescence({ nomenclatures, actionsBranches, actionsDouleurs, ...otherProps }) {
-	function renderBranche({ component, index, isActive, handleClick }) {
-		return (
-			<>
-				<Branche
-					key={index}
-					nomenclature={component}
-					onClick={() => handleClick(index)}
-					isActive={isActive}
-					actionsBranches={actionsBranches}
-					actionsDouleurs={actionsDouleurs}
-					{...otherProps}>
-				</Branche>
-			</>
-		)
+
+	if (nomenclatures) {
+		function renderBranche({ component, index, isActive, handleClick }) {
+			return (
+				<>
+					<Branche
+						key={index}
+						nomenclature={component}
+						onClick={() => handleClick(index)}
+						isActive={isActive}
+						actionsBranches={actionsBranches}
+						actionsDouleurs={actionsDouleurs}
+						{...otherProps}>
+					</Branche>
+				</>
+			)
+		}
+		return <ActiveItemHandler key={0} render={renderBranche} componentList={nomenclatures} />
 	}
-	return <ActiveItemHandler key={0} render={renderBranche} componentList={nomenclatures} />
+	return null
 }
 
 function Branche({ nomenclature, onClick, isActive, actionsBranches, actionsDouleurs, ...otherProps }) {
@@ -67,32 +71,35 @@ function Branche({ nomenclature, onClick, isActive, actionsBranches, actionsDoul
 		function renderNomenclatureEnfant({ component, index, isActive, handleClick }) {
 			// Fonction de rendu de chaque nomenclature enfant :	
 
-			if (component.nomenclaturesEnfants && component.nomenclaturesEnfants.length > 0) {
-				// l'enfant a des enfants : on construit la branche de niveau inférieur
-				return (
-					<Branche
-						key={index}
-						nomenclature={component}
-						onClick={() => handleClick(index)}
-						isActive={isActive}
-						actionsBranches={actionsBranches}
-						actionsDouleurs={actionsDouleurs}
-						{...otherProps}>
-					</Branche>
-				)
-			} else {
-				// l'enfant n'a pas d'enfant: on construit la feuille correspondante
-				return (
-					<Feuille
-						key={index}
-						nomenclature={component}
-						onClick={() => handleClick(index)}
-						isActive={isActive}
-						actionsBranches={actionsBranches}
-						actionsDouleurs={actionsDouleurs}
-						{...otherProps} />
-				)
+			if (component) {
+				if (component.nomenclaturesEnfants && component.nomenclaturesEnfants.length > 0) {
+					// l'enfant a des enfants : on construit la branche de niveau inférieur
+					return (
+						<Branche
+							key={index}
+							nomenclature={component}
+							onClick={() => handleClick(index)}
+							isActive={isActive}
+							actionsBranches={actionsBranches}
+							actionsDouleurs={actionsDouleurs}
+							{...otherProps}>
+						</Branche>
+					)
+				} else {
+					// l'enfant n'a pas d'enfant: on construit la feuille correspondante
+					return (
+						<Feuille
+							key={index}
+							nomenclature={component}
+							onClick={() => handleClick(index)}
+							isActive={isActive}
+							actionsBranches={actionsBranches}
+							actionsDouleurs={actionsDouleurs}
+							{...otherProps} />
+					)
+				}
 			}
+			return null
 		}
 
 		const content =
@@ -120,7 +127,7 @@ function Feuille({ nomenclature, onClick, isActive, actionsBranches, actionsDoul
 
 	const content =
 		<>
-			{ /** ArborescenceComponent.Feuille */ }
+			{ /** ArborescenceComponent.Feuille */}
 			<BoutonsActions actions={actions} id={nomenclature.id} />
 			{
 				nomenclature.infosGenerales &&
@@ -138,14 +145,14 @@ function accordion({ title, content, isActive, onClick }) {
 
 	return (
 		<>
-			{ /** ArborescenceComponent.accordion */ }
-				<Accordion styled className={'center' + (!isActive ? ' noborder' : '')}>
-					<Accordion.Title active={isActive} index={0} onClick={onClick} >
-						<Icon name='dropdown' />
-						{title}
-					</Accordion.Title>
-					<Accordion.Content active={isActive}>{content}</Accordion.Content>
-				</Accordion>
+			{ /** ArborescenceComponent.accordion */}
+			<Accordion styled className={'center' + (!isActive ? ' noborder' : '')}>
+				<Accordion.Title active={isActive} index={0} onClick={onClick} >
+					<Icon name='dropdown' />
+					{title}
+				</Accordion.Title>
+				<Accordion.Content active={isActive}>{content}</Accordion.Content>
+			</Accordion>
 		</>
 	)
 

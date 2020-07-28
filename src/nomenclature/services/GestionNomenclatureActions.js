@@ -36,8 +36,7 @@ export async function setArborescence() {
 }
 
 export function majProtocoleDouleur(protocole) {
-
-	console.log('Mise à jour du protocole anti douleur')
+	dispatchData(dataTypes.PROTOCOLE_DOULEUR, protocole);	
 }
 
 

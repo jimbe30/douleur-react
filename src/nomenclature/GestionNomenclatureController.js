@@ -81,9 +81,9 @@ function GestionNomenclature(props) {
 ///// Connexion au store redux /////
 
 const mapStateToProps = state => {
-	let props = state.ordonnance ? {
+	let props = state.nomenclature ? {
 		nomenclatures: state.nomenclature[dataTypes.ARBORESCENCE]
-	} : {}
+	} : null
 	return props
 }
 export default connect(mapStateToProps)(GestionNomenclature)

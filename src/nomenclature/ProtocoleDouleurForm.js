@@ -1,17 +1,12 @@
 import React, { useState } from 'react'
 import OrdonnancesTypesController from '../ordonnanceType/OrdonnancesTypesController'
 import { modesAction } from './services/GestionNomenclatureActions'
-import {  FormInput, Table, TableRow, TableCell, TableBody, FormGroup, Form, Icon } from 'semantic-ui-react'
-import Helper from '../globals/util-components/Helper'
+import MedicamentPrescriptionForm from './MedicamentPrescriptionForm'
 
 
 function ProtocoleDouleurForm(props) {
 
 	let { protocoleDouleur } = { ...props }
-
-	if (!protocoleDouleur) {
-		protocoleDouleur = {}
-	}
 
 	let infosGenerales = protocoleDouleur.infosGenerales
 	let libelle = protocoleDouleur.libelle
@@ -19,7 +14,6 @@ function ProtocoleDouleurForm(props) {
 	let prescriptions = protocoleDouleur.prescriptions
 
 	const [ordonnanceType, setOrdonnanceType] = useState()
-	const [protocole, setProtocole] = useState(protocoleDouleur)
 
 	function selectOrdonnanceType(ordonnanceType) {
 		const prescription = { medicamentsPreconises : ordonnanceType.medicaments}
@@ -50,10 +44,10 @@ function ProtocoleDouleurForm(props) {
 
 	const ListeMedicamentsForm = () => {
 		let medicamentsPreconises = null
-		if (protocole && Array.isArray(protocole.prescriptions)) {
-			const size = protocole.prescriptions.length
+		if (protocoleDouleur && Array.isArray(protocoleDouleur.prescriptions)) {
+			const size = protocoleDouleur.prescriptions.length
 			if (size > 0) {
-				medicamentsPreconises = protocole.prescriptions[size-1].medicamentsPreconises
+				medicamentsPreconises = protocoleDouleur.prescriptions[size-1].medicamentsPreconises
 			} 
 		}
 		if (medicamentsPreconises) {
@@ -96,131 +90,6 @@ function ProtocoleDouleurForm(props) {
 			=> construire le protocole regroupant l'ensemble des prescriptions
 	 */
 
-	/**
-	 * Formulaire de saisie de la posologie recommandée pour un médicament
-	 * @param {Object} medicament
-	 */
-	const MedicamentPrescriptionForm = ({ medicament, majMedicamentPreconise }) => {
-
-		const inputStyle = { style: { width: '50px' } }
-		const formGroupStyle = { style: { margin: 0 } }
-		const arrowIconStyle = { style: { marginLeft: '.5rem' } }
-		const tableStyle = { style: { marginTop: '1rem' } }
-
-		function handleChangeData(input) {
-			if (majMedicamentPreconise) {
-				const { attribut, value } = { attribut: input.name, value: input.value }
-				majMedicamentPreconise({ ...medicament, [attribut]: value })
-			}
-		}
-
-		if (medicament) {
-			return (
-				<Form size='tiny'>
-					<Table {...tableStyle}>
-						<Table.Header>
-							<Table.Row>
-								<Table.HeaderCell colSpan={2}>
-									{medicament.description}
-								</Table.HeaderCell>
-							</Table.Row>
-						</Table.Header>
-
-						<TableBody>
-							<TableRow>
-								<TableCell verticalAlign='middle'>
-									<Helper text='Durée' helpText=
-										'Renseigner les durées minimum et maximum du traitement en nombre de jours'
-									/>
-								</TableCell>
-								<TableCell verticalAlign='middle'>
-									<FormGroup inline {...formGroupStyle}>
-										<FormInput
-											required
-											placeholder='min'
-											onChange={e => handleChangeData(e.target)}
-											name={'dureeMin'}
-											value={medicament.dureeMin}
-											{...inputStyle}
-										/> à
-										<FormInput
-											placeholder='max'
-											onChange={e => handleChangeData(e.target)}
-											name={'dureeMax'}
-											value={medicament.dureeMax}
-											{...inputStyle}
-										/> jours
-									</FormGroup>
-								</TableCell>
-							</TableRow>
-							<TableRow>
-								<TableCell verticalAlign='middle'>
-									<Helper text='Fréquence' helpText={
-										'Renseigner les fréquences minimum et maximum en nombre de prises par jour ' +
-										'+ précisions éventuelles (ex: matin, midi, soir)'}
-									/>
-								</TableCell>
-								<TableCell verticalAlign='middle'>
-									<FormGroup inline {...formGroupStyle}>
-										<FormInput
-											required
-											placeholder='min'
-											onChange={e => handleChangeData(e.target)}
-											name={'frequenceMin'}
-											value={medicament.frequenceMin}
-											{...inputStyle}
-										/> à
-										<FormInput
-											placeholder='max'
-											onChange={e => handleChangeData(e.target)}
-											name={'frequenceMax'}
-											value={medicament.frequenceMax}
-											{...inputStyle}
-										/> fois / jour
-										<Icon size='tiny' name='angle right' color='grey' {...arrowIconStyle} />
-										<FormInput
-											placeholder='précision'
-											onChange={e => handleChangeData(e.target)}
-											name={'frequencePrecision'}
-											value={medicament.frequencePrecision}
-										/>
-									</FormGroup>
-								</TableCell>
-							</TableRow>
-							<TableRow>
-								<TableCell verticalAlign='middle'>
-									<Helper text='Quantité' helpText={
-										'Renseigner les quantités minimum et maximum de médicaments par prise'}
-									/>
-								</TableCell>
-								<TableCell verticalAlign='middle'>
-									<FormGroup inline {...formGroupStyle}>
-										<FormInput
-											required
-											placeholder='min'
-											onChange={e => handleChangeData(e.target)}
-											name={'quantiteMin'}
-											value={medicament.quantiteMin}
-											{...inputStyle}
-										/> à
-										<FormInput
-											placeholder='max'
-											onChange={e => handleChangeData(e.target)}
-											name={'quantiteMax'}
-											value={medicament.quantiteMax}
-											{...inputStyle}
-										/> médicaments par prise
-									</FormGroup>
-								</TableCell>
-							</TableRow>
-						</TableBody>
-					</Table>
-				</Form>
-
-			)
-		}
-		return null
-	}
 
 
 	return (
@@ -234,12 +103,6 @@ function ProtocoleDouleurForm(props) {
 export default ProtocoleDouleurForm
 
 
-//////////////////////////////////
-
-
-function buildProtocole() {
-
-}
 
 ////////////////////////////////////
 
