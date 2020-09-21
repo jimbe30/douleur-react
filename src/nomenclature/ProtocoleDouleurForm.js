@@ -76,6 +76,7 @@ function ProtocoleDouleurForm(props) {
 		if (ordonnanceType) {
 			return <>Renseigner la posologie pour l'ordonnance type choisie</>
 		}
+		return null
 	}
 
 
@@ -168,131 +169,83 @@ const uneOrdonnanceType = {
 	isOrdonnanceValide: true
 }
 
-const unProtocole = {
-	PRESCRIPTIONS: [
-		{
-			medicamentsPreconises: [
-				{
-					id: 14,
-					idDouleur: 8,
-					description: 'Paracétamol (400 ou 500 mg) + Poudre d’opium 25 mg   ; (1 ou 2) (comprimé(s) ou gélule(s)) ;  matin, midi et soir  ; Pendant (5 à 10) jours  ',
-					dureeMax: null,
-					dureeMin: null,
-					numOrdonnance: 1,
-					numMedicament: 1,
-					recommandation: null,
-					compatibilites: [
-						{
-							id: 443,
-							dosages: null,
-							produit: {
-								id: 1,
-								code: 'PARACTM',
-								designation: 'Paracétamol',
-								indesirable: '',
-								indication: null
-							}
-						},
-						{
-							id: 632,
-							dosages: null,
-							produit: {
-								id: 4,
-								code: 'OPIUM',
-								designation: 'Poudre d\'opium',
-								indesirable: null,
-								indication: null
-							}
-						}
-					]
-				}
-			],
-			nomenclatureDouleur: {
-				id: 8,
-				infosGenerales: 'Intensité de la douleur postopératoire\u202f:\r\n- EVA au repos  = 10 à 30 mm \r\n- EVA à la toux, kinésithérapie et mobilisation = 40 à 60 mm \r\nIntensité maximale entre J2-J3 postopératoire \r\nDouleurs chroniques scapulaires rapportées jusqu\'à 28 mois chez 39% des patients \r\nDouleurs pariétale antérieures souvent bilatérales et prolongées dues à un prélèvement et donc à la dissection d’une ou des deux artères mammaires internes. \r\nDe plus, le site de prélèvement d’une veine saphène pour greffon au niveau de la jambe ou de la cuisse occasionne des douleurs parfois plus intenses que l’incision sternale\u202f; \r\nMême remarque pour la dissection d’une artère radiale. \r\nDouleur beaucoup plus intense après dissection de l’artère gastroépiploïque requérant une laparotomie sus-ombilicale. \r\nOutre l’abord cardiaque par sternotomie, il est proposé actuellement une thoracotomie antérieure gauche avec vidéoassistance et monopontage coronaire avec ou sans CEC**\u202f: dans ce cas, l’intensité de la douleur est plus élevée que par sternotomie plus spécialement à la mobilisation.\r\nBénéfice clinique d’une kinésithérapie respiratoire et de mobilisation précoce, régulière et prolongée, en particulier sur les douleurs résiduelles ou chroniques\r\n',
-				libelle: 'Chirurgie coronaire',
-				recommandations: null,
-				nomenclaturesEnfants: []
+const protocoleDouleur = {
+	idDouleur: 55,
+	infosGenerales: 'TEST',
+	libelle: 'Test protocole douleur',
+	recommandations: null,
+	nomenclaturesEnfants: [],
+	type: 'protocole',
+	idParent: 54,
+	prescriptions: [
+	  {
+		 medicamentsPreconises: [
+			{
+			  produits: [
+				 {
+					idProduit: 1,
+					errors: {},
+					uniteDosage: 'mg',
+					designation: 'Paracétamol',
+					listeDosages: [
+					  '500',
+					  '1000'
+					],
+					focus: null,
+					description: 'Paracétamol 500 ou 1000 mg'
+				 },
+				 {
+					idProduit: 3,
+					errors: {},
+					uniteDosage: 'mg',
+					designation: 'Codéine',
+					listeDosages: [
+					  '25',
+					  '30'
+					],
+					focus: null,
+					description: 'Codéine 25 ou 30 mg'
+				 }
+			  ],
+			  formes: [
+				 'Comprimé',
+				 'Gélule'
+			  ],
+			  errors: {},
+			  description: 'Paracétamol 500 ou 1000 mg + Codéine 25 ou 30 mg',
+			  dureeMin: '10',
+			  dureeMax: '15',
+			  frequenceMin: '2',
+			  frequenceMax: '3',
+			  frequencePrecision: 'pendant les repas',
+			  quantiteMin: '1',
+			  quantiteMax: '2'
+			},
+			{
+			  produits: [
+				 {
+					idProduit: 2,
+					errors: {},
+					uniteDosage: 'mg',
+					designation: 'Tramadol',
+					listeDosages: [
+					  '50'
+					],
+					focus: null,
+					description: 'Tramadol 50 mg'
+				 }
+			  ],
+			  formes: [
+				 'Comprimé'
+			  ],
+			  errors: {},
+			  description: 'Tramadol 50 mg',
+			  dureeMin: '10',
+			  frequenceMin: '3',
+			  frequencePrecision: 'matin, midi et soir',
+			  quantiteMin: '1'
 			}
-		},
-		{
-			medicamentsPreconises: [
-				{
-					id: 15,
-					idDouleur: 8,
-					description: 'Paracétamol (400 ou 500 mg) + Codéine (20 ou 30 mg)   ; (1 à 2) (comprimé(s) ou gélule(s); matin, midi et soir  ; Pendant (5 à 10) jours ',
-					dureeMax: null,
-					dureeMin: null,
-					numOrdonnance: 2,
-					numMedicament: 1,
-					recommandation: null,
-					compatibilites: [
-						{
-							id: 444,
-							dosages: null,
-							produit: {
-								id: 1,
-								code: 'PARACTM',
-								designation: 'Paracétamol',
-								indesirable: '',
-								indication: null
-							}
-						},
-						{
-							id: 601,
-							dosages: null,
-							produit: {
-								id: 3,
-								code: 'CODEINE',
-								designation: 'Codéine',
-								indesirable: null,
-								indication: null
-							}
-						}
-					]
-				}
-			],
-			nomenclatureDouleur: {
-				id: 8,
-				infosGenerales: 'Intensité de la douleur postopératoire\u202f:\r\n- EVA au repos  = 10 à 30 mm \r\n- EVA à la toux, kinésithérapie et mobilisation = 40 à 60 mm \r\nIntensité maximale entre J2-J3 postopératoire \r\nDouleurs chroniques scapulaires rapportées jusqu\'à 28 mois chez 39% des patients \r\nDouleurs pariétale antérieures souvent bilatérales et prolongées dues à un prélèvement et donc à la dissection d’une ou des deux artères mammaires internes. \r\nDe plus, le site de prélèvement d’une veine saphène pour greffon au niveau de la jambe ou de la cuisse occasionne des douleurs parfois plus intenses que l’incision sternale\u202f; \r\nMême remarque pour la dissection d’une artère radiale. \r\nDouleur beaucoup plus intense après dissection de l’artère gastroépiploïque requérant une laparotomie sus-ombilicale. \r\nOutre l’abord cardiaque par sternotomie, il est proposé actuellement une thoracotomie antérieure gauche avec vidéoassistance et monopontage coronaire avec ou sans CEC**\u202f: dans ce cas, l’intensité de la douleur est plus élevée que par sternotomie plus spécialement à la mobilisation.\r\nBénéfice clinique d’une kinésithérapie respiratoire et de mobilisation précoce, régulière et prolongée, en particulier sur les douleurs résiduelles ou chroniques\r\n',
-				libelle: 'Chirurgie coronaire',
-				recommandations: null,
-				nomenclaturesEnfants: []
-			}
-		},
-		{
-			medicamentsPreconises: [
-				{
-					id: 16,
-					idDouleur: 8,
-					description: 'Tramadol 50 mg  ; (1 à 2) (comprimé(s) ou gélule(s)) ; matin, midi et soir  ; Pendant (5 à 10) jours ',
-					dureeMax: null,
-					dureeMin: null,
-					numOrdonnance: 3,
-					numMedicament: 1,
-					recommandation: null,
-					compatibilites: [
-						{
-							id: 570,
-							dosages: null,
-							produit: {
-								id: 2,
-								code: 'TRAMADOL',
-								designation: 'Tramadol',
-								indesirable: null,
-								indication: null
-							}
-						}
-					]
-				}
-			],
-			nomenclatureDouleur: {
-				id: 8,
-				infosGenerales: 'Intensité de la douleur postopératoire\u202f:\r\n- EVA au repos  = 10 à 30 mm \r\n- EVA à la toux, kinésithérapie et mobilisation = 40 à 60 mm \r\nIntensité maximale entre J2-J3 postopératoire \r\nDouleurs chroniques scapulaires rapportées jusqu\'à 28 mois chez 39% des patients \r\nDouleurs pariétale antérieures souvent bilatérales et prolongées dues à un prélèvement et donc à la dissection d’une ou des deux artères mammaires internes. \r\nDe plus, le site de prélèvement d’une veine saphène pour greffon au niveau de la jambe ou de la cuisse occasionne des douleurs parfois plus intenses que l’incision sternale\u202f; \r\nMême remarque pour la dissection d’une artère radiale. \r\nDouleur beaucoup plus intense après dissection de l’artère gastroépiploïque requérant une laparotomie sus-ombilicale. \r\nOutre l’abord cardiaque par sternotomie, il est proposé actuellement une thoracotomie antérieure gauche avec vidéoassistance et monopontage coronaire avec ou sans CEC**\u202f: dans ce cas, l’intensité de la douleur est plus élevée que par sternotomie plus spécialement à la mobilisation.\r\nBénéfice clinique d’une kinésithérapie respiratoire et de mobilisation précoce, régulière et prolongée, en particulier sur les douleurs résiduelles ou chroniques\r\n',
-				libelle: 'Chirurgie coronaire',
-				recommandations: null,
-				nomenclaturesEnfants: []
-			}
-		}
+		 ]
+	  }
 	]
-}
+ }

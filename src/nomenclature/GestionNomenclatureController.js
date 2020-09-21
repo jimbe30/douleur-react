@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Arborescence from './ArborescenceComponent';
-import { dataTypes, setArborescence, modesAction } from './services/GestionNomenclatureActions';
+import { dataTypes, setArborescence, modesAction, findProtocoleDouleur } from './services/GestionNomenclatureActions';
 import { connect } from 'react-redux';
 import AjoutNiveauNomenclature from './NiveauNomenclatureModal';
 import ProtocoleDouleur from './ProtocoleDouleurModal';
 
 function GestionNomenclature(props) {
 
-	const { nomenclatures, ...rest } = { ...props }
+	let { nomenclatures, protocoleDouleur, ...rest } = { ...props }
 
 	useEffect(() => {
 		if (!nomenclatures) {
@@ -19,13 +19,13 @@ function GestionNomenclature(props) {
 	///// Gestion de la modale pour ajout d'un niveau dans la branche /////
 
 	const [dataNiveauNomenclature, setDataNiveauNomenclature] = useState({})
-	
+
 	const openModalNiveauNomenclature = (idNomenclature) => {
-		setDataNiveauNomenclature({id: idNomenclature, isOpenModal: true}) 
+		setDataNiveauNomenclature({ id: idNomenclature, isOpenModal: true })
 	}
 
 	const closeModalNiveauNomenclature = () => {
-		setDataNiveauNomenclature({isOpenModal: false}) 
+		setDataNiveauNomenclature({ isOpenModal: false })
 	}
 
 
@@ -33,33 +33,40 @@ function GestionNomenclature(props) {
 
 	const [dataProtocoleDouleur, setDataProtocoleDouleur] = useState({})
 
-	const openModalProtocoleDouleur = (idNomenclature, mode) => {
-		setDataProtocoleDouleur({id: idNomenclature, isOpenModal: true, mode}) 
+	const openModalProtocoleDouleur = (mode) => {
+		setDataProtocoleDouleur({ isOpenModal: true, mode })
 	}
 
 	const closeModalProtocoleDouleur = () => {
-		setDataProtocoleDouleur({isOpenModal: false}) 
+		setDataProtocoleDouleur({ isOpenModal: false })
 	}
 
 
 	///// Définition des actions au niveau branche dans l'arborescence /////
 
 	const actionsBranches = [{
-			libelle: 'Ajouter un niveau',
-			process: openModalNiveauNomenclature
-		}, {
-			libelle: 'Ajouter un protocole',
-			process: (idNomenclature) => openModalProtocoleDouleur(idNomenclature, modesAction.AJOUT),
-			primary: true
+		libelle: 'Ajouter un niveau',
+		process: openModalNiveauNomenclature
+	}, {
+		libelle: 'Ajouter un protocole',
+		process: (idNomenclature) => {
+			protocoleDouleur = { idParent: idNomenclature }
+			openModalProtocoleDouleur(modesAction.AJOUT)
 		},
+		primary: true
+	},
 	]
 
 
 	///// Définition des actions au niveau douleur dans l'arborescence /////
 
-	const actionsDouleurs = [{
+	const actionsDouleurs = [
+		{
 			libelle: 'Modifier le protocole',
-			process: (idNomenclature) =>  openModalProtocoleDouleur(idNomenclature, modesAction.MODIFICATION),
+			process: (idProtocole) => {
+				findProtocoleDouleur(idProtocole)
+				openModalProtocoleDouleur(modesAction.MODIFICATION)
+			},
 		}
 	]
 
@@ -72,7 +79,7 @@ function GestionNomenclature(props) {
 		<>
 			<Arborescence {...props} />
 			<AjoutNiveauNomenclature {...dataNiveauNomenclature} handleClose={closeModalNiveauNomenclature} />
-			<ProtocoleDouleur {...dataProtocoleDouleur} handleClose={closeModalProtocoleDouleur} />
+			<ProtocoleDouleur protocoleDouleur={protocoleDouleur} {...dataProtocoleDouleur} handleClose={closeModalProtocoleDouleur} />
 		</>
 	)
 }
@@ -82,7 +89,8 @@ function GestionNomenclature(props) {
 
 const mapStateToProps = state => {
 	let props = state.nomenclature ? {
-		nomenclatures: state.nomenclature[dataTypes.ARBORESCENCE]
+		nomenclatures: state.nomenclature[dataTypes.ARBORESCENCE],
+		protocoleDouleur: state.nomenclature[dataTypes.PROTOCOLE_DOULEUR],
 	} : null
 	return props
 }

@@ -17,8 +17,10 @@ const buttonGroupStyle = {
 /**
  * fonction de rendu des boutons d'action soit au niveau branche soit au niveau feuille
  */
-const BoutonsActions = ({ actions, id }) =>
-	<>	{
+
+const BoutonsActions = ({ actions, id }) => 
+	<>	
+	{
 		Array.isArray(actions) &&
 		<div style={buttonGroupStyle}> {
 			actions.map(

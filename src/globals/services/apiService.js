@@ -9,6 +9,10 @@ export const backendURL = process.env.REACT_APP_BACKEND_URL ? process.env.REACT_
 export const apiURLs = {
 	arborescenceDouleurs: backendURL + '/douleurs/arborescence',
 	ficheDouleur: idDouleur => backendURL + '/douleurs/' + idDouleur,
+	protocoleDouleur: idDouleur => backendURL + '/protocolesDouleurs/' + idDouleur,
+	majProtocoleDouleur: backendURL + '/protocolesDouleurs',
+	listeOrdonnancesTypes: backendURL + '/ordonnancesTypes',
+	majOrdonnanceType: backendURL + '/ordonnancesTypes',
 	nouvelleOrdonnance: backendURL + '/ordonnances/nouvelle',
 	ordonnanceEmise: idOrdonnance => backendURL + '/ordonnances/emises/' + idOrdonnance,
 	idProvidersList: backendURL + '/users/login/infos',

@@ -1,14 +1,14 @@
 import React, { useState,  } from 'react'
 import { Modal, Button, Message } from 'semantic-ui-react';
-import { majProtocoleDouleur } from './services/GestionNomenclatureActions';
+import { majProtocoleDouleur, modesAction } from './services/GestionNomenclatureActions';
 import ProtocoleDouleurForm from './ProtocoleDouleurForm';
 
 export default function ProtocoleDouleur(props) {
 
-	let { id, isOpenModal, mode, handleClose, protocoleDouleur } = props
+	let { isOpenModal, mode, handleClose, protocoleDouleur } = props
 
 	if (!protocoleDouleur) {
-		protocoleDouleur = {}
+		protocoleDouleur = { }
 	}
 
 	const [error, setError] = useState(null)
@@ -27,7 +27,7 @@ export default function ProtocoleDouleur(props) {
 		setError(null)
 	}
 
-	if (id) {
+	if (protocoleDouleur.idParent) {
 		return (
 			<>
 				<Modal 

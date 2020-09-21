@@ -16,7 +16,8 @@ export default function MedicamentPrescriptionForm({ medicament, majMedicamentPr
 	function handleChangeData(input) {
 		if (majMedicamentPreconise) {
 			const { attribut, value } = { attribut: input.name, value: input.value }
-			majMedicamentPreconise({ ...medicament, [attribut]: value })
+			medicament = { ...medicament, [attribut]: value }
+			majMedicamentPreconise(medicament)
 		}
 	}
 
@@ -46,14 +47,14 @@ export default function MedicamentPrescriptionForm({ medicament, majMedicamentPr
 										placeholder='min'
 										onChange={e => handleChangeData(e.target)}
 										name={'dureeMin'}
-										value={medicament.dureeMin}
+										defaultValue={medicament.dureeMin}
 										{...inputStyle}
 									/> à
 										<FormInput
 										placeholder='max'
 										onChange={e => handleChangeData(e.target)}
 										name={'dureeMax'}
-										value={medicament.dureeMax}
+										defaultValue={medicament.dureeMax}
 										{...inputStyle}
 									/> jours
 									</FormGroup>
@@ -73,14 +74,14 @@ export default function MedicamentPrescriptionForm({ medicament, majMedicamentPr
 										placeholder='min'
 										onChange={e => handleChangeData(e.target)}
 										name={'frequenceMin'}
-										value={medicament.frequenceMin}
+										defaultValue={medicament.frequenceMin}
 										{...inputStyle}
 									/> à
 										<FormInput
 										placeholder='max'
 										onChange={e => handleChangeData(e.target)}
 										name={'frequenceMax'}
-										value={medicament.frequenceMax}
+										defaultValue={medicament.frequenceMax}
 										{...inputStyle}
 									/> fois / jour
 										<Icon size='tiny' name='angle right' color='grey' {...arrowIconStyle} />
@@ -88,7 +89,7 @@ export default function MedicamentPrescriptionForm({ medicament, majMedicamentPr
 										placeholder='précision'
 										onChange={e => handleChangeData(e.target)}
 										name={'frequencePrecision'}
-										value={medicament.frequencePrecision}
+										defaultValue={medicament.frequencePrecision}
 									/>
 								</FormGroup>
 							</TableCell>
@@ -106,14 +107,14 @@ export default function MedicamentPrescriptionForm({ medicament, majMedicamentPr
 										placeholder='min'
 										onChange={e => handleChangeData(e.target)}
 										name={'quantiteMin'}
-										value={medicament.quantiteMin}
+										defaultValue={medicament.quantiteMin}
 										{...inputStyle}
 									/> à
 										<FormInput
 										placeholder='max'
 										onChange={e => handleChangeData(e.target)}
 										name={'quantiteMax'}
-										value={medicament.quantiteMax}
+										defaultValue={medicament.quantiteMax}
 										{...inputStyle}
 									/> médicaments par prise
 									</FormGroup>
