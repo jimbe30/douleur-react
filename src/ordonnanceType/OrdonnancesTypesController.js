@@ -1,6 +1,6 @@
 import React from 'react'
 import OrdonnancesTypes from './ListeOrdonnancesTypes'
-import { dataTypes } from './services/OrdonnanceTypeActions'
+import { dataTypes, listerOrdonnancesTypes } from './services/OrdonnanceTypeActions'
 import { connect } from 'react-redux'
 import { routesConfig, goToRoute } from '../globals/services/routeService'
 
@@ -24,6 +24,11 @@ function OrdonnancesTypesController({ ordonnancesTypes, ...otherProps }) {
 	}
 
 	const props = { ordonnancesTypes, creerOrdonnance, ...otherProps }
+
+	if (!ordonnancesTypes) {
+		listerOrdonnancesTypes()
+		return null
+	}
 
 	// rendu
 	return (

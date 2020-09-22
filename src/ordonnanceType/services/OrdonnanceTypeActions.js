@@ -1,4 +1,5 @@
 import dispatchData, { store } from "../../globals/redux/store";
+import { apiURLs, getResultFromUrl, postObjectToUrl } from "../../globals/services/apiService";
 import { goToRoute, routesConfig } from "../../globals/services/routeService";
 import { descriptionOrdonnanceType } from "./OrdonnanceTypeService";
 
@@ -23,24 +24,43 @@ function getState(dataType) {
 
 export async function validerOrdonnanceType(ordonnanceType, { history }) {
 	descriptionOrdonnanceType(ordonnanceType)
-	dispatchData(dataTypes.ORDONNANCE_TYPE, ordonnanceType)
-	goToRoute(history)(routesConfig.ORDONNANCES_TYPES)
-}
-
-export function ajouterOrdonnanceType(ordonnanceType) {
-	let listeOrdonnances = getState(dataTypes.LISTE_ORDONNANCES_TYPES)
-	if (Array.isArray(listeOrdonnances)) {
-		if (!listeOrdonnances.find(ordonnance =>
-			JSON.stringify(ordonnance) === JSON.stringify(ordonnanceType)
-		)) {
-			listeOrdonnances.push(ordonnanceType)
-		}
-	} else {
-		listeOrdonnances = [ordonnanceType]
+	ordonnanceType = await majOrdonnanceType(ordonnanceType)
+	if (!ordonnanceType.error) {
+		listerOrdonnancesTypes()
+		goToRoute(history)(routesConfig.ORDONNANCES_TYPES)
 	}
-	dispatchData(dataTypes.LISTE_ORDONNANCES_TYPES, listeOrdonnances);
 }
 
-//////////////////////////////
+
+////////////       Accès API backend       ////////////
+
+export async function majOrdonnanceType(ordonnanceType) {
+	if (ordonnanceType) {
+		let result = await postObjectToUrl(ordonnanceType, apiURLs.majOrdonnanceType)
+		if (result.data) {
+			const obj = result.data
+			if (obj.errors) {
+				console.log(JSON.stringify(obj))
+				ordonnanceType.error = JSON.stringify(obj)
+			} else {
+				ordonnanceType = result.data
+			}
+		}
+	}
+	return ordonnanceType
+}
+
+export async function listerOrdonnancesTypes() {
+	const result = await getResultFromUrl(apiURLs.listeOrdonnancesTypes)
+	if (result.data) {
+		const obj = result.data
+		if (obj.errors) {
+			console.log(JSON.stringify(obj))
+		} else {
+			dispatchData(dataTypes.LISTE_ORDONNANCES_TYPES, result.data)
+		}
+	}
+
+}
 
 

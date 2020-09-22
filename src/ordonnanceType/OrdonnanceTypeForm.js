@@ -51,7 +51,6 @@ export default function OrdonnanceType({ description, medicaments, mode, ...othe
 
 	function valider() {		
 		validerOrdonnanceType(ordonnanceType, otherProps)
-		ajouterOrdonnanceType(ordonnanceType)
 	}
 
 	// fonctions de rendu

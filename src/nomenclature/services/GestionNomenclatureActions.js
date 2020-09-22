@@ -47,30 +47,33 @@ export async function findProtocoleDouleur(id) {
 
 export async function majProtocoleDouleur(protocole) {
 
-	let result = await postObjectToUrl(protocole, apiURLs.majProtocoleDouleur)
-	if (result.data) {
-		const obj = result.data
-		if (obj.errors) {
-			console.log(JSON.stringify(obj))
-			protocole.error = JSON.stringify(obj)
-		} else {
-			const arborescence = getState(dataTypes.ARBORESCENCE)
-			if (arborescence) {
-				const nomenclatureParent = removeNomenclature(protocole.idDouleur, arborescence)
-				protocole = result.data	
-				if (nomenclatureParent) {
-					nomenclatureParent.nomenclaturesEnfants = [
-						...nomenclatureParent.nomenclaturesEnfants, 
-						{...protocole, id : protocole.idDouleur} 
-					]
-					dispatchData(dataTypes.ARBORESCENCE, [...arborescence])
-					dispatchData(dataTypes.PROTOCOLE_DOULEUR, null)
-				}	
+	if (protocole) {
+		let result = await postObjectToUrl(protocole, apiURLs.majProtocoleDouleur)
+		if (result.data) {
+			const obj = result.data
+			if (obj.errors) {
+				console.log(JSON.stringify(obj))
+				protocole.error = JSON.stringify(obj)
+			} else {
+				const arborescence = getState(dataTypes.ARBORESCENCE)
+				if (arborescence) {
+					const { nomenclature: nomenclatureParent, position } = removeNomenclature(protocole.idDouleur, arborescence)
+					protocole = result.data
+					if (nomenclatureParent) {
+						if (!Array.isArray(nomenclatureParent.nomenclaturesEnfants)) {
+							nomenclatureParent.nomenclaturesEnfants = [protocole]
+						} else {
+							nomenclatureParent.nomenclaturesEnfants.splice(position, 0, { ...protocole, id: protocole.idDouleur })
+						}
+						dispatchData(dataTypes.ARBORESCENCE, [...arborescence])
+					}
+				}
 			}
-		} 
-	} else {
-		console.error('Le protocole n\'a pas pu être correctement enregistré')
+		} else {
+			console.error('Le protocole n\'a pas pu être correctement enregistré')
+		}
 	}
+	dispatchData(dataTypes.PROTOCOLE_DOULEUR, null)
 }
 
 
@@ -78,7 +81,7 @@ export async function majProtocoleDouleur(protocole) {
 export function addNiveauNomenclature(id, libelle) {
 
 	if (!libelle) {
-		return {error: 'Le libellé est obligatoire'}
+		return { error: 'Le libellé est obligatoire' }
 	}
 
 	const arborescence = getState(dataTypes.ARBORESCENCE)
@@ -109,30 +112,29 @@ function findNomenclature(id, branche, idParent) {
 }
 
 function removeNomenclature(id, branche, nomenclatureParent) {
-	let niveau
+	let result = { nomenclature: null, position: null }
 	if (Array.isArray(branche)) {
-		let pos
-		niveau = branche.find(
+		result.nomenclature = branche.find(
 			(nomenclature, index) => {
 				if (nomenclature.id === id || nomenclature.idDouleur === id) {
-					pos = index
+					result.position = index
 					return true
 				}
 				return false
 			}
 		)
-		if (niveau && pos !== undefined) {
-			branche.splice(pos, 1)
-			niveau = nomenclatureParent
+		if (result.nomenclature && result.position !== undefined) {
+			branche.splice(result.position, 1)
+			result.nomenclature = nomenclatureParent
 		} else {
 			branche.forEach(nomenclature => {
-				if (!niveau && nomenclature.nomenclaturesEnfants) {
-					niveau = removeNomenclature(id, nomenclature.nomenclaturesEnfants, nomenclature)
+				if (!result.nomenclature && nomenclature.nomenclaturesEnfants) {
+					result = removeNomenclature(id, nomenclature.nomenclaturesEnfants, nomenclature)
 				}
 			})
 		}
 	}
-	return niveau
+	return result
 }
 
 

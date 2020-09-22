@@ -25,10 +25,11 @@ export default function ProtocoleDouleur(props) {
 	const quitter = () => {
 		handleClose()
 		setError(null)
+		majProtocoleDouleur(null)
+
 	}
 
-	if (protocoleDouleur.idParent) {
-		return (
+	return (
 			<>
 				<Modal 
 					size='tiny'
@@ -61,7 +62,5 @@ export default function ProtocoleDouleur(props) {
 				</Modal >
 			</>
 		)
-	}
 
-	return null
 }
