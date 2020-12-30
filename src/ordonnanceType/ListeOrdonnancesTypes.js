@@ -1,15 +1,21 @@
 import React from 'react'
-import { Grid, GridRow, GridColumn, Message } from 'semantic-ui-react'
-import { BoutonAjouter } from '../globals/util-components/Boutons'
+import { Grid, GridRow, GridColumn, Header, Table, TableBody, TableRow, TableCell, Divider, Container, List } from 'semantic-ui-react'
+import { BoutonAjouter, BoutonModifier, BoutonSupprimer } from '../globals/util-components/Boutons'
+import Helper from '../globals/util-components/Helper'
 import { modesAction } from '../nomenclature/services/GestionNomenclatureActions'
 
 
 export default function ListeOrdonnancesTypes(
-	{ ordonnancesTypes, selectOrdonnanceType, creerOrdonnance, mode, ...otherPrpos }) {
+	{ ordonnancesTypes, selectOrdonnanceType, creerOrdonnance, mode, titre, ...otherPrpos }) {
 
 	const listeOrdonnancesTypes = Array.isArray(ordonnancesTypes) ? ordonnancesTypes : [{}]
 
+	if (!titre) {
+		titre = 'Veuillez sélectionner ou ajouter une ordonnance type'
+	}
+
 	// fonction de gestion d'état
+
 	function nouvelleOrdonnance() {
 		if (creerOrdonnance) {
 			creerOrdonnance()
@@ -20,53 +26,69 @@ export default function ListeOrdonnancesTypes(
 		if (selectOrdonnanceType) {
 			return () => selectOrdonnanceType(ordonnanceType)
 		}
-		return () => {}
+		return () => { }
 	}
 
 	const modeSelection = mode === modesAction.SELECTION
-	const titre = 'Veuillez sélectionner une ordonnance type ci-dessous'
-		+ (modeSelection !== true ? ' ou en créer une nouvelle' : '')
+
 
 	// fonctions de rendu
-	const Entete = () =>
-		<Grid.Row verticalAlign='middle'>
-			<Grid.Column width={10} textAlign='center'>
-				<h4>{titre}</h4>
-			</Grid.Column>
-		</Grid.Row>
 
-	const LignesOrdonnances = () => {
-		return listeOrdonnancesTypes.map(
-			(ordonnanceType, index) =>
-				<GridRow key={index}>
-					<GridColumn as='a' onClick={choisirOrdonnanceType(ordonnanceType) }>
-						{ordonnanceType.description}
-					</GridColumn>
-				</GridRow>
-		)
-	}
+	const Entete = () => <Header>Liste ordonnances types</Header>
+
+	const ListeOrdonnances = () =>
+		<List bulleted>
+			{
+				listeOrdonnancesTypes.map(	(ordonnanceType, index) =>	
+					<LigneOrdonnance ordonnanceType={ordonnanceType} key={index} />
+				)
+			} 
+		</List>
+
+	const LigneOrdonnance = ({ ordonnanceType }) =>
+		<List.Item as='a' onClick={choisirOrdonnanceType(ordonnanceType)}>
+			{ordonnanceType.description}
+		</List.Item>
 
 	const BoutonsActions = () => {
 		if (modeSelection !== true) {
 			return (
-				<Grid.Row verticalAlign='middle'>
-					<Grid.Column width={5} textAlign='left'>
-						<BoutonAjouter size='tiny' long title='Nouvelle ordonnance type'
+				<TableRow>
+					<TableCell verticalAlign='middle'>
+						<BoutonAjouter size='tiny' long title='Nouvelle'
 							handleClick={nouvelleOrdonnance} />
-					</Grid.Column>
-				</Grid.Row>
+					</TableCell>
+				</TableRow>
 			)
 		}
 		return null
 	}
 
-
-	// rendu
+	// rendu final
 	return (
-		<Grid padded>
-			<Entete></Entete>
-			<LignesOrdonnances></LignesOrdonnances>
-			<BoutonsActions></BoutonsActions>
-		</Grid>
+		<>
+			<Entete/>
+
+			<Table>				
+				<Table.Header>
+					<Table.Row>
+						<Table.HeaderCell>
+							{titre}
+						</Table.HeaderCell>
+					</Table.Row>
+				</Table.Header>
+
+				<TableBody>
+					<TableRow>
+						<TableCell verticalAlign='middle'>
+							<ListeOrdonnances></ListeOrdonnances>
+						</TableCell>
+					</TableRow>
+
+					<BoutonsActions></BoutonsActions>
+				</TableBody>
+			</Table>
+
+		</>
 	)
 }

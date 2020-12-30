@@ -1,11 +1,4 @@
- _
-   (_)
-	_   _   _
-   | | | | | | 
-  _| | | |_| | 
- |___/  \___/  
- 
- 
+
 CDN pour librairies javascript : https://unpkg.com 
 
 Couleurs 

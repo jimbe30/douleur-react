@@ -11,6 +11,7 @@ export const apiURLs = {
 	ficheDouleur: idDouleur => backendURL + '/douleurs/' + idDouleur,
 	protocoleDouleur: idDouleur => backendURL + '/protocolesDouleurs/' + idDouleur,
 	majProtocoleDouleur: backendURL + '/protocolesDouleurs',
+	referentielMedicaments: backendURL + '/ordonnancesTypes/referentielMedicaments',
 	listeOrdonnancesTypes: backendURL + '/ordonnancesTypes',
 	majOrdonnanceType: backendURL + '/ordonnancesTypes',
 	nouvelleOrdonnance: backendURL + '/ordonnances/nouvelle',

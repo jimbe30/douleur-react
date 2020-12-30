@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
-import { Grid, Label, Divider, Message } from 'semantic-ui-react'
+import { Grid, Label, Divider, Message, Header } from 'semantic-ui-react'
 import Medicament from './MedicamentForm'
 import { BoutonAjouter, BoutonSupprimer, BoutonAnnuler, BoutonValider } from '../globals/util-components/Boutons'
 import { verifierOrdonnanceType } from './services/OrdonnanceTypeService'
-import { validerOrdonnanceType, ajouterOrdonnanceType } from './services/OrdonnanceTypeActions'
+import { validerOrdonnanceType } from './services/OrdonnanceTypeActions'
 
 
-export default function OrdonnanceType({ description, medicaments, mode, ...otherProps }) {
+export default function OrdonnanceType({ id, description, medicaments, mode, ...otherProps }) {
 
 	medicaments = Array.isArray(medicaments) ? medicaments : []
 
-	const [ordonnanceType, setOrdonnanceType] = useState({ description, medicaments })
+	const [ordonnanceType, setOrdonnanceType] = useState({ id, description, medicaments })
+
+	ordonnanceType.isOrdonnanceValide = verifierOrdonnanceType(ordonnanceType)
 
 	function supprimerMedicament(index) {
 		setOrdonnanceType(
@@ -56,19 +58,15 @@ export default function OrdonnanceType({ description, medicaments, mode, ...othe
 	// fonctions de rendu
 	const Entete = () => 
 		<Grid.Row verticalAlign='middle'>
-			<Grid.Column width={10} textAlign='center'>
-				<h4>{mode} Ordonnance type</h4>
-				{description &&
-					<Label color='blue' size='large' basic>{description}</Label>
-				}
+			<Grid.Column>
+				<Header>{mode} ordonnance type</Header>
 				<Message info>
-				<strong>	{
-					ordonnanceType.description ? 
-						<span>{ordonnanceType.description}</span>
-						:
-						"Veuillez ajouter ci-dessous au moins un médicament pour valider l'ordonnance"
-				}						
-				</strong>
+					<strong>	{
+						ordonnanceType.description ? 
+							<span>{ordonnanceType.description}</span>
+						: "Veuillez ajouter ci-dessous au moins un médicament pour valider l'ordonnance"
+					}						
+					</strong>
 				</Message>
 			</Grid.Column>
 		</Grid.Row>

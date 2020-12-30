@@ -1,26 +1,37 @@
-import React, { createContext } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 import { Form } from 'semantic-ui-react';
 
 import FormHandler from '../globals/hoc/FormHandler';
 import { formNames } from '../globals/redux/FormActions'
 import OrdonnanceTypeForm from './OrdonnanceTypeForm';
+import { chargerInfosMedicaments, reduxNamespace } from './services/OrdonnanceTypeActions';
 
 
-// Config générale pour ! TESTS ! //
-const listeProduits = [
-	{ id: 1, designation: "Paracétamol" },
-	{ id: 2, designation: 'Tramadol' },
-	{ id: 3, designation: 'Codéine' },
-	{ id: 4, designation: 'Poudre d\'opium' }
-]
-const listeUnitesDosage = ['g', 'mg', 'mg LI', 'mg LP', 'µg/h']
-const formesMedicamenteuses = ['Comprimé', 'Gélule', 'Suppositoire', 'Goutte', 'Flasque']
+const mapStateToProps = state => {
+	let props = {}
+	if (state[reduxNamespace]) {
+		props = { ...state[reduxNamespace] }
+	}	
+	return props
+}
+export default connect(mapStateToProps)(SaisieOrdonnanceType)
 
-// Contexte portant la config générale de la fonctionnalité
-export const OrdonnanceTypeContext = createContext({ listeProduits, listeUnitesDosage, formesMedicamenteuses })
 
 // Composant chargé du rendu 
-export default function SaisieOrdonnanceType(props) {
+function SaisieOrdonnanceType(props) {
+
+	const { referentielMedicaments, ordonnanceType } = props	
+
+	if (!referentielMedicaments) {
+		chargerInfosMedicaments()
+		return null
+	}
+
+	if (ordonnanceType) {
+		const { id, description, medicaments } = ordonnanceType
+		props = { id, description, medicaments, ...props } 
+	}
 
 	const Formulaire = props =>
 		<Form size='tiny' style={{ marginBottom: '1rem' }}>

@@ -1,23 +1,23 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Grid, FormGroup } from 'semantic-ui-react'
 import { useEffect } from 'react'
 
 import FormInput from '../globals/util-components/FormInput'
 import Helper from '../globals/util-components/Helper'
 import { FormSelect } from '../globals/redux/reduxFormAdapter'
-import { OrdonnanceTypeContext } from './SaisieOrdonnanceTypeController'
+import { getReferentielMedicaments } from './services/OrdonnanceTypeActions'
+// import { OrdonnanceTypeContext } from './SaisieOrdonnanceTypeController'
 
 
 export default function ProduitForm({ produit, majProduit, numProduit, ...rest }) {
 
-	// hook useContext()
-	let { listeProduits, listeUnitesDosage } = useContext(OrdonnanceTypeContext)
+	let { listeProduits, listeUnitesDosage } = getReferentielMedicaments()
 
 	const produitsProposes = listeProduits.map(
 		itemProduit => ({ value: itemProduit.id, text: itemProduit.designation })
 	)
 	const unitesDosage = listeUnitesDosage.map(
-		unite => ({ value: unite, text: unite })
+		itemUnite => ({ value: itemUnite.unite, text: itemUnite.unite })
 	)
 
 	if (!produit) {
@@ -81,7 +81,7 @@ export default function ProduitForm({ produit, majProduit, numProduit, ...rest }
 				{/* 1ère ligne : la désignation du produit à choisir dans la liste 'produitsProposes' */}
 				<Grid.Row >
 					<Grid.Column width={10}>
-						<FormSelect inline
+						<FormSelect inline 
 							onChange={(e, data) => handleChangeData('idProduit', data)}
 							label='Désignation'
 							title='Choisissez un produit dans la liste proposée'
