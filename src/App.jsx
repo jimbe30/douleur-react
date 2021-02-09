@@ -14,7 +14,7 @@ import UserInfos from './auth/UserInfos';
 
 export default function App() {
 
-	const contentHeight = Math.floor(0.75 * window.screen.availHeight) + 'px'
+	const contentHeight = Math.floor(0.75 * window.screen.availHeight) + 'px';
 
 	return (
 		// le Provider permet la connexion des composants enfants au store

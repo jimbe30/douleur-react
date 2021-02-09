@@ -1,10 +1,7 @@
 import React from 'react'
-import { Message, Segment } from 'semantic-ui-react'
-import { Fragment } from 'react'
+import { Message } from 'semantic-ui-react'
 
-
-const Accueil = function (props) {
-
+export default function Accueil(props) {
 	return (
 		<Message info>
 			<div>
@@ -15,11 +12,10 @@ const Accueil = function (props) {
 		</Message>
 
 	)
-
 }
 
 
-export default Accueil
+
 
 
 
