@@ -1,6 +1,6 @@
 import React, { useState,  } from 'react'
 import { Modal, Button, Message } from 'semantic-ui-react';
-import { majProtocoleDouleur, modesAction } from './services/GestionNomenclatureActions';
+import { majProtocoleDouleur } from './services/GestionNomenclatureService';
 import ProtocoleDouleurForm from './ProtocoleDouleurForm';
 
 export default function ProtocoleDouleur(props) {

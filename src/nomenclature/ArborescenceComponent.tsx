@@ -1,8 +1,8 @@
 import React, { CSSProperties } from 'react'
 import { Accordion, Button, Icon } from 'semantic-ui-react'
-import ActiveItemHandler from '../globals/hoc/ActiveItemHandler'
+import ActiveItemHandler, { ItemRenderProps } from '../globals/hoc/ActiveItemHandler'
 import TruncBox from '../globals/util-components/TruncBox'
-import { AccordionProps, ArborescenceProps, BoutonsActionsProps, NomenclatureProps, RenderProps } from './types'
+import { AccordionProps, ArborescenceProps, BoutonsActionsProps, INomenclature, NomenclatureProps } from './types/types-nomenclature'
 
 const buttonStyle: CSSProperties = {
 	marginRight: 0,
@@ -16,6 +16,29 @@ const buttonGroupStyle: CSSProperties = {
 }
 
 /**
+ * Rendu de la nomenclature selon son type :
+ * - si type 'niveau'    => Branche
+ * - si type 'protocole' => Feuille
+ */
+function renderNomenclature(props: ItemRenderProps<INomenclature>) {
+
+	const { component: nomenclature, index: key, isActive, handleClick, ...otherProps } = props	
+	const args = { nomenclature, key, isActive, onClick: () => handleClick(key), ...otherProps }
+	
+	if (nomenclature) {		
+		if (!nomenclature.type) {
+			nomenclature.type = nomenclature.infosGenerales ? 'protocole' : 'niveau'
+		}
+		if (nomenclature.type === 'niveau') {
+			return Branche(args)
+		} else if (nomenclature.type === 'protocole') {
+			return Feuille(args)
+		}
+	}
+	return null
+}
+
+/**
  * Rendu des boutons d'action soit au niveau branche soit au niveau feuille
  */
 function BoutonsActions(props: BoutonsActionsProps) {
@@ -24,7 +47,7 @@ function BoutonsActions(props: BoutonsActionsProps) {
 		<> {
 			Array.isArray(actions) &&
 			<div style={buttonGroupStyle}> {
-				actions.map(
+				actions.map(	
 					(action, index) =>
 						<Button
 							key={index}
@@ -46,7 +69,7 @@ export default function Arborescence(props: ArborescenceProps) {
 		return (
 			<ActiveItemHandler
 				key={0}
-				render={(props: RenderProps) => renderNomenclature({ ...props, ...otherProps })}
+				render={(props) => renderNomenclature({ ...props, ...otherProps })}
 				componentList={nomenclatures}
 			/>
 		)
@@ -62,7 +85,7 @@ function Branche(props: NomenclatureProps) {
 				<BoutonsActions actions={actionsBranches} id={nomenclature.id} />
 				<ActiveItemHandler 
 					key={nomenclature.id} 
-					render={(props: RenderProps) => renderNomenclature({ ...props, actionsBranches, ...otherProps })}
+					render={(props: ItemRenderProps<INomenclature>) => renderNomenclature({ ...props, actionsBranches, ...otherProps })}
 					componentList={nomenclature.nomenclaturesEnfants} 
 				/>
 			</>
@@ -88,30 +111,6 @@ function Feuille(props: NomenclatureProps) {
 			</>
 		)
 		return accordion({ title: nomenclature.libelle, content, isActive, onClick })
-	}
-	return null
-}
-
-/**
- * Rendu de la nomenclature selon son type :
- * - si type 'niveau'    => Branche
- * - si type 'protocole' => Feuille
- */
-function renderNomenclature(props: RenderProps) {	
-	const { component: nomenclature, index: key, isActive, handleClick, ...otherProps } = props	
-	if (nomenclature) {
-		if (!nomenclature.type) {
-			nomenclature.type = nomenclature.infosGenerales ? 'protocole' : 'niveau'
-		}
-		if (nomenclature.type === 'niveau') {
-			return Branche(
-				{ nomenclature, key, isActive, onClick: () => handleClick(key), ...otherProps }
-			)
-		} else if (nomenclature.type === 'protocole') {
-			return Feuille(
-				{ nomenclature, key, isActive, onClick: () => handleClick(key), ...otherProps }
-			)
-		}
 	}
 	return null
 }

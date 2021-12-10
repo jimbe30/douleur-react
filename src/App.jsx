@@ -1,16 +1,16 @@
-import React from 'react'
-import { BrowserRouter as Router, Route, } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import { Header, Segment, Grid } from 'semantic-ui-react';
-
-import { store } from "./globals/redux/store";
-import { routesConfig } from "./globals/services/routeService";
+import React from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Grid, Header, Segment } from 'semantic-ui-react';
 import "./App.css";
+import UserInfos from './auth/UserInfos';
+import Accueil from "./globals/components/Accueil";
 // import "./assets/bootstrap-slate.css";
 import Menu from "./globals/components/MenuBar";
-import Accueil from "./globals/components/Accueil";
 import ReduxHistory from './globals/components/ReduxHistory';
-import UserInfos from './auth/UserInfos';
+import { store } from "./globals/redux/store";
+import { routesConfig } from "./globals/services/routeService";
+
 
 export default function App() {
 
@@ -36,17 +36,19 @@ export default function App() {
 						<Grid.Column width={6}>
 							<span>Med Pain Pro</span>
 						</Grid.Column>
-						<Grid.Column width={5} style= {{paddingTop: 0, paddingBottom: 0}}>
+						<Grid.Column width={5} style={{ paddingTop: 0, paddingBottom: 0 }}>
 							<UserInfos />
 						</Grid.Column>
 					</Grid>
 				</Header>
 
 				<Segment className='center' style={{ top: '6rem', height: contentHeight, overflow: 'auto', paddingBottom: '1rem' }}>
-					<Route exact path='/' render={props => <Accueil {...props} />} />
-					{Object.keys(routesConfig).map(
-						routeKey => (<Route exact {...routesConfig[routeKey]} />)
-					)}
+
+						<Route exact path='/' render={props => <Accueil {...props} />} />
+						{Object.keys(routesConfig).map(
+							routeKey => (<Route exact {...routesConfig[routeKey]} />)
+						)}
+
 				</Segment>
 
 			</Router>

@@ -1,4 +1,11 @@
-import { AnyObject, Optional } from "../types/global-types";
+import { AnyObject, Optional } from "../../types/global-types";
+import { IProtocoleDouleur } from "./types-protocole";
+
+
+export interface GestionNomenclatureProps extends AnyObject {	
+	nomenclatures?: INomenclature | INomenclature[],
+	protocoleDouleur?: IProtocoleDouleur
+}
 
 export interface INomenclature {
 	id: number,	
@@ -6,7 +13,7 @@ export interface INomenclature {
 	type?: 'protocole' | 'niveau',
 	infosGenerales?: string,
 	recommandations?: string,
-	nomenclaturesEnfants?: Optional<INomenclature>[]
+	nomenclaturesEnfants?: INomenclature[]
 }
 
 export interface IElementAction { 
@@ -27,18 +34,11 @@ export interface BoutonsActionsProps {
 }
 
 export interface ArborescenceProps extends ActionsNomenclatures, AnyObject { 
-	nomenclatures: Optional<INomenclature>[]
-}
-
-export interface RenderProps extends AnyObject<> {
-	component: Optional<INomenclature>, 
-	index: number, 
-	isActive: boolean, 
-	handleClick: (index: number) => void
+	nomenclatures?: INomenclature | INomenclature[]
 }
 
 export interface NomenclatureProps extends ActionsNomenclatures, AnyObject { 
-	nomenclature: Optional<INomenclature>, 
+	nomenclature?: INomenclature, 
 	onClick?: (event?: React.Event) => void, 
 	isActive: boolean
 }

@@ -3,7 +3,7 @@
  * La méthode connect() relie le store au composant cible 
  */
 import { connect } from 'react-redux'
-import { setArborescence, dataTypes } from "../nomenclature/services/GestionNomenclatureActions";
+import { setArborescence, dataTypes } from "../nomenclature/services/GestionNomenclatureService";
 import ArborescenceComponent from "../nomenclature/ArborescenceComponent";
 import React, { Component } from 'react'
 import { Message } from 'semantic-ui-react';

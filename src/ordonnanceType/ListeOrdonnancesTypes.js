@@ -2,7 +2,7 @@ import React from 'react'
 import { Grid, GridRow, GridColumn, Header, Table, TableBody, TableRow, TableCell, Divider, Container, List } from 'semantic-ui-react'
 import { BoutonAjouter, BoutonModifier, BoutonSupprimer } from '../globals/util-components/Boutons'
 import Helper from '../globals/util-components/Helper'
-import { modesAction } from '../nomenclature/services/GestionNomenclatureActions'
+import { modesAction } from '../nomenclature/services/GestionNomenclatureService'
 
 
 export default function ListeOrdonnancesTypes(

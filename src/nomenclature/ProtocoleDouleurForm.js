@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import OrdonnancesTypesController from '../ordonnanceType/OrdonnancesTypesController'
-import { modesAction } from './services/GestionNomenclatureActions'
+import { modesAction } from './services/GestionNomenclatureService'
 import MedicamentPrescriptionForm from './MedicamentPrescriptionForm'
 
 

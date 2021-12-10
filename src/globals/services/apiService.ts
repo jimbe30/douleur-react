@@ -81,7 +81,7 @@ export const getResultFromUrl = async (url: string, config?: AxiosRequestConfig)
 			result = getResultFromResponse(response)
 		})
 	} catch (error) {
-		result = getResultFromError(error)
+		result = getResultFromError(error as ApiError)
 		handleError(result as ErrorResult)
 	}
 	return result
@@ -95,7 +95,7 @@ export const postObjectToUrl = async (object: any, url: string, config?: AxiosRe
 			result = getResultFromResponse(response)
 		})
 	} catch (error) {
-		result = getResultFromError(error)
+		result = getResultFromError(error as ApiError)
 		handleError(result as ErrorResult)
 	}
 	return result

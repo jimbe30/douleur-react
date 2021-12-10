@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Modal, Button, Input, Message } from 'semantic-ui-react';
-import { addNiveauNomenclature } from './services/GestionNomenclatureActions';
+import { addNiveauNomenclature } from './services/GestionNomenclatureService';
 
 export default function AjoutNiveauNomenclature(props) {
 
-	const { id, isOpenModal, handleClose, ...rest } = props
+	const { id, isOpenModal, handleClose } = props
 
 	const [libelle, setLibelle] = useState()
 	const [error, setError] = useState(null)

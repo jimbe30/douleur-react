@@ -2,32 +2,11 @@ import { combineReducers } from "redux";
 import { reducer as formReducer } from "redux-form";
 import { dataTypes as testDataTypes } from "../../Test"
 import { dataTypes as ordonnanceDataTypes  } from "../../ordonnance/services/OrdonnanceActions";
-import { dataTypes as nomenclatureDataTypes  } from "../../nomenclature/services/GestionNomenclatureActions";
+import { dataTypes as nomenclatureDataTypes  } from "../../nomenclature/services/GestionNomenclatureService";
 import { dataTypes as ordonnanceTypeDataTypes  } from "../../ordonnanceType/services/OrdonnanceTypeActions";
 import { formNames } from "./FormActions"
 import { dataTypes as authDataTypes} from "../../auth/services/AuthService"
-
-///////////////////////      TYPES      /////////////////////////////
-export interface NestedStateType {
-	[stateAttr: string]: any
-}
-
-export interface ActionType {
-	type: string,
-	content: any
-} 
-
-export interface NamespacesDataType {
-	[namespace: string]: {
-		[dataRegistry: string]: any
-	}
-} 
-
-export interface ReducerType {
-	(state: NestedStateType, action: ActionType): NestedStateType
-}
-
-////////////////////////////////////////////////////
+import { ActionType, NamespacesDataType, NestedStateType, ReducerType } from "./store";
 
 /**
  * Ici on répertorie les types de données à gérer par redux, répartis par fonctionnalité (namespace)
@@ -54,7 +33,9 @@ export const reducers = combineReducers<NestedStateType>({
 })
 
 function getReducers() {
-	let reducers: { [namespace: string]: (state: NestedStateType, action: ActionType) => NestedStateType } = {} 
+	let reducers: { 
+		[namespace: string]: (state: NestedStateType, action: ActionType) => NestedStateType 
+	} = {} 
 	Object.keys(namespaces).forEach(namespace =>	{
 		reducers[namespace] = getReducer(namespace)
 	})
@@ -64,9 +45,9 @@ function getReducers() {
 /**
  * Fournit un reducer générique pour la fonctionnalité concernée (namespace) 
  */
-function getReducer(namespace: string): ReducerType {
+function getReducer(namespace: string) {
 
-	const reducer: ReducerType =  function(state: NestedStateType = {}, action: ActionType) {
+	const reducer: ReducerType =  (state: NestedStateType = {}, action: ActionType) => {
 		if (namespaces[namespace][action.type]) {
 			return { ...state, [namespaces[namespace][action.type]]: action.content }
 		} else if (typeof namespaces[namespace] === 'object') {

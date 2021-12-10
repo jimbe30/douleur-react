@@ -21,6 +21,15 @@ body, .ui.segment, .ui.segments .segment, .ui.modal, .ui.modal>.content {
 	line-height: 1.5rem;
 }
 
+.ui.segment>.header {
+	margin-top: -1em;
+	margin-left: -1em;
+	margin-right: -1em;
+	top: -1em;
+	padding-top: 1em;
+	padding-left: 1em;
+}
+
 .noborder {
     border-style: none;
     box-shadow: unset;
@@ -58,6 +67,13 @@ body, .ui.segment, .ui.segments .segment, .ui.modal, .ui.modal>.content {
 
 .ui.list .list>.item, .ui.list>.item, ol.ui.list li, ul.ui.list li {
 	line-height: inherit;
+}
+
+.header, .ui.header {
+	position: sticky;
+	z-index: 1000;
+	top: 0;
+	background: #ffffff;
 }
 
 /*******************/
@@ -145,6 +161,15 @@ body, .ui.segment, .ui.segments .segment, .ui.modal, .ui.modal>.content {
 }
 
 option { color: black; }
+
+/*******************/
+
+/****  Modal  ****/
+
+.ui.modal {
+	overflow-y: scroll;
+}
+
 
 /*******************/
 
