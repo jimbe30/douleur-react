@@ -1,5 +1,6 @@
 import React from 'react'
-import { validateToken, dataTypes, getTokenFromUrl, logout } from './services/AuthService'
+import { validateToken, getTokenFromUrl, logout } from './services/AuthService'
+import { authData } from "../_conf/redux";
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { routesConfig, getRoutePath } from '../globals/services/routeService'
@@ -59,7 +60,7 @@ const UserInfos = (props) => {
 
 const mapStateToProps = (state) => {
 	const props = {
-		userInfos: state.auth[dataTypes.USER_INFOS],
+		userInfos: state.auth[authData.USER_INFOS],
 		history: state.router.history,
 	}
 	return props

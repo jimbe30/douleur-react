@@ -1,13 +1,14 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
+import { ordonnanceNs, ordonnanceData } from "../_conf/redux";
 
-import { setPreconisations, setPrescriptionChoisie, dataTypes } from "./services/OrdonnanceActions";
+import { setPreconisations, setPrescriptionChoisie } from "./services/OrdonnanceActions";
 import FicheDouleurComponent from "./FicheDouleurComponent";
 import { goToRoute, routesConfig, getRouteParams } from '../globals/services/routeService';
 import ComponentLoader from '../globals/util-components/ComponentLoader';
 
 const mapStateToProps = appState => ({
-    prescriptions: appState.ordonnance[dataTypes.PRESCRIPTIONS],
+    prescriptions: appState[ordonnanceNs][ordonnanceData.PRESCRIPTIONS],
 })
 
 class FicheDouleur extends Component {

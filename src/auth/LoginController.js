@@ -1,6 +1,7 @@
 import React from 'react'
 import { getRouteParams } from '../globals/services/routeService'
-import { backendLogin, loadIdProvidersList, dataTypes } from './services/AuthService'
+import { backendLogin, loadIdProvidersList } from './services/AuthService'
+import { authData } from "../_conf/redux";
 import { connect } from 'react-redux'
 import LoginComponent from './LoginComponent'
 
@@ -23,8 +24,8 @@ const LoginController = (props) => {
 
 const mapStateToProps = (state) => {
 	const props = {
-		message: state.auth[dataTypes.ERROR_MESSAGE],
-		listeIdProviders: state.auth[dataTypes.IDP_LIST],
+		message: state.auth[authData.ERROR_MESSAGE],
+		listeIdProviders: state.auth[authData.IDP_LIST],
 	}
 	return props
 }

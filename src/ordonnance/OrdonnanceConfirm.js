@@ -1,12 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Message, Button, Icon } from 'semantic-ui-react'
-import { dataTypes } from './services/OrdonnanceActions';
+import { ordonnanceNs, ordonnanceData } from "../_conf/redux";
 import ComponentLoader from '../globals/util-components/ComponentLoader';
 
 function mapStateToProps(state) {
 	return {
-		ordonnance: state.ordonnance[dataTypes.ORDONNANCE_EMISE],
+		ordonnance: state[ordonnanceNs][ordonnanceData.ORDONNANCE_EMISE],
 	}
 }
 

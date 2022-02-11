@@ -1,24 +1,21 @@
 import { combineReducers } from "redux";
 import { reducer as formReducer } from "redux-form";
-import { dataTypes as testDataTypes } from "../../Test"
-import { dataTypes as ordonnanceDataTypes  } from "../../ordonnance/services/OrdonnanceActions";
-import { dataTypes as nomenclatureDataTypes  } from "../../nomenclature/services/GestionNomenclatureService";
-import { dataTypes as ordonnanceTypeDataTypes  } from "../../ordonnanceType/services/OrdonnanceTypeActions";
 import { formNames } from "./FormActions"
-import { dataTypes as authDataTypes} from "../../auth/services/AuthService"
 import { ActionType, NamespacesDataType, NestedStateType, ReducerType } from "./store";
 
+import { authData, nomenclatureData, testData, ordonnanceData, ordonnanceTypeData } from "../../_conf/redux"
+import { authNs, nomenclatureNs, testNs, ordonnanceNs, ordonnanceTypeNs } from "../../_conf/redux"
 /**
  * Ici on répertorie les types de données à gérer par redux, répartis par fonctionnalité (namespace)
  * Ces types de données sont transmis aux actions redux via la méthode dispatch()
  */
 export const namespaces: NamespacesDataType = {
-	test: testDataTypes,
-	nomenclature: nomenclatureDataTypes,
-	ordonnance: ordonnanceDataTypes, 
-	ordonnanceType: ordonnanceTypeDataTypes,
+	[testNs]: testData,
+	[authNs]: authData,
+	[nomenclatureNs]: nomenclatureData,
+	[ordonnanceNs]: ordonnanceData, 
+	[ordonnanceTypeNs]: ordonnanceTypeData,
 	appForms: formNames,
-	auth: authDataTypes,
 	router: { history: 'history' }
 }
 

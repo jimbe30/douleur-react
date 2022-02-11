@@ -1,13 +1,7 @@
 import dispatchData, { store } from "../../globals/redux/store";
 import { apiURLs, apiURLs as urls, getResultFromUrl, postObjectToUrl } from "../../globals/services/apiService";
+import { nomenclatureNs, nomenclatureData } from "../../_conf/redux";
 
-
-export const namespace = 'nomenclature'
-export const dataTypes = {
-	ARBORESCENCE: 'arborescence',
-	PROTOCOLE_DOULEUR: 'protocoleDouleur',
-	NOMENCLATURE_DOULEUR: 'nomenclatureDouleur'
-}
 
 export const modesAction = {
 	AJOUT: 'Ajout',
@@ -19,7 +13,7 @@ export const modesAction = {
 
 
 function getState(dataType) {
-	const state = store.getState()[namespace][dataType]
+	const state = store.getState()[nomenclatureNs][dataType]
 	if (!state) {
 		return undefined
 	} else if (state instanceof Array) {
@@ -32,7 +26,7 @@ function getState(dataType) {
 
 export async function setArborescence() {
 	const result = await getResultFromUrl(urls.arborescenceDouleurs)
-	dispatchData(dataTypes.ARBORESCENCE, result.data);
+	dispatchData(nomenclatureData.ARBORESCENCE, result.data);
 }
 
 
@@ -41,7 +35,7 @@ export async function findProtocoleDouleur(id) {
 
 	const result = await getResultFromUrl(apiURLs.protocoleDouleur(id))
 	const protocole = result.data
-	dispatchData(dataTypes.PROTOCOLE_DOULEUR, protocole);
+	dispatchData(nomenclatureData.PROTOCOLE_DOULEUR, protocole);
 	return protocole
 }
 
@@ -55,7 +49,7 @@ export async function majProtocoleDouleur(protocole) {
 				console.log(JSON.stringify(obj))
 				protocole.error = JSON.stringify(obj)
 			} else {
-				const arborescence = getState(dataTypes.ARBORESCENCE)
+				const arborescence = getState(nomenclatureData.ARBORESCENCE)
 				if (arborescence) {
 					const { nomenclature: nomenclatureParent, position } = removeNomenclature(protocole.idDouleur, arborescence)
 					protocole = result.data
@@ -65,7 +59,7 @@ export async function majProtocoleDouleur(protocole) {
 						} else {
 							nomenclatureParent.nomenclaturesEnfants.splice(position, 0, { ...protocole, id: protocole.idDouleur })
 						}
-						dispatchData(dataTypes.ARBORESCENCE, [...arborescence])
+						dispatchData(nomenclatureData.ARBORESCENCE, [...arborescence])
 					}
 				}
 			}
@@ -73,7 +67,7 @@ export async function majProtocoleDouleur(protocole) {
 			console.error('Le protocole n\'a pas pu être correctement enregistré')
 		}
 	}
-	dispatchData(dataTypes.PROTOCOLE_DOULEUR, null)
+	dispatchData(nomenclatureData.PROTOCOLE_DOULEUR, null)
 }
 
 
@@ -84,12 +78,12 @@ export function addNiveauNomenclature(id, libelle) {
 		return { error: 'Le libellé est obligatoire' }
 	}
 
-	const arborescence = getState(dataTypes.ARBORESCENCE)
+	const arborescence = getState(nomenclatureData.ARBORESCENCE)
 	if (arborescence) {
 		const nomenclature = findNomenclature(id, arborescence)
 		if (nomenclature) {
 			nomenclature.nomenclaturesEnfants = [...nomenclature.nomenclaturesEnfants, { id: null, type: 'niveau', libelle }]
-			dispatchData(dataTypes.ARBORESCENCE, arborescence)
+			dispatchData(nomenclatureData.ARBORESCENCE, arborescence)
 		}
 	}
 }

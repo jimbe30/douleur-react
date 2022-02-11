@@ -1,20 +1,12 @@
 import { apiURLs, getResultFromUrl } from "../../globals/services/apiService"
 import { goToRoute } from "../../globals/services/routeService"
-import dispatchData, { resetState } from "../../globals/redux/store";
-
-export const namespace = 'auth'
-export const dataTypes = {
-	USER_INFOS: 'userInfos',
-	ID_TOKEN: 'idToken',
-	ERROR_MESSAGE: 'errorMessage',
-	IDP_LIST: 'idProvidersList',
-	ID_PROVIDER: 'idProvider'
-}
+import dispatchData, { resetState } from "../../globals/redux/store"
+import { authNs, authData } from "../../_conf/redux";
 
 export const loadIdProvidersList = async (history) => {
 	const idpList = await getResultFromUrl(apiURLs.idProvidersList)
 	if (idpList && idpList.data) {
-		dispatchData(dataTypes.IDP_LIST, idpList.data)
+		dispatchData(authData.IDP_LIST, idpList.data)
 	}
 }
 
@@ -34,15 +26,15 @@ export const validateToken = async (idToken, history) => {
 	const userResult = await getResultFromUrl(apiURLs.validateToken, { params: { id_token: idToken } })
 	if (userResult && userResult.data) {
 		if (userResult.data.user) {
-			dispatchData(dataTypes.USER_INFOS, userResult.data.user)
-			dispatchData(dataTypes.ID_TOKEN, userResult.data.id_token)
-			dispatchData(dataTypes.ID_PROVIDER, userResult.data.user.idpRegistration.registrationId)
+			dispatchData(authData.USER_INFOS, userResult.data.user)
+			dispatchData(authData.ID_TOKEN, userResult.data.id_token)
+			dispatchData(authData.ID_PROVIDER, userResult.data.user.idpRegistration.registrationId)
 		} else {
-			dispatchData(dataTypes.USER_INFOS, {error: userResult.data.error})
-			dispatchData(dataTypes.ID_TOKEN, null)
+			dispatchData(authData.USER_INFOS, {error: userResult.data.error})
+			dispatchData(authData.ID_TOKEN, null)
 		}
 	}
 	goToRoute(history)('/')
 }
 
-export const logout = () => resetState(namespace)
+export const logout = () => resetState(authNs)

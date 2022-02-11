@@ -3,10 +3,7 @@ import { connect } from 'react-redux';
 import dispatchData, { AppState, StateToProps } from './globals/redux/store';
 import { backendURL } from './globals/services/apiService';
 import { AnyObject } from './types/global-types';
-
-export const dataTypes = {
-	REDIRECT_TEST: 'redirectTest',
-}
+import { testData } from "./_conf/redux";
 
 type PropsType = {
 	redirectInfo?: string,
@@ -15,9 +12,9 @@ type PropsType = {
 
 function Test(props: AnyObject & PropsType) {
 	const params = new URL(document.location.href).searchParams
-	const redirect = params.get(dataTypes.REDIRECT_TEST)
+	const redirect = params.get(testData.REDIRECT_TEST)
 	if (redirect) {
-		dispatchData(dataTypes.REDIRECT_TEST, redirect)
+		dispatchData(testData.REDIRECT_TEST, redirect)
 	}
 	return <div>
 		<p>{props.redirectInfo ? props.redirectInfo : 'No redirection specified...'}</p>
@@ -28,7 +25,7 @@ function Test(props: AnyObject & PropsType) {
 export default function() {
 	return <StateToProps 
 		ns='test' 
-		propsMapping={{[dataTypes.REDIRECT_TEST]: 'redirectInfo'}} 
+		propsMapping={{[testData.REDIRECT_TEST]: 'redirectInfo'}} 
 		component={Test}
 		info="That's an essential information"
 	/>

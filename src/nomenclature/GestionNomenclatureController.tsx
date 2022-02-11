@@ -4,15 +4,16 @@ import { StateToProps, StateToPropsType } from '../globals/redux/store';
 import Arborescence from './ArborescenceComponent';
 import AjoutNiveauNomenclature from './NiveauNomenclatureModal';
 import ProtocoleDouleur from './ProtocoleDouleurModal';
-import { dataTypes, findProtocoleDouleur, modesAction, setArborescence } from './services/GestionNomenclatureService';
+import { findProtocoleDouleur, modesAction, setArborescence } from './services/GestionNomenclatureService';
 import { GestionNomenclatureProps } from './types/types-nomenclature';
+import { nomenclatureNs, nomenclatureData } from "../_conf/redux";
 
 ///// Correspondance des propriétés avec le store redux /////
 const reduxProps: StateToPropsType = {
-	ns: 'nomenclature',
+	ns: nomenclatureNs,
 	propsMapping: {
-		[dataTypes.ARBORESCENCE]: 'nomenclatures',
-		[dataTypes.PROTOCOLE_DOULEUR]: dataTypes.PROTOCOLE_DOULEUR
+		[nomenclatureData.ARBORESCENCE]: 'nomenclatures',
+		[nomenclatureData.PROTOCOLE_DOULEUR]: nomenclatureData.PROTOCOLE_DOULEUR
 	},
 	component: GestionNomenclature
 }

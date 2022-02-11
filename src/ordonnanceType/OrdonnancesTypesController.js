@@ -1,15 +1,16 @@
 import React from 'react'
 import OrdonnancesTypes from './ListeOrdonnancesTypes'
-import { dataTypes, listerOrdonnancesTypes } from './services/OrdonnanceTypeActions'
+import { listerOrdonnancesTypes } from './services/OrdonnanceTypeActions'
 import { connect } from 'react-redux'
 import { routesConfig, goToRoute } from '../globals/services/routeService'
 import dispatchData from '../globals/redux/store'
+import { ordonnanceTypeNs, ordonnanceTypeData } from "../_conf/redux";
 
 const mapStateToProps = state => {
-	let props = state.ordonnanceType 
-		&& state.ordonnanceType[dataTypes.LISTE_ORDONNANCES_TYPES]? 
+	let props = state[ordonnanceTypeNs] 
+		&& state[ordonnanceTypeNs][ordonnanceTypeData.LISTE_ORDONNANCES_TYPES]? 
 		{ 
-			ordonnancesTypes: state.ordonnanceType[dataTypes.LISTE_ORDONNANCES_TYPES]
+			ordonnancesTypes: state.ordonnanceType[ordonnanceTypeData.LISTE_ORDONNANCES_TYPES]
 		}
 		: {}
 	return props
@@ -20,13 +21,13 @@ const mapStateToProps = state => {
 function OrdonnancesTypesController({ ordonnancesTypes, ...otherProps }) {
 
 	function creerOrdonnance() {
-		dispatchData(dataTypes.ORDONNANCE_TYPE, null)
+		dispatchData(ordonnanceTypeData.ORDONNANCE_TYPE, null)
 		let {history} = otherProps
 		goToRoute(history)(routesConfig.SAISIE_ORDONNANCE_TYPE)
 	}
 
 	function selectOrdonnanceType(ordonnanceType) {
-		dispatchData(dataTypes.ORDONNANCE_TYPE, ordonnanceType)
+		dispatchData(ordonnanceTypeData.ORDONNANCE_TYPE, ordonnanceType)
 		let {history} = otherProps
 		goToRoute(history)(routesConfig.SAISIE_ORDONNANCE_TYPE)
 	}

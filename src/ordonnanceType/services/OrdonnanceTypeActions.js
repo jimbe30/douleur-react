@@ -2,16 +2,11 @@ import dispatchData, { store } from "../../globals/redux/store";
 import { apiURLs, getResultFromUrl, postObjectToUrl } from "../../globals/services/apiService";
 import { goToRoute, routesConfig } from "../../globals/services/routeService";
 import { descriptionOrdonnanceType } from "./OrdonnanceTypeService";
+import { ordonnanceTypeNs, ordonnanceTypeData } from "../../_conf/redux";
 
-export const reduxNamespace = 'ordonnanceType'
-export const dataTypes = {
-	ORDONNANCE_TYPE: 'ordonnanceType',
-	LISTE_ORDONNANCES_TYPES: 'listeOrdonnancesTypes',
-	REFERENTIEL_MEDICAMENTS: 'referentielMedicaments',
-}
 
 function getState(dataType) {
-	const state = store.getState()[reduxNamespace][dataType]
+	const state = store.getState()[ordonnanceTypeNs][dataType]
 	if (!state) {
 		return undefined
 	} else if (state instanceof Array) {
@@ -22,7 +17,7 @@ function getState(dataType) {
 }
 
 export function getReferentielMedicaments() {
-	return getState(dataTypes.REFERENTIEL_MEDICAMENTS)
+	return getState(ordonnanceTypeData.REFERENTIEL_MEDICAMENTS)
 }
 
 
@@ -30,7 +25,7 @@ export async function validerOrdonnanceType(ordonnanceType, { history }) {
 	descriptionOrdonnanceType(ordonnanceType)
 	ordonnanceType = await majOrdonnanceType(ordonnanceType)
 	if (!ordonnanceType.error) {
-		dispatchData(dataTypes.ORDONNANCE_TYPE, null)
+		dispatchData(ordonnanceTypeData.ORDONNANCE_TYPE, null)
 		listerOrdonnancesTypes()
 		goToRoute(history)(routesConfig.ORDONNANCES_TYPES)
 	}
@@ -62,7 +57,7 @@ export async function listerOrdonnancesTypes() {
 		if (obj.errors) {
 			console.log(JSON.stringify(obj))
 		} else {
-			dispatchData(dataTypes.LISTE_ORDONNANCES_TYPES, result.data)
+			dispatchData(ordonnanceTypeData.LISTE_ORDONNANCES_TYPES, result.data)
 		}
 	}
 
@@ -75,7 +70,7 @@ export async function chargerInfosMedicaments() {
 		if (obj.errors) {
 			console.log(JSON.stringify(obj))
 		} else {
-			dispatchData(dataTypes.REFERENTIEL_MEDICAMENTS, result.data)
+			dispatchData(ordonnanceTypeData.REFERENTIEL_MEDICAMENTS, result.data)
 		}
 	}
 

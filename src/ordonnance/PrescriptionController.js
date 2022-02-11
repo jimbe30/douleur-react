@@ -1,9 +1,10 @@
 import { connect } from 'react-redux'
 import React, { Component, Fragment } from 'react'
+import { ordonnanceNs, ordonnanceData } from "../_conf/redux";
 
 import PrescriptionForm from "./PrescriptionForm";
 import FicheDouleurComponent from './FicheDouleurComponent';
-import { dataTypes, setPrescriptionSaisie } from './services/OrdonnanceActions';
+import { setPrescriptionSaisie } from './services/OrdonnanceActions';
 import { goToRoute, routesConfig } from '../globals/services/routeService';
 import { formNames } from '../globals/redux/FormActions';
 import FormHandler from '../globals/hoc/FormHandler';
@@ -12,7 +13,7 @@ import FormHandler from '../globals/hoc/FormHandler';
 const FORM_NAME = formNames.PRESCRIPTION_FORM
 
 const mapStateToProps = state => ({
-	prescriptionChoisie: state.ordonnance[dataTypes.PRESCRIPTION_CHOISIE],
+	prescriptionChoisie: state[ordonnanceNs][ordonnanceData.PRESCRIPTION_CHOISIE],
 })
 
 class PrescriptionControler extends Component {

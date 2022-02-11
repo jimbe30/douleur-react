@@ -1,6 +1,6 @@
 import axios, {AxiosResponse, AxiosRequestConfig} from "axios";
 import dispatchData, { store, getState } from "../redux/store";
-import { dataTypes as authDataTypes } from "../../auth/services/AuthService";
+import { authData } from "../../_conf/redux";
 import { routesConfig, goToRoute } from "./routeService";
 import { TypedMapObject } from "../../types/global-types";
 
@@ -115,7 +115,7 @@ const secureUrlConfig = (config?: AxiosRequestConfig) => {
 const getIdToken = () => {
 	if (getState('auth')) {
 		const state = getState('auth')
-		const idToken = state[authDataTypes.ID_TOKEN]
+		const idToken = state[authData.ID_TOKEN]
 		return idToken
 	}
 	return null
@@ -154,7 +154,7 @@ const handleError = (error: ErrorResult) => {
 				goToRoute(history)(routesConfig.LOGIN_FORM)
 			}
 		}
-		dispatchData(authDataTypes.ERROR_MESSAGE, error.data.message)
+		dispatchData(authData.ERROR_MESSAGE, error.data.message)
 	}
 }
 

@@ -3,19 +3,20 @@
  * La méthode connect() relie le store au composant cible 
  */
 import { connect } from 'react-redux'
-import { setArborescence, dataTypes } from "../nomenclature/services/GestionNomenclatureService";
+import { setArborescence } from "../nomenclature/services/GestionNomenclatureService";
 import ArborescenceComponent from "../nomenclature/ArborescenceComponent";
 import React, { Component } from 'react'
 import { Message } from 'semantic-ui-react';
 import { routesConfig, goToRoute } from '../globals/services/routeService';
 import ComponentLoader from '../globals/util-components/ComponentLoader';
+import { nomenclatureData } from "../_conf/redux";
 
 /**
  * La fonction mapStateToProps renvoie un objet résultant du state. 
  * L'objet renvoyé est passé en props du composant connecté
  */
 const mapStateToProps = appState => ({
-    nomenclatures: appState.nomenclature[dataTypes.ARBORESCENCE]
+    nomenclatures: appState.nomenclature[nomenclatureData.ARBORESCENCE]
 })
 
 class Arborescence extends Component {

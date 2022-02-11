@@ -5,17 +5,20 @@ import { Form } from 'semantic-ui-react';
 import FormHandler from '../globals/hoc/FormHandler';
 import { formNames } from '../globals/redux/FormActions'
 import OrdonnanceTypeForm from './OrdonnanceTypeForm';
-import { chargerInfosMedicaments, reduxNamespace } from './services/OrdonnanceTypeActions';
+import { chargerInfosMedicaments } from './services/OrdonnanceTypeActions';
+import { ordonnanceTypeNs } from "../_conf/redux";
 
 
 const mapStateToProps = state => {
 	let props = {}
-	if (state[reduxNamespace]) {
-		props = { ...state[reduxNamespace] }
+	if (state[ordonnanceTypeNs]) {
+		props = { ...state[ordonnanceTypeNs] }
 	}	
 	return props
-}
+}	
+
 export default connect(mapStateToProps)(SaisieOrdonnanceType)
+
 
 
 // Composant chargé du rendu 

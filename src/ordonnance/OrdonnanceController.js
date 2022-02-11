@@ -2,7 +2,9 @@ import React, { Component, Fragment } from 'react'
 import { connect } from "react-redux"
 import { Message, Divider, Header, Label } from 'semantic-ui-react'
 
-import { dataTypes, setOrdonnanceEmise } from './services/OrdonnanceActions'
+import { ordonnanceNs, ordonnanceData } from "../_conf/redux";
+
+import { setOrdonnanceEmise } from './services/OrdonnanceActions'
 import { recapitulerPrescription } from './PrescriptionController'
 import OrdonnanceForm from './OrdonnanceForm';
 import { formNames } from '../globals/redux/FormActions'
@@ -11,9 +13,9 @@ import {handleForm} from '../globals/hoc/FormHandler'
 const FORM_NAME = formNames.INFOS_PATIENT_FORM
 
 const mapStateToProps = state => {
-	const prescriptionSaisie = state.ordonnance[dataTypes.PRESCRIPTION_SAISIE]
-	const libelleDouleur = state.ordonnance[dataTypes.PRESCRIPTION_CHOISIE] ?
-		state.ordonnance[dataTypes.PRESCRIPTION_CHOISIE].nomenclatureDouleur.libelle : ''
+	const prescriptionSaisie = state[ordonnanceNs][ordonnanceData.PRESCRIPTION_SAISIE]
+	const libelleDouleur = state[ordonnanceNs][ordonnanceData.PRESCRIPTION_CHOISIE] ?
+		state[ordonnanceNs][ordonnanceData.PRESCRIPTION_CHOISIE].nomenclatureDouleur.libelle : ''
 	return {
 		prescriptionSaisie, libelleDouleur,
 	}
