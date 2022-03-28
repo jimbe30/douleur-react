@@ -1,6 +1,6 @@
 import axios, {AxiosResponse, AxiosRequestConfig} from "axios";
-import dispatchData, { store, getState } from "../redux/store";
-import { authData } from "../../_conf/redux";
+import dispatchData, { store, getState } from "../../_redux/store";
+import { authData } from "../../_redux/conf";
 import { routesConfig, goToRoute } from "./routeService";
 import { TypedMapObject } from "../../types/global-types";
 

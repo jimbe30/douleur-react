@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
 import { Field } from "redux-form";
 import { Form, Message, Header, Divider, Label, Icon } from "semantic-ui-react";
-import * as formAdapter from "../globals/redux/reduxFormAdapter"
-import { FormSelect } from "../globals/redux/reduxFormAdapter"
+import * as formAdapter from "../_redux/forms/reduxFormAdapter"
+import { FormSelect } from "../_redux/forms/reduxFormAdapter"
 import Prescription from "./PrescriptionObj";
 import { Grid } from "@material-ui/core";
 import PrescriptionLibre from "./PrescriptionLibreController";

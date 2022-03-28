@@ -1,8 +1,9 @@
-import dispatchData, { store } from "../../globals/redux/store";
+import dispatchData, { store } from "../../_redux/store";
+import { ordonnanceData } from "../../_redux/conf";
+import { setFormValues, formNames, setFormErrors, resetFormErrors } from "../../_redux/forms/formActions";
 import { apiURLs as urls, getResultFromUrl, postObjectToUrl, backendURL } from "../../globals/services/apiService";
-import { setFormValues, formNames, setFormErrors, resetFormErrors } from "../../globals/redux/FormActions";
 import { goToRoute, routesConfig } from "../../globals/services/routeService";
-import { ordonnanceData } from "../../_conf/redux";
+
 
 export async function setInfosTest(infos) {
 	dispatchData(ordonnanceData.INFOS_TEST, infos);

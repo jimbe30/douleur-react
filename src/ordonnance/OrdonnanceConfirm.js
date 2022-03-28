@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Message, Button, Icon } from 'semantic-ui-react'
-import { ordonnanceNs, ordonnanceData } from "../_conf/redux";
+import { ordonnanceNs, ordonnanceData } from "../_redux/conf";
 import ComponentLoader from '../globals/util-components/ComponentLoader';
 
 function mapStateToProps(state) {

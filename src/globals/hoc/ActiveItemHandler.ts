@@ -14,7 +14,7 @@ export interface ItemHandlerProps<T> {
 	componentList?: T[] | T
 }
 
-///////////////      ///////////////      ///////////////
+///////////////
 
 export default function ActiveItemHandler<T>(props: ItemHandlerProps<T>)  {
 

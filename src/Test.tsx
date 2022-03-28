@@ -1,10 +1,42 @@
 import React, { useReducer, useState } from 'react';
 import { connect } from 'react-redux';
-import dispatchData, { AppState, StateToProps } from './globals/redux/store';
 import { backendURL } from './globals/services/apiService';
 import { AnyObject } from './types/global-types';
-import { testData } from "./_conf/redux";
+import dispatchData, { AppState, StateToProps } from './_redux/store';
+import { testData } from "./_redux/conf";
 
+export default function Test(props: AnyObject) {
+	const noms = ['Ibuprofène', 'Doliprane', 'Aspirine', 'Paracétamol', 'Codéine']
+	const {children, ...rest}: AnyObject = {...props};
+	return <>
+		<NestedComponent noms={noms} {...props} />
+		{children}
+	</>
+}
+
+function NestedComponent(  {noms, identifiant, ...rest}: AnyObject ) {
+	return <>
+		<p {...rest}> {
+			noms.map((nom: string, index: number) => <p key={index}>{new ZeLib().greeting(nom)} | le suivant sera le {(new ZeLib().nb)+1}ème</p>)
+		} 
+		</p>
+		<p>{identifiant}</p>
+	</>	
+}
+
+class ZeLib {
+	constructor(nb = 0) {
+		this.nb = nb;
+	}
+	nb: number;
+	greeting(nom: string) {
+		this.nb++;
+		return <>{nom}, t'es le {this.nb}{this.nb == 1?'er':'ème'} à venir ici</>
+	}	
+}
+
+
+/*  
 type PropsType = {
 	redirectInfo?: string,
 	info?: string
@@ -30,7 +62,7 @@ export default function() {
 		info="That's an essential information"
 	/>
 }
-
+ */
 ///////////////////////////////////////////////////////////
 
 /**

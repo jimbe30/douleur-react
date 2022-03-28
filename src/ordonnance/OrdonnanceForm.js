@@ -3,9 +3,10 @@ import { Field } from "redux-form";
 import { Form, Message, Icon } from "semantic-ui-react";
 import { Grid } from "@material-ui/core";
 
-import * as formAdapter from "../globals/redux/reduxFormAdapter";
+import { formNames } from "../_redux/forms/formActions";
+import * as formAdapter from "../_redux/forms/reduxFormAdapter";
 import FormInput from "../globals/util-components/FormInput";
-import { formNames } from "../globals/redux/FormActions";
+
 
 export default class OrdonnanceForm extends React.Component {
 

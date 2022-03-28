@@ -9,7 +9,7 @@ import React, { Component } from 'react'
 import { Message } from 'semantic-ui-react';
 import { routesConfig, goToRoute } from '../globals/services/routeService';
 import ComponentLoader from '../globals/util-components/ComponentLoader';
-import { nomenclatureData } from "../_conf/redux";
+import { nomenclatureData } from "../_redux/conf";
 
 /**
  * La fonction mapStateToProps renvoie un objet résultant du state. 

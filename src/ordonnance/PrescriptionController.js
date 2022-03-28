@@ -1,12 +1,14 @@
 import { connect } from 'react-redux'
 import React, { Component, Fragment } from 'react'
-import { ordonnanceNs, ordonnanceData } from "../_conf/redux";
+
+import { formNames } from '../_redux/forms/formActions';
+import { ordonnanceNs, ordonnanceData } from "../_redux/conf";
 
 import PrescriptionForm from "./PrescriptionForm";
 import FicheDouleurComponent from './FicheDouleurComponent';
 import { setPrescriptionSaisie } from './services/OrdonnanceActions';
 import { goToRoute, routesConfig } from '../globals/services/routeService';
-import { formNames } from '../globals/redux/FormActions';
+
 import FormHandler from '../globals/hoc/FormHandler';
 
 
@@ -16,36 +18,24 @@ const mapStateToProps = state => ({
 	prescriptionChoisie: state[ordonnanceNs][ordonnanceData.PRESCRIPTION_CHOISIE],
 })
 
-class PrescriptionControler extends Component {
-
-	constructor(props) {
-		super(props)
-		this.submitPrescription.bind(this)
-	}
-
-	submitPrescription = prescriptionSaisie => {
+function PrescriptionController(props) {
+	const { prescriptionChoisie, ...rest } = { ...props }
+	const submitPrescription = prescriptionSaisie => {
 		// sauvegarde les valeurs saisies pour les réinjecter en initialValues
 		// lorsqu'on revient sur le formulaire
 		setPrescriptionSaisie(prescriptionSaisie)
-		goToRoute(this.props)(routesConfig.FORMULAIRE_ORDONNANCE)
+		goToRoute(props)(routesConfig.FORMULAIRE_ORDONNANCE)
 	}
-
-	render() {
-		return (
-			<Fragment>
-				<FicheDouleurComponent prescriptionChoisie={this.props.prescriptionChoisie} />
-				{
-					this.props.prescriptionChoisie &&
-					<FormHandler component={PrescriptionForm}
-						formName={FORM_NAME}
-						onSubmit={this.submitPrescription}
-						prescription={this.props.prescriptionChoisie}
-						recapPrescription={recapitulerPrescription}
-					/>
-				}
-			</Fragment>
-		)
-	}
+	return <>
+		<FicheDouleurComponent {...props} /> {
+			prescriptionChoisie &&
+			<FormHandler formName={FORM_NAME}>
+				<PrescriptionForm onSubmit={submitPrescription}
+					prescription={prescriptionChoisie}
+					recapPrescription={recapitulerPrescription} />
+			</FormHandler>
+		}
+	</>
 }
 
 export const recapitulerPrescription = (prescription) => {
@@ -74,4 +64,4 @@ export const recapitulerPrescription = (prescription) => {
 	return null
 }
 
-export default connect(mapStateToProps)(PrescriptionControler)
+export default connect(mapStateToProps)(PrescriptionController)

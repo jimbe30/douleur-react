@@ -1,6 +1,6 @@
-import dispatchData, { store } from "../../globals/redux/store";
+import dispatchData, { store } from "../../_redux/store";
 import { apiURLs, apiURLs as urls, getResultFromUrl, postObjectToUrl } from "../../globals/services/apiService";
-import { nomenclatureNs, nomenclatureData } from "../../_conf/redux";
+import { nomenclatureNs, nomenclatureData } from "../../_redux/conf";
 
 
 export const modesAction = {

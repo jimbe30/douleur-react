@@ -1,6 +1,6 @@
 import React from 'react'
 import { validateToken, getTokenFromUrl, logout } from './services/AuthService'
-import { authData } from "../_conf/redux";
+import { authData } from "../_redux/conf";
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { routesConfig, getRoutePath } from '../globals/services/routeService'

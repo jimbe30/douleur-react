@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 
 import FormInput from '../globals/util-components/FormInput'
 import Helper from '../globals/util-components/Helper'
-import { FormSelect } from '../globals/redux/reduxFormAdapter'
+import { FormSelect } from '../_redux/forms/reduxFormAdapter'
 import { getReferentielMedicaments } from './services/OrdonnanceTypeActions'
 // import { OrdonnanceTypeContext } from './SaisieOrdonnanceTypeController'
 

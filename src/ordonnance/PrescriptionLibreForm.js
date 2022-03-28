@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Field } from "redux-form";
 import { Form, Message } from "semantic-ui-react";
-import * as formAdapter from "../globals/redux/reduxFormAdapter"
+import * as formAdapter from "../_redux/forms/reduxFormAdapter"
 import { Grid } from "@material-ui/core";
 import { BoutonAjouter, BoutonSupprimer } from "../globals/util-components/Boutons";
 

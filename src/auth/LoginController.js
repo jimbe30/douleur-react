@@ -1,8 +1,10 @@
 import React from 'react'
+import { connect } from 'react-redux'
+
 import { getRouteParams } from '../globals/services/routeService'
 import { backendLogin, loadIdProvidersList } from './services/AuthService'
-import { authData } from "../_conf/redux";
-import { connect } from 'react-redux'
+import { authData } from "../_redux/conf";
+
 import LoginComponent from './LoginComponent'
 
 const LoginController = (props) => {

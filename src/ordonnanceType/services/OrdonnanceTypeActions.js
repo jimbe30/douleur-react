@@ -1,8 +1,8 @@
-import dispatchData, { store } from "../../globals/redux/store";
+import dispatchData, { store } from "../../_redux/store";
 import { apiURLs, getResultFromUrl, postObjectToUrl } from "../../globals/services/apiService";
 import { goToRoute, routesConfig } from "../../globals/services/routeService";
 import { descriptionOrdonnanceType } from "./OrdonnanceTypeService";
-import { ordonnanceTypeNs, ordonnanceTypeData } from "../../_conf/redux";
+import { ordonnanceTypeNs, ordonnanceTypeData } from "../../_redux/conf";
 
 
 function getState(dataType) {

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import { ordonnanceNs, ordonnanceData } from "../_conf/redux";
+import { ordonnanceNs, ordonnanceData } from "../_redux/conf";
 
 import { setPreconisations, setPrescriptionChoisie } from "./services/OrdonnanceActions";
 import FicheDouleurComponent from "./FicheDouleurComponent";

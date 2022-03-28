@@ -3,8 +3,8 @@ import OrdonnancesTypes from './ListeOrdonnancesTypes'
 import { listerOrdonnancesTypes } from './services/OrdonnanceTypeActions'
 import { connect } from 'react-redux'
 import { routesConfig, goToRoute } from '../globals/services/routeService'
-import dispatchData from '../globals/redux/store'
-import { ordonnanceTypeNs, ordonnanceTypeData } from "../_conf/redux";
+import dispatchData from '../_redux/store'
+import { ordonnanceTypeNs, ordonnanceTypeData } from "../_redux/conf";
 
 const mapStateToProps = state => {
 	let props = state[ordonnanceTypeNs] 

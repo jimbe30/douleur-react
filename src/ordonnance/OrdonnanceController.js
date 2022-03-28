@@ -2,12 +2,12 @@ import React, { Component, Fragment } from 'react'
 import { connect } from "react-redux"
 import { Message, Divider, Header, Label } from 'semantic-ui-react'
 
-import { ordonnanceNs, ordonnanceData } from "../_conf/redux";
+import { formNames } from '../_redux/forms/formActions'
+import { ordonnanceNs, ordonnanceData } from "../_redux/conf";
 
 import { setOrdonnanceEmise } from './services/OrdonnanceActions'
 import { recapitulerPrescription } from './PrescriptionController'
 import OrdonnanceForm from './OrdonnanceForm';
-import { formNames } from '../globals/redux/FormActions'
 import {handleForm} from '../globals/hoc/FormHandler'
 
 const FORM_NAME = formNames.INFOS_PATIENT_FORM

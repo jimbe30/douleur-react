@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import { createStore, Store } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { AnyObject } from "../../types/global-types";
+import { AnyObject } from "../types/global-types";
 import { reducers } from "./reducers";
 
 ///////////////////////      TYPES      /////////////////////////////

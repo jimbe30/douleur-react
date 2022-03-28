@@ -1,4 +1,4 @@
-import dispatchData, { getState } from "./store";
+import dispatchData, { getState } from "../store";
 
 /////////////////////////////////////////////////////////
 interface FormValues {

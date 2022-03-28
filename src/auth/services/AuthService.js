@@ -1,7 +1,7 @@
 import { apiURLs, getResultFromUrl } from "../../globals/services/apiService"
 import { goToRoute } from "../../globals/services/routeService"
-import dispatchData, { resetState } from "../../globals/redux/store"
-import { authNs, authData } from "../../_conf/redux";
+import dispatchData, { resetState } from "../../_redux/store"
+import { authNs, authData } from "../../_redux/conf";
 
 export const loadIdProvidersList = async (history) => {
 	const idpList = await getResultFromUrl(apiURLs.idProvidersList)

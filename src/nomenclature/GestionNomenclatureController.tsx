@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Header } from 'semantic-ui-react';
-import { StateToProps, StateToPropsType } from '../globals/redux/store';
+import { StateToProps, StateToPropsType } from '../_redux/store';
 import Arborescence from './ArborescenceComponent';
 import AjoutNiveauNomenclature from './NiveauNomenclatureModal';
 import ProtocoleDouleur from './ProtocoleDouleurModal';
 import { findProtocoleDouleur, modesAction, setArborescence } from './services/GestionNomenclatureService';
 import { GestionNomenclatureProps } from './types/types-nomenclature';
-import { nomenclatureNs, nomenclatureData } from "../_conf/redux";
+import { nomenclatureNs, nomenclatureData } from "../_redux/conf";
 
 ///// Correspondance des propriétés avec le store redux /////
 const reduxProps: StateToPropsType = {

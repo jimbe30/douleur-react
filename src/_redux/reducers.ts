@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
 import { reducer as formReducer } from "redux-form";
-import { formNames } from "./FormActions"
+import { formNames } from "./forms/formActions"
 import { ActionType, NamespacesDataType, NestedStateType, ReducerType } from "./store";
 
-import { authData, nomenclatureData, testData, ordonnanceData, ordonnanceTypeData } from "../../_conf/redux"
-import { authNs, nomenclatureNs, testNs, ordonnanceNs, ordonnanceTypeNs } from "../../_conf/redux"
+import { authData, nomenclatureData, testData, ordonnanceData, ordonnanceTypeData } from "./conf"
+import { authNs, nomenclatureNs, testNs, ordonnanceNs, ordonnanceTypeNs } from "./conf"
 /**
  * Ici on répertorie les types de données à gérer par redux, répartis par fonctionnalité (namespace)
  * Ces types de données sont transmis aux actions redux via la méthode dispatch()
