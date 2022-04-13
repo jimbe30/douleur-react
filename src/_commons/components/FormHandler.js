@@ -21,7 +21,7 @@ export default function FormHandler({ component, formName, reset, children, ...o
 	}
 }
 
-function handleForm(WrappedComponent, formName, reset) {
+export function handleForm(WrappedComponent, formName, reset) {
 	const mapStateToProps = state => {
 		let savedValues
 		let currentValues = {}

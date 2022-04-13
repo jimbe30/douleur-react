@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Form } from 'semantic-ui-react';
 import { formNames } from '../_redux/forms/formActions'
 import { ordonnanceTypeNs } from "../_redux/conf";
-import FormHandler from '../globals/hoc/FormHandler';
+import FormHandler from '../_commons/components/FormHandler';
 import OrdonnanceTypeForm from './OrdonnanceTypeForm';
 import { chargerInfosMedicaments } from './services/OrdonnanceTypeActions';
 

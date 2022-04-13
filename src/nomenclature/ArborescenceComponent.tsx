@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react'
 import { Accordion, Button, Icon } from 'semantic-ui-react'
-import ActiveItemHandler, { ItemRenderProps } from '../globals/hoc/ActiveItemHandler'
+import ActiveItemHandler, { ItemRenderProps } from '../_commons/components/ActiveItemHandler'
 import TruncBox from '../globals/util-components/TruncBox'
 import { AccordionProps, ArborescenceProps, BoutonsActionsProps, INomenclature, NomenclatureProps } from './types/types-nomenclature'
 

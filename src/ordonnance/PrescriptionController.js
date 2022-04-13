@@ -8,8 +8,7 @@ import PrescriptionForm from "./PrescriptionForm";
 import FicheDouleurComponent from './FicheDouleurComponent';
 import { setPrescriptionSaisie } from './services/OrdonnanceActions';
 import { goToRoute, routesConfig } from '../globals/services/routeService';
-
-import FormHandler from '../globals/hoc/FormHandler';
+import FormHandler from '../_commons/components/FormHandler';
 
 
 const FORM_NAME = formNames.PRESCRIPTION_FORM

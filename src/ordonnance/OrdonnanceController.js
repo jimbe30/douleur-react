@@ -8,7 +8,7 @@ import { ordonnanceNs, ordonnanceData } from "../_redux/conf";
 import { setOrdonnanceEmise } from './services/OrdonnanceActions'
 import { recapitulerPrescription } from './PrescriptionController'
 import OrdonnanceForm from './OrdonnanceForm';
-import {handleForm} from '../globals/hoc/FormHandler'
+import {handleForm} from '../_commons/components/FormHandler'
 
 const FORM_NAME = formNames.INFOS_PATIENT_FORM
 
